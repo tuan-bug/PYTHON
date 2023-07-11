@@ -1,4 +1,4 @@
-{% extends 'app/index.html' %}
+{% extends 'app/base.html' %}
 {% load static %}
 {% block blog_slider %}
 <div id="carouselExampleDark" class="carousel carousel-dark slide">
@@ -49,11 +49,12 @@
 {% endblock blog_slider %}
 
 {% block main-content %}
+
       <div class="row g-2" style="width:100%;">
         {% for product in products%}
         <div class="col-lg-3">
           <div class="card" style="width: 18rem;">
-            <img src="{{product.ImageURL}}" class="img-thumbnail" alt="...">
+            {% comment %} <img src="{{product.ImageURL}}" class="img-thumbnail" alt="..."> {% endcomment %}
             <div class="card-body">
               <h5 class="card-title">{{product.name}}</h5>
               <p class="card-text"> ${{product.price | floatformat:2}}</p>
