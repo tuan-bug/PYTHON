@@ -10,7 +10,6 @@ for(i = 0; i < updateBtns.length; i++){
             console.log("User not login");
         } else {
             updateUserOrder(productId, action);
-            console.log("User login ok");
         }
     })
 }
