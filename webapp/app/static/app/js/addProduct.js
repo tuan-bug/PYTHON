@@ -7,7 +7,6 @@ for(i = 0; i < updateBtns.length; i++){
         console.log('action: ', action);
         console.log('user: ', user)
         if (user === "AnonymousUser") {
-            
             console.log("User not login");
         } else {
             updateUserOrder(productId, action);
@@ -18,6 +17,8 @@ for(i = 0; i < updateBtns.length; i++){
 
 function updateUserOrder(productId, action){
     console.log("User login ok");
+    console.log("id: ", productId);
+    console.log("action 2: ", action);
     var url = '/update_item/';
     fetch(url,{
         method: 'POST',
@@ -31,5 +32,6 @@ function updateUserOrder(productId, action){
        
     }).then((data) =>{
         console.log('data: ', data)
+        location.reload();
     })
 }

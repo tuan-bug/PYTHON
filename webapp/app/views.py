@@ -45,7 +45,7 @@ def updateItem(request):
 
     if action == 'add':
         orderItem.quantity += 1
-    elif action =='remote':
+    elif action == 'remote':
         orderItem.quantity -= 1
     orderItem.save()
     if orderItem.quantity <= 0:
