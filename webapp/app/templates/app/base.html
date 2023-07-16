@@ -1,9 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+
 <html>
     <head>
         <meta charset="utf-8">
@@ -61,22 +58,29 @@
                 <a class="nav-link" href="#">Sản phẩm</a>
               </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0">
-              <input class="form-control mr-sm-2" type="search" placeholder="Tìm kiếm" aria-label="Tìm kiếm">
+            <form method="POST" action="{% url 'search' %}" class="form-inline my-2 my-lg-0">
+                {% csrf_token %}
+              <input class="form-control mr-sm-2" type="search" placeholder="Tìm kiếm" aria-label="Tìm kiếm" name="searched">
               <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Tìm Kiếm</button>
             </form>
             <ul class="navbar-nav">
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'cart' %}">
                   <img  src="{% static 'app/images/shopping-cart.png'%}" width="24" height="24"/>
-                  {% comment %} <p>{{order.get_cart_item}}</p> {% endcomment %}
                 </a> 
               </li>
               <p>{{order.get_cart_item}}</p>
-              <li class="nav-item">
+              <li class="nav-item" style="visibility: {{ user_login }}">
+                <p class="nav-link">Hello {{request.user}}</p>
+              </li>
+                </li>
+                <li class="nav-item" style="visibility: {{ user_login }}">
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+              </li>
+                <li class="nav-item" style="visibility: {{ user_not_login }}">
                 <a class="nav-link" href="#">Đăng nhập</a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item" style="visibility: {{ user_not_login }}">
                 <a class="nav-link" href="{% url 'register' %}">Đăng ký</a>
               </li>
             </ul>
@@ -99,9 +103,33 @@
 
           {% block register_content %}
           {% endblock register_content %}
+        {% block login_content %}
+
+        {% endblock login_content %}
 
           <!--footer-->
-          <footer>footer</foter>
+          <footer class="footer bg-dark text-white mt-5">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-6">
+                  <h3>Thông tin liên hệ</h3>
+                  <p>Địa chỉ: 123 đường ABC, Thành phố XYZ</p>
+                  <p>Email: info@example.com</p>
+                  <p>Số điện thoại: 123-456-789</p>
+                </div>
+                <div class="col-md-6">
+                  <h3>Đường dẫn nhanh</h3>
+                  <ul class="list-unstyled">
+                    <li><a href="#">Trang chủ</a></li>
+                    <li><a href="#">Giới thiệu</a></li>
+                    <li><a href="#">Sản phẩm</a></li>
+                    <li><a href="#">Liên hệ</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </footer>
+        
     </body>
     <script src="{%static 'app/js/addProduct.js' %} "></script>
 </html>

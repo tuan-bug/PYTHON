@@ -8,23 +8,29 @@
     {% comment %}tránh lỗi bảo mật {% endcomment %}
     {% csrf_token %}
      <div class="form-group">
-      <label for="name">Họ và tên:</label>
+      <label for="name">Họ và tên:     </label>
       {{from.username}}
       {% comment %} <input type="text" class="form-control" id="name" placeholder="Nhập họ và tên"> {% endcomment %}
     </div>
     <div class="form-group">
-      <label for="email">Email:</label>
+      <label for="email">Email:        </label>
       {{from.email}}
       {% comment %} <input type="email" class="form-control" id="email" placeholder="Nhập email"> {% endcomment %}
     </div>
     <div class="form-group">
       
-      <label for="email">Fist Name:</label>
+      <label for="email">Fist Name:    </label>
       {{from.first_name}}
       {% comment %} <input type="email" class="form-control" id="email" placeholder="Nhập email"> {% endcomment %}
     </div>
     <div class="form-group">
-      <label for="password">Mật khẩu:</label>
+      
+      <label for="email">Last Name:    </label>
+      {{from.last_name}}
+      {% comment %} <input type="email" class="form-control" id="email" placeholder="Nhập email"> {% endcomment %}
+    </div>
+    <div class="form-group">
+      <label for="password">Mật khẩu:       </label>
       {{from.password1}}
       {% comment %} <input type="password" class="form-control" id="password" placeholder="Nhập mật khẩu"> {% endcomment %}
     </div>
@@ -34,6 +40,7 @@
       {% comment %} <input type="password" class="form-control" id="confirm-password" placeholder="Xác nhận mật khẩu"> {% endcomment %}
     </div>
     <button type="submit" class="btn btn-primary btn-block">Đăng ký</button>
+    <p>Bạn đã có tài khoản <a  href="{% url 'login' %}"> Login</a></p>
   </form>
 </div>
 {% endblock register_content %}
