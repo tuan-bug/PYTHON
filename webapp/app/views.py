@@ -8,6 +8,7 @@ from django.contrib import messages
 # Create your views here.
 def getHome(request):
     products = Product.objects.all()
+    slide = Slide.objects.all()
     if request.user.is_authenticated:
         customer = request.user
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
@@ -21,10 +22,17 @@ def getHome(request):
         items = []
         user_not_login = "show"
         user_login = "hidden"
-    context = {'products': products, 'items': items, 'order': order, 'user_login': user_login, 'user_not_login': user_not_login}
+
+    categories = Category.objects.filter(is_sub=False)  # lay cac damh muc lon
+    active_category = request.GET.get('category', '')
+    context = {'products': products, 'slide': slide, 'items': items, 'order': order, 'user_login': user_login,
+               'user_not_login': user_not_login, 'categories': categories, 'active_category': active_category}
     return render(request, 'app/home.html', context)
 
 
+# def getSlide(request):
+#     slide = Slide.objects.all()
+#     return register(request, 'app/base.html', slide)
 
 def cart(request):
     if request.user.is_authenticated:
@@ -40,8 +48,9 @@ def cart(request):
         items = []
         user_not_login = "show"
         user_login = "hidden"
-    context = {'items': items, 'order': order, 'user_login': user_login, 'user_not_login': user_not_login}
-    return render(request,'app/cart.html', context)
+    categories = Category.objects.filter(is_sub=False)  # lay cac damh muc lon
+    context = {'items': items, 'order': order, 'user_login': user_login, 'user_not_login': user_not_login, 'categories':categories}
+    return render(request, 'app/cart.html', context)
 
 
 
@@ -133,3 +142,51 @@ def searchProduct(request):
             order = None
             items = []
     return render(request, "app/search.html", {"search": search, "keys": keys, 'items': items, 'order': order})
+
+def category(request):
+    # user_not_login = "hidden"
+    # user_login = "show"
+    categories = Category.objects.filter(is_sub=False) #lay cac damh muc lon
+    active_category = request.GET.get('category', '')
+    if active_category:
+        products = Product.objects.filter(category__slug = active_category) # lay theo duong dan
+
+    if request.user.is_authenticated:
+        customer = request.user
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        items = order.orderitem_set.all()
+        user_not_login = "hidden"
+        user_login = "show"
+        for item in items:
+            item.total = item.product.price * item.quantity
+    else:
+        order = None
+        items = []
+        user_not_login = "show"
+        user_login = "hidden"
+
+    context ={'items': items, 'order': order,'categories': categories, 'products': products,
+              'active_category': active_category, 'user_login': user_login, 'user_not_login': user_not_login}
+    return render(request, "app/category.html", context)
+
+def detail(request):
+    if request.user.is_authenticated:
+        customer = request.user
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        items = order.orderitem_set.all()
+        user_not_login = "hidden"
+        user_login = "show"
+        for item in items:
+            item.total = item.product.price * item.quantity
+    else:
+        order = None
+        items = []
+        user_not_login = "show"
+        user_login = "hidden"
+
+    id = request.GET.get('id', '') # lấy id khi người dùng vlick vào sản phẩm nào đó
+    products = Product.objects.filter(id=id)
+    categories = Category.objects.filter(is_sub=False)  # lay cac damh muc lon
+    context = {'products': products, 'items': items, 'order': order, 'user_login': user_login, 'user_not_login': user_not_login, 'categories':categories}
+    return render(request,'app/detail.html', context)
+

@@ -7,8 +7,34 @@ class CreateUserForm (UserCreationForm):
         model = User
         fields = ['username', 'email', 'first_name','last_name', 'password1', 'password2']
 
+
+class Slide(models.Model):
+    name = models.CharField(max_length=200, null=True, blank=True)
+    detail = models.TextField(null=True)
+    image = models.ImageField(null=True, blank=True)
+    def __str__(self):
+        return self.name
+
+    @property
+    def ImageURL(self):
+        try:
+            url = self.image.url
+        except:
+            url = ''
+        return url
+
+
+class Category(models.Model):
+    sub_category = models.ForeignKey('self', on_delete=models.CASCADE, related_name='sub_categories', null=True, blank=True)
+    is_sub = models.BooleanField(default=False)
+    name = models.CharField(max_length=200, null=True)
+    slug = models.CharField(max_length=200, null=True)
+    def __str__(self):
+        return self.name
+
 class Product(models.Model):
     name = models.CharField(max_length=200, null=True)
+    category = models.ManyToManyField(Category, related_name='product_category')
     price = models.FloatField()
     describe = models.CharField(max_length=300, null=True)
     digital = models.BooleanField(default=False, null=True, blank=False)

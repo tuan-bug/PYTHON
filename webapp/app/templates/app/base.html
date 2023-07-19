@@ -39,6 +39,7 @@
         }
         const csrftoken = getCookie('csrftoken');
         </script>
+
     </head>
     <body>
         <!-- header -->
@@ -57,6 +58,12 @@
               <li class="nav-item">
                 <a class="nav-link" href="#">Sản phẩm</a>
               </li>
+                {% for category in categories %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'category' %}?category={{ category.slug }}">{{ category.name }}</a>
+              </li>
+              {% endfor %}
+
             </ul>
             <form method="POST" action="{% url 'search' %}" class="form-inline my-2 my-lg-0">
                 {% csrf_token %}
@@ -78,7 +85,7 @@
                 <a class="nav-link" href="{% url 'logout' %}">Logout</a>
               </li>
                 <li class="nav-item" style="visibility: {{ user_not_login }}">
-                <a class="nav-link" href="#">Đăng nhập</a>
+                <a class="nav-link" href="{% url 'login' %}">Đăng nhập</a>
               </li>
               <li class="nav-item" style="visibility: {{ user_not_login }}">
                 <a class="nav-link" href="{% url 'register' %}">Đăng ký</a>
@@ -106,6 +113,7 @@
         {% block login_content %}
 
         {% endblock login_content %}
+        {% block category_context %} {% endblock category_context %}
 
           <!--footer-->
           <footer class="footer bg-dark text-white mt-5">
