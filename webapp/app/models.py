@@ -2,10 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
-class CreateUserForm (UserCreationForm):
-    class Meta:
-        model = User
-        fields = ['username', 'email', 'first_name','last_name', 'password1', 'password2']
+
+
 
 
 class Slide(models.Model):
@@ -88,8 +86,17 @@ class ShippingAdress(models.Model):
     city = models.CharField(max_length=200, null=True)
     state = models.CharField(max_length=200, null=True)
     mobile = models.CharField(max_length=200, null=True)
-    date_added = models.DateTimeField(auto_now_add=True) 
+    date_added = models.DateTimeField(auto_now_add=True)
+
     
     def __str__(self):
         return self.adress
+
+
+class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, blank=True)
+    title = models.TextField(null=True, blank=False)
+    def __str__(self):
+        return self.user.last_name
 # Create your models here.

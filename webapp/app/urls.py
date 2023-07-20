@@ -13,4 +13,5 @@ urlpatterns = [
     path('search/', views.searchProduct, name="search"),
     path('category/', views.category, name="category"),
     path('detail/', views.detail, name="detail"),
+    path('payment/', views.Continue, name="payment"),
 ]

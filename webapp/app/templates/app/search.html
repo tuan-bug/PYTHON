@@ -2,8 +2,8 @@
 {% extends 'app/base.html' %}
 {% load static %}
 {% block login_content %}
-    <h5>Keet qua tim kiem {{ search }}</h5>
-    <div class="row g-2" style="width:100%;">
+    <h5 class="pt-3">Keet qua tim kiem {{ search }}</h5>
+    <div class="row g-2 pt-4" style="width:100%;">
         {% for product in keys%}
         <div class="col-lg-3">
           <div class="card" style="width: 18rem;">

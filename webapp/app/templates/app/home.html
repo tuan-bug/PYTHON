@@ -1,74 +1,60 @@
 {% extends 'app/base.html' %}
 {% load static %}
 {% block blog_slider %}
+<div class="container pt-4">
+        <div class="row g-2" style="width:100%;">
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+          <ol class="carousel-indicators">
+            {% for index in slide %}
+              <li data-target="#carouselExampleIndicators" data-slide-to="{{ index }}" {% if forloop.first %}class="active"{% endif %}></li>
+            {% endfor %}
+          </ol>
 
-    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-    <style>
-    .carousel-item-next,
-    .carousel-item-prev,
-    .carousel-item.active.carousel-item-start,
-    .carousel-item-next.carousel-item-start,
-    .carousel-item-prev.carousel-item-end {
-      transform: translateX(0);
-    }
+          <div class="carousel-inner">
+            {% for item in slide %}
+              <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                <img style="height: 500px" class="d-block w-100 " src="{{ item.ImageURL }}" alt="Slide">
+                <div class="carousel-caption d-none d-md-block">
+                  <h5>{{ item.name }}</h5>
+                  <p>{{ item.detail }}</p>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
 
-    .carousel-item-start.active,
-    .carousel-item-next {
-      transform: translateX(100%);
-    }
-
-    .carousel-item-end.active,
-    .carousel-item-prev {
-      transform: translateX(-100%);
-    }
-  </style>
-  <ol class="carousel-indicators">
-    {% for index in slide %}
-      <li data-target="#carouselExampleIndicators" data-slide-to="{{ index }}" {% if forloop.first %}class="active"{% endif %}></li>
-    {% endfor %}
-  </ol>
-
-  <div class="carousel-inner">
-    {% for item in slide %}
-      <div class="carousel-item {% if forloop.first %}active{% endif %}">
-        <img style="height: 700px" class="d-block w-100 " src="{{ item.ImageURL }}" alt="Slide">
-        <div class="carousel-caption d-none d-md-block">
-          <h5>{{ item.name }}</h5>
-          <p>{{ item.detail }}</p>
+          <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
         </div>
-      </div>
-    {% endfor %}
-  </div>
-
-  <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
+    </div>
 </div>
-
 {% endblock blog_slider %}
 
 {% block main-content %}
-    <div class="container">
-      <div class="row g-2" style="width:100%;">
-        {% for product in products%}
-        <div class="col-lg-3 ">
-          <div class="card" style="width: 18rem;">
-            <img style="height: 278px" src="{{product.ImageURL}}" class="img-thumbnail" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">{{product.name}}</h5>
-              <p class="card-text"> {{product.describe}}</p>
-              <h5 class="card-title"> ${{product.price | floatformat:2}}</h5>
-              <button data-product={{product.id}} data-action="add" class="btn btn-primary add-btn update-btn">Add to cart</button>
-                <button  class="btn btn-primary "> <a href="{% url 'detail' %}?id={{ product.id }}">View </a> </button>
-            </div>
-          </div>
-        </div> 
-        {% endfor %}
+    <div class="container pt-4">
+    <h3 class="text-center pt-4 pb-4">SẢN PHẨM MỚI</h3>
+
+  <div class="row row-cols-4 row-cols-lg-5 g-2 g-lg-3" style="width: 100%;">
+    {% for product in products %}
+    <div class="col-lg-3">
+      <div class="card" style="width: 18rem;">
+        <img src="{{product.ImageURL}}" class="img-thumbnail" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{product.name}}</h5>
+          <p class="card-text">{{product.describe}}</p>
+          <h5 class="card-title">${{product.price | floatformat:2}}</h5>
+          <button data-product={{product.id}} data-action="add" class="btn btn-primary add-btn update-btn">Add to cart</button>
+          <a class="btn btn-primary" href="{% url 'detail' %}?id={{ product.id }}">View</a>
+        </div>
       </div>
     </div>
+    {% endfor %}
+  </div>
+</div>
+
 {% endblock main-content %}

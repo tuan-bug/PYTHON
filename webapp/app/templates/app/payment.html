@@ -6,50 +6,40 @@
 		<div class="col-lg-6">
 			<div class="box-element" id="form-wrapper">
 				<form id="form" method="POST" action="">
-                    {% csrf_token %}
-{#					<div id="user-info">#}
-{#						<div class="form-field pt-2">#}
-{#							<input required class="form-control" type="text" name="name" placeholder="Name..">#}
-{#						</div>#}
-{#						<div class="form-field pt-2">#}
-{#							<input required class="form-control" type="email" name="email" placeholder="Email..">#}
-{#						</div>#}
-{#					</div>#}
-					
+
 					<div id="shipping-info">
-
-						<h4>Shipping Information:</h4>
-
-						<div class="form-field pt-3">
-                            {{ form.adress }}
-{#							<input class="form-control" type="text" name="address" placeholder="Address..">#}
+						<hr>
+						<p>Shipping Information:</p>
+						<hr>
+                        print({{ shipping }})
+						<div class="form-field pt-2">
+							<p>{{ shipping.adress }}</p>
 						</div>
-						<div class="form-field pt-3">
-                            {{ form.city }}
-{#							<input class="form-control" type="text" name="city" placeholder="City..">#}
+						<div class="form-field pt-2">
+							<p>{{ shipping.adress }}</p>
 						</div>
-						<div class="form-field pt-3">
-                            {{ form.state }}
-{#							<input class="form-control" type="text" name="state" placeholder="State..">#}
+						<div class="form-field pt-2">
+							<p>{{ shipping.adress }}</p>
 						</div>
-						<div class="form-field pt-3 pb-5">
-                            {{ form.mobile }}
-{#							<input class="form-control" type="text" name="mobile" placeholder="Mobile">#}
+						<div class="form-field pt-2 ">
+							<p>{{ shipping.adress }}</p>
 						</div>
 					</div>
-                    <a id="form-button" class="btn btn-success btn-block" href="{% url 'payment' %} " type="submit" >Continue</a>
+
+					<hr>
+					<input id="form-button" class="btn btn-success btn-block" name="continue" type="submit" value="Continue">
 				</form>
 			</div>
 
-			
+
 		</div>
 
 		<div class="col-lg-6">
 			<div class="box-element">
 				<a  class="btn btn-outline-dark" href="{% url 'cart' %}">&#x2190; Back to Cart</a>
-
+				<hr>
 				<h3>Order Summary</h3>
-
+				<hr>
 				<table class="table">
 					<thead>
 					  <tr>
@@ -68,7 +58,7 @@
 						<td>{{item.quantity}}</td>
 						<td>${{item.product.price}}</td>
 						<td>${{ item.total }}</td>
-						
+
 					  </tr>
 					  {% endfor %}
 					</tbody>

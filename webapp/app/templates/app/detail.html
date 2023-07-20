@@ -3,18 +3,18 @@
 {% load static %}
 {% block category_context %}
 
-{% for product in products%}
+{#{% for product in products%}#}
     <div class="container mt-4">
     <div class="row">
 
       <div class="col-lg-6">
-        <img src="{{product.ImageURL}}" alt="Product Image" class="img-fluid">
+        <img src="{{products.ImageURL}}" alt="Product Image" class="img-fluid">
       </div>
       <div class="col-lg-6">
-        <h2>{{product.name}}</h2>
-        <p class="text-muted">{{product.describe}}</p>
-        <h4>Price: ${{product.price | floatformat:2}}</h4>
-        <button data-product={{product.id}} data-action="add" class="btn btn-primary add-btn update-btn">Add to cart</button>
+        <h2>{{products.name}}</h2>
+        <p class="text-muted">{{products.describe}}</p>
+        <h4>Price: ${{products.price | floatformat:2}}</h4>
+        <button data-product={{products.id}} data-action="add" class="btn btn-primary add-btn update-btn">Add to cart</button>
       </div>
     </div>
 
@@ -29,13 +29,30 @@
         </ul>
       </div>
     </div>
-{% endfor %}
+{#{% endfor %}#}
     <!-- Customer reviews and comments -->
     <div class="row mt-4">
       <div class="col">
-        <h3>Reviews and Comments</h3>
-        <!-- Add review form and display reviews -->
-      </div>
+        <form  method="POST" action="">
+            {% csrf_token %}
+            {{ form.content }}
+{#        <textarea name="comment" placeholder="Write a comment"></textarea>#}
+            <button name="comment"  type="submit"  class="btn btn-primary">Gửi</button>
+
+        </form>
+        <h2>Comments:</h2>
+      <ul class="list-unstyled">
+        {% for comment in comments %}
+        <li class="media mb-4">
+          <div class="media-body">
+            <h5 class="mt-0">{{ comment.user.first_name }}</h5>
+            <span class="text-muted">{{ comment.date }}</span>
+            <h6 class="text-muted">{{ comment.title }}</h6>
+            <p>{{ comment.content }}</p>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
     </div>
   </div>
 {% endblock category_context %}
