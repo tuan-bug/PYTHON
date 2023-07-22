@@ -13,7 +13,10 @@
         <link rel="stylesheet" href="{%static 'app/css/owl.carousel.css' %}">
         <link rel="stylesheet" href="{%static 'app/css/bootstrap.min.css' %}"> 
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
         <script src="{%static 'app/js/all.min.js' %} "></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -42,60 +45,99 @@
 
     </head>
     <body>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-8">
+                <ul class="d-flex list-unstyled">
+                    <li class="m-3">pvtuan2707@gmail.com</li>
+                    <li class="m-3">Tell me why???</li>
+                </ul>
+            </div>
+            <div class="col-4 align-items-center">
+                <div class="dropdown justify-content-sm-end">
+                    <!-- Button to Trigger Dropdown -->
+                    <a  class="btn btn-outline-success dropdown-toggle float-right"
+                             type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true"
+                             aria-expanded="false" style="visibility: {{ user_login }}">
+                        Hello {{request.user}}
+                    </a>
+                    <!-- Dropdown Menu -->
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="#">Thông tin</a>
+                        <a class="dropdown-item" href="#">Option 2</a>
+                        <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                        <!-- Add more options as needed -->
+                    </div>
+                    <ul class="navbar d-flex list-unstyled ">
+                        <li class="nav-item" style="visibility: {{ user_not_login }}">
+                            <a class="btn btn-outline-success" href="{% url 'login' %}">Đăng nhập</a>
+                        </li>
+                        <li class="nav-item" style="visibility: {{ user_not_login }}">
+                            <a class="btn btn-outline-success" href="{% url 'register' %}">Đăng ký</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         <!-- header -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-          <a class="navbar-brand" href="{% url 'home' %}">
-            <img src="{% static 'app/images/Neel.png'%}" width="70" height="70"/>
-          </a> 
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav mr-auto">
-              <li class="nav-item active">
-                <a class="nav-link" href="{% url 'home' %}">Trang chủ</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Sản phẩm</a>
-              </li>
-                {% for category in categories %}
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'category' %}?category={{ category.slug }}">{{ category.name }}</a>
-              </li>
-              {% endfor %}
+            <div class="container">
+                <!-- Logo/Home Link -->
+                <div class="row">
+                    <div class="col-md-3">
+                        <a href="#"><img src="{% static 'app/images/logo.png'%}" alt="Logo"></a>
+                    </div>
+                    <!-- Navbar Links -->
+                    <div class="col-md-6">
+                        <div class="d-flex justify-content-center">
+                            <a class="nav-link m-lg-2 pl-3 pr-3 font-weight-bold" href="#">TRANG CHỦ</a>
 
-            </ul>
-            <form method="POST" action="{% url 'search' %}" class="form-inline my-2 my-lg-0">
-                {% csrf_token %}
-              <input class="form-control mr-sm-2" type="search" placeholder="Tìm kiếm" aria-label="Tìm kiếm" name="searched">
-              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Tìm Kiếm</button>
-            </form>
-            <ul class="navbar-nav">
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'cart' %}">
-                  <img  src="{% static 'app/images/shopping-cart.png'%}" width="24" height="24"/>
-                </a> 
-              </li>
-              <p>{{order.get_cart_item}}</p>
-              <li class="nav-item" style="visibility: {{ user_login }}">
-                <p class="nav-link">Hello {{request.user}}</p>
-              </li>
-                </li>
-                <li class="nav-item" style="visibility: {{ user_login }}">
-                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-              </li>
-                <li class="nav-item" style="visibility: {{ user_not_login }}">
-                <a class="nav-link" href="{% url 'login' %}">Đăng nhập</a>
-              </li>
-              <li class="nav-item" style="visibility: {{ user_not_login }}">
-                <a class="nav-link" href="{% url 'register' %}">Đăng ký</a>
-              </li>
-            </ul>
-          </div>
-        </nav>
+                            <a class="nav-link m-lg-2 pl-3 pr-3 font-weight-bold" href="#">MUA SẮM</a>
 
-        
-        
+                            <a class="nav-link m-lg-2 pl-3 pr-3 font-weight-bold" href="#">LIÊN HỆ</a>
+                        </div>
+                    </div>
+                    <!-- Cart Link -->
+                    <div class="col-md-3">
+                        <ul class="navbar list-inline justify-content-lg-start">
+                            <li class="nav-item d-flex">
+                            <a class="nav-link" href="{% url 'cart' %}">
+                              <img  src="{% static 'app/images/shopping-cart.png'%}" width="24" height="24"/>
+                            </a>
+                        </li>
+                            <p class="p-2"> {{order.get_cart_item}}</p>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        <!-- Category Section and Search Bar -->
+        <div class="container mt-4">
+            <div class="row">
+                <!-- Category Section -->
+                <div class="col-md-3">
+                    <div class="dropdown">
+                        <!-- Button to Trigger Dropdown -->
+                        <button class="btn btn-success dropdown-toggle font-weight-bold" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            DANH MỤC
+                        </button>
+                        <!-- Dropdown Menu -->
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#">Option 1</a>
+                            <a class="dropdown-item" href="#">Option 2</a>
+                            <a class="dropdown-item" href="#">Option 3</a>
+                            <!-- Add more options as needed -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="col-md-6">
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button style="min-width: 100px" class="btn btn-outline-success" type="submit">Tìm Kiếm</button>
+                    </form>
+                </div>
+            </div>
+        </div>
           <!--body-->
           {% block blog_slider %}
           {% endblock blog_slider %}
@@ -137,7 +179,7 @@
               </div>
             </div>
           </footer>
-        
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     </body>
     <script src="{%static 'app/js/addProduct.js' %} "></script>
 </html>

@@ -2,20 +2,20 @@
 {% extends 'app/base.html' %}
 {% load static %}
 {% block category_context %}
-    <div class="row g-2" style="width:100%;">
+    <div class="row g-2 pt-5" style="width:100%;">
         {% for product in products%}
-        <div class="col-lg-3">
-          <div class="card" style="width: 18rem;">
-            <img src="{{product.ImageURL}}" class="img-thumbnail" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">{{product.name}}</h5>
-              <p class="card-text"> {{product.describe}}</p>
-              <h5 class="card-title"> ${{product.price | floatformat:2}}</h5>
-              <button data-product={{product.id}} data-action="add" class="btn btn-primary add-btn update-btn">Add to cart</button>
-                <button  class="btn btn-primary "> <a href="{% url 'detail' %}?id={{ product.id }}">View </a> </button>
+            <div class="col-lg-3">
+                  <div class="card" style="width: 18rem;">
+                        <img src="{{product.ImageURL}}" class="img-thumbnail" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">{{product.name}}</h5>
+                                <p class="card-text"> {{product.describe}}</p>
+                                <h5 class="card-title"> ${{product.price | floatformat:2}}</h5>
+                                <button data-product={{product.id}} data-action="add" class="btn btn-primary add-btn update-btn">Add to cart</button>
+                                <button  class="btn btn-primary "> <a href="{% url 'detail' %}?id={{ product.id }}">View </a> </button>
+                            </div>
+                  </div>
             </div>
-          </div>
-        </div>
         {% endfor %}
       </div>
 {% endblock category_context %}

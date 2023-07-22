@@ -1,12 +1,29 @@
 from django.db import models
 from django.contrib.auth.models import User
+from rest_framework import serializers
 from django.contrib.auth.forms import UserCreationForm
 
 
+class Category(models.Model):
+    sub_category = models.ForeignKey('self', on_delete=models.CASCADE, related_name='sub_categories', null=True, blank=True)
+    is_sub = models.BooleanField(default=False)
+    name = models.CharField(max_length=200, null=True)
+    slug = models.CharField(max_length=200, null=True)
+    image = models.ImageField(null=True, blank=True)
+    def __str__(self):
+        return self.name
 
+    @property
+    def ImageURL(self):
+        try:
+            url = self.image.url
+        except:
+            url = ''
+        return url
 
 
 class Slide(models.Model):
+    category_slide = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=False)
     name = models.CharField(max_length=200, null=True, blank=True)
     detail = models.TextField(null=True)
     image = models.ImageField(null=True, blank=True)
@@ -21,14 +38,6 @@ class Slide(models.Model):
             url = ''
         return url
 
-
-class Category(models.Model):
-    sub_category = models.ForeignKey('self', on_delete=models.CASCADE, related_name='sub_categories', null=True, blank=True)
-    is_sub = models.BooleanField(default=False)
-    name = models.CharField(max_length=200, null=True)
-    slug = models.CharField(max_length=200, null=True)
-    def __str__(self):
-        return self.name
 
 class Product(models.Model):
     name = models.CharField(max_length=200, null=True)
