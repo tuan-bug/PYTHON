@@ -1,0 +1,70 @@
+
+{% extends 'app/base.html' %}
+{% load static %}
+{% block content_checkout %}
+    <div class="container">
+        <div class="row" style="width:100%">
+            <div class="col-md-12">
+            <h2>THANH TOÁN</h2>
+                <div class="box-element" id="form-wrapper">
+                    <div id="shipping-info">
+
+                        <p>Địa chỉ nhận hàng: <span id="firstName"></span> , <span id="mobile"></span>, <span id="state"></span>, <span id="address"></span>, <span id="city"></span> </p>
+
+                    </div>
+
+                    <table class="table table-borderless">
+                        <thead>
+                          <tr>
+                            <th>Ảnh</th>
+                            <th>Sản phẩm</th>
+                            <th>Đơn Giá</th>
+                            <th>Số lượng</th>
+                            <th>Thành tiền</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for item in items %}
+                          <tr>
+                            <td> <img style="height: 80px; width: auto;" src="{{item.product.ImageURL}}"/> </td>
+                            <td>{{item.product.name}}</td>
+                            <td>${{item.product.price}}</td>
+                            <td>{{item.quantity}}</td>
+                            <td>${{ item.total }}</td>
+
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                      <div class="text-right">
+                        <h4>Tổng cộng: ${{order.get_cart_total}}</h4>
+                      </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // Lấy dữ liệu từ Local Storage
+    var firstName = localStorage.getItem('firstName');
+    var address = localStorage.getItem('address');
+    var city = localStorage.getItem('city');
+    var state = localStorage.getItem('state');
+    var mobile = localStorage.getItem('mobile');
+
+    // Hiển thị thông tin lên trang
+    document.getElementById('firstName').textContent = firstName;
+    document.getElementById('address').textContent = address;
+    document.getElementById('city').textContent = city;
+    document.getElementById('state').textContent = state;
+    document.getElementById('mobile').textContent = mobile;
+
+    // Xóa dữ liệu đã lưu trong Local Storage (nếu muốn)
+    {#localStorage.removeItem('firstName');#}
+    {#localStorage.removeItem('address');#}
+    {#localStorage.removeItem('city');#}
+    {#localStorage.removeItem('state');#}
+    {#localStorage.removeItem('mobile');#}
+</script>
+
+{% endblock content_checkout %}

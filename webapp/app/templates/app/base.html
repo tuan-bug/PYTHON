@@ -19,6 +19,7 @@
 
         <script src="{%static 'app/js/all.min.js' %} "></script>
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script src="{%static 'app/js/myscript.js' %} "></script>
         <script src="{%static 'app/js/owl.carousel.min.js' %} "></script> 
@@ -63,7 +64,7 @@
                     </a>
                     <!-- Dropdown Menu -->
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#">Thông tin</a>
+                        <a class="dropdown-item" href="{% url 'information' %}">Thông tin</a>
                         <a class="dropdown-item" href="#">Option 2</a>
                         <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                         <!-- Add more options as needed -->
@@ -83,14 +84,14 @@
                 <!-- Logo/Home Link -->
                 <div class="row">
                     <div class="col-md-3">
-                        <a href="#"><img src="{% static 'app/images/logo.png'%}" alt="Logo"></a>
+                        <a href="{% url 'home' %}"><img src="{% static 'app/images/logo.png'%}" alt="Logo"></a>
                     </div>
                     <!-- Navbar Links -->
                     <div class="col-md-6">
                         <div class="d-flex justify-content-center">
-                            <a class="nav-link m-lg-2 pl-3 pr-3 font-weight-bold" href="#">TRANG CHỦ</a>
+                            <a class="nav-link m-lg-2 pl-3 pr-3 font-weight-bold" href="{% url 'home' %}">TRANG CHỦ</a>
 
-                            <a class="nav-link m-lg-2 pl-3 pr-3 font-weight-bold" href="#">MUA SẮM</a>
+                            <a class="nav-link m-lg-2 pl-3 pr-3 font-weight-bold" href="{% url 'home' %}">MUA SẮM</a>
 
                             <a class="nav-link m-lg-2 pl-3 pr-3 font-weight-bold" href="#">LIÊN HỆ</a>
                         </div>
@@ -121,10 +122,11 @@
                         </button>
                         <!-- Dropdown Menu -->
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#">Option 1</a>
-                            <a class="dropdown-item" href="#">Option 2</a>
-                            <a class="dropdown-item" href="#">Option 3</a>
-                            <!-- Add more options as needed -->
+                            {% for category in categories  %}
+                                <a class="dropdown-item" href="{% url 'category' %}?category={{ category.slug }}">{{ category.name }}</a>
+                            {% endfor %}
+
+
                         </div>
                     </div>
                 </div>
@@ -138,25 +140,17 @@
                 </div>
             </div>
         </div>
+            </div>
+        </div>
           <!--body-->
-          {% block blog_slider %}
-          {% endblock blog_slider %}
-          {% block main-content %}
-          {% endblock main-content %}
-
-          {% block cart_content %}
-          {% endblock cart_content %}
-
-          {% block content_checkout %}
-          {% endblock content_checkout %}
-
-          {% block register_content %}
-          {% endblock register_content %}
-        {% block login_content %}
-
-        {% endblock login_content %}
-        {% block category_context %} {% endblock category_context %}
-
+          {% block blog_slider %}{% endblock blog_slider %}
+          {% block main-content %}{% endblock main-content %}
+          {% block cart_content %}{% endblock cart_content %}
+          {% block content_checkout %}{% endblock content_checkout %}
+          {% block register_content %}{% endblock register_content %}
+          {% block login_content %}{% endblock login_content %}
+          {% block category_context %} {% endblock category_context %}
+          {% block information %}{% endblock information %}
           <!--footer-->
           <footer class="footer bg-dark text-white mt-5">
             <div class="container">

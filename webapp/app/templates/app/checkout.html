@@ -2,83 +2,111 @@
 {% extends 'app/base.html' %}
 {% load static %}
 {% block content_checkout %}
-     <div class="row" style="width:100%">
-		<div class="col-lg-6">
-			<div class="box-element" id="form-wrapper">
-				<form id="form" method="POST" action="">
-                    {% csrf_token %}
-{#					<div id="user-info">#}
-{#						<div class="form-field pt-2">#}
-{#							<input required class="form-control" type="text" name="name" placeholder="Name..">#}
-{#						</div>#}
-{#						<div class="form-field pt-2">#}
-{#							<input required class="form-control" type="email" name="email" placeholder="Email..">#}
-{#						</div>#}
-{#					</div>#}
-					
-					<div id="shipping-info">
+    <div class="container">
+        <div class="row" style="width:100%">
+            <div class="col-md-5">
 
-						<h4>Shipping Information:</h4>
+                <div class="box-element" id="form-wrapper">
+                    <form id="form" method="POST" action="">
+                        {% csrf_token %}
+                        {% if form_show == "show" %}
+                            <div id="shipping-info" class="form-show">
+                            <h4>CHỌN ĐỊA CHỈ NGƯỜI DÙNG</h4>
+                                {% for address in allAddress %}
+                                    <div class="form-check p-2">
+                                        <input class="form-check-input" type="radio" name="address" id="address{{ forloop.counter }}" value="{{ forloop.counter }}"
+                                               data-firstname="{{ address.customer.first_name }}" data-address="{{ address.address }}" data-city="{{ address.city }}"
+                                               data-state="{{ address.state }}" data-mobile="{{ address.mobile }}">
+                                        <label class="form-check-label" for="address{{ forloop.counter }}">
+                                            Địa chỉ: {{ address.customer.first_name }} - {{ address.adress }} - {{ address.city }} - {{ address.state }} - {{ address.mobile }}
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div id="shipping-info" class="form_hidden">
+                                <h4>Shipping Information:</h4>
+                                <div class="form-field pt-3">
+                                    {{ form.address }}
+                                </div>
+                                <div class="form-field pt-3">
+                                    {{ form.city }}
+                                </div>
+                                <div class="form-field pt-3">
+                                    {{ form.state }}
+                                </div>
+                                <div class="form-field pt-3 pb-5">
+                                    {{ form.mobile }}
+                                </div>
+                            </div>
+                        {% endif %}
+                        <button type="submit" class="btn btn-primary"><a href="{% url 'address' %}">Submit</a></button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div class="box-element">
+                    <a  class="btn btn-outline-dark" href="{% url 'cart' %}">&#x2190; Back to Cart</a>
+                    <h3>Order Summary</h3>
+                    <table class="table">
+                        <thead>
+                          <tr>
+                            <th>Ảnh</th>
+                            <th>Sản phẩm</th>
+                            <th>Đơn Giá</th>
+                            <th>Số lượng</th>
+                            <th>Thành tiền</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for item in items %}
+                          <tr>
+                            <td> <img style="height: 80px; width: auto;" src="{{item.product.ImageURL}}"/> </td>
+                            <td>{{item.product.name}}</td>
+                            <td>${{item.product.price}}</td>
+                            <td>{{item.quantity}}</td>
+                            <td>${{ item.total }}</td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                      <div class="text-right">
+                        <h4>Tổng cộng: ${{order.get_cart_total}}</h4>
+                      </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-						<div class="form-field pt-3">
-                            {{ form.adress }}
-{#							<input class="form-control" type="text" name="address" placeholder="Address..">#}
-						</div>
-						<div class="form-field pt-3">
-                            {{ form.city }}
-{#							<input class="form-control" type="text" name="city" placeholder="City..">#}
-						</div>
-						<div class="form-field pt-3">
-                            {{ form.state }}
-{#							<input class="form-control" type="text" name="state" placeholder="State..">#}
-						</div>
-						<div class="form-field pt-3 pb-5">
-                            {{ form.mobile }}
-{#							<input class="form-control" type="text" name="mobile" placeholder="Mobile">#}
-						</div>
-					</div>
-                    <a id="form-button" class="btn btn-success btn-block" href="{% url 'payment' %} " type="submit" >Continue</a>
-				</form>
-			</div>
 
-			
-		</div>
+<script>
+    $(document).ready(function () {
+        // Bắt sự kiện click vào radiobutton có class "form-check-input"
+        $('.form-check-input').on('click', function () {
+            // Lấy dữ liệu từ các thuộc tính data-*
+            var firstName = $(this).data('firstname');
+            var address = $(this).data('address');
+            var city = $(this).data('city');
+            var state = $(this).data('state');
+            var mobile = $(this).data('mobile');
 
-		<div class="col-lg-6">
-			<div class="box-element">
-				<a  class="btn btn-outline-dark" href="{% url 'cart' %}">&#x2190; Back to Cart</a>
+            // Hiển thị thông tin lấy được từ radiobutton lên console (có thể thay đổi cách hiển thị theo ý muốn)
+            console.log("First Name: " + firstName);
+            console.log("Address: " + address);
+            console.log("City: " + city);
+            console.log("State: " + state);
+            console.log("Mobile: " + mobile);
+            // Lưu trữ dữ liệu vào Local Storage
+            localStorage.setItem('firstName', firstName);
+            localStorage.setItem('address', address);
+            localStorage.setItem('city', city);
+            localStorage.setItem('state', state);
+            localStorage.setItem('mobile', mobile);
 
-				<h3>Order Summary</h3>
+            // Chuyển hướng người dùng đến trang khác
+            {#window.location.href = "address.html";#}
+        });
+    });
+</script>
 
-				<table class="table">
-					<thead>
-					  <tr>
-						<th>Ảnh</th>
-						<th>Sản phẩm</th>
-						<th>Số lượng</th>
-						<th>Giá</th>
-						<th>Thành tiền</th>
-					  </tr>
-					</thead>
-					<tbody>
-					  {% for item in items %}
-					  <tr>
-						<td> <img style="height: 80px; width: auto;" src="{{item.product.ImageURL}}"/> </td>
-						<td>{{item.product.name}}</td>
-						<td>{{item.quantity}}</td>
-						<td>${{item.product.price}}</td>
-						<td>${{ item.total }}</td>
-						
-					  </tr>
-					  {% endfor %}
-					</tbody>
-				  </table>
-				  <div class="text-right">
-					<h4>Tổng cộng: ${{order.get_cart_total}}</h4>
-				  </div>
-				{% comment %} <h5>Items:   2</h5>
-				<h5>Total:   $4</h5> {% endcomment %}
-			</div>
-		</div>
-	</div>
 {% endblock content_checkout %}

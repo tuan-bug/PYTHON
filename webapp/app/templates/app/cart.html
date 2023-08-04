@@ -5,9 +5,7 @@
 <div class="row">
 	<div class="col-lg-12">
 		<div class="box-element">
-
 			<a  class="btn btn-outline-dark" href="{% url 'home' %}"> Continue Shopping</a>
-
 			<br>
 			<br>
 			<table class="table">
@@ -21,7 +19,6 @@
 			</table>
 
 		</div>
-
 		<br>
 		<div class="container">
 			<h1>Giỏ hàng</h1>
@@ -30,8 +27,8 @@
 				<tr>
 				  <th>Ảnh</th>
 				  <th>Sản phẩm</th>
+                  <th>Đơn Giá</th>
 				  <th>Số lượng</th>
-				  <th>Giá</th>
 				  <th>Thành tiền</th>
 				</tr>
 			  </thead>
@@ -40,6 +37,7 @@
 				<tr>
 				  <td> <img style="height: 80px; width: auto;" src="{{item.product.ImageURL}}"/> </td>
 				  <td>{{item.product.name}}</td>
+                  <td>${{item.product.price}}</td>
 				  <td>
 					<div class="input-group">
 						<div class="input-group-append">
@@ -49,7 +47,6 @@
 						</div>
 					  </div>
 				  </td>
-				  <td>${{item.product.price}}</td>
 				  <td>${{ item.total }}</td>
 				  
 				</tr>

@@ -9,6 +9,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django import forms
 # Create your views here.
+def base(request):
+    categories = Category.objects.filter(is_sub=False)  # lay cac damh muc lon
+    return render(request, 'app/base.html', categories)
+
 def getHome(request):
     products = Product.objects.all()
     slide = Slide.objects.all()
@@ -62,6 +66,7 @@ def checkout(request):
     form = AddressForm()
     if request.user.is_authenticated:
         customer = request.user
+        allAddress = Adress.objects.filter(customer=customer)
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
         user_not_login = "hidden"
@@ -69,12 +74,24 @@ def checkout(request):
         for item in items:
             item.total = item.product.price * item.quantity
     else:
+        allAddress = None
         order = None
         items = []
         user_not_login = "show"
         user_login = "hidden"
-    context = {'categories':categories , 'items': items, 'order': order, 'user_login': user_login, 'user_not_login': user_not_login, 'form': form}
-    return render(request,'app/checkout.html', context)
+
+    if allAddress is not None and allAddress.exists():
+        # Ẩn form thêm địa chỉ
+        form_hidden = "hidden"
+        form_show = "show"
+    else:
+        # Hiển thị form thêm địa chỉ
+        form_hidden = "show"
+        form_show = "hidden"
+    context = {'categories':categories , 'items': items, 'order': order, 'user_login': user_login,
+               'user_not_login': user_not_login, 'form': form, 'allAddress': allAddress,
+               'form_hidden': form_hidden, 'form_show': form_show}
+    return render(request, 'app/checkout.html', context)
 
 
 def updateItem(request):
@@ -162,7 +179,7 @@ def category(request):
     categories = Category.objects.filter(is_sub=False) #lay cac damh muc lon
     active_category = request.GET.get('category', '')
     if active_category:
-        products = Product.objects.filter(category__slug = active_category) # lay theo duong dan
+        products = Product.objects.filter(category__slug=active_category) # lay theo duong dan
 
     if request.user.is_authenticated:
         customer = request.user
@@ -178,7 +195,7 @@ def category(request):
         user_not_login = "show"
         user_login = "hidden"
 
-    context ={'items': items, 'order': order,'categories': categories, 'products': products,
+    context ={'items': items, 'order': order, 'categories': categories, 'products': products,
               'active_category': active_category, 'user_login': user_login, 'user_not_login': user_not_login}
     return render(request, "app/category.html", context)
 
@@ -232,49 +249,12 @@ def Continue1(request):
         user_not_login = "show"
         user_login = "hidden"
 
-    shipping = None  # Tạo biến shipping với giá trị mặc định là None
-
-    categories = Category.objects.filter(is_sub=False)  # lấy các danh mục lớn
-
     # lấy địa chỉ
-    user = request.user
-    if request.method == 'POST':
-        form = AddressForm(request.POST)
-        if form.is_valid():
-            adress = form.cleaned_data['adress']
-            city = form.cleaned_data['city']
-            state = form.cleaned_data['state']
-            mobile = form.cleaned_data['mobile']
-            shipping = ShippingAdress(customer=user, order=items, adress=adress, city=city, state=state, mobile=mobile)
-            shipping.save()
-    else:
-        form = CommentForm()
-
-    context = {'shipping': shipping, 'items': items, 'order': order, 'user_login': user_login,
-               'user_not_login': user_not_login, 'categories': categories}
-    return render(request, 'app/payment.html', context)
-
-
-
-def Continue(request):
+    form = AddressForm()
+    allAddress = Adress.objects.all()
     if request.user.is_authenticated:
-        customer = request.user
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
-        items = order.orderitem_set.all()
-        user_not_login = "hidden"
-        user_login = "show"
-        for item in items:
-            item.total = item.product.price * item.quantity
-    else:
-        order = None
-        items = []
-        user_not_login = "show"
-        user_login = "hidden"
-
-    categories = Category.objects.filter(is_sub=False)
-
-    user = request.user
-    shipping = None  # Khởi tạo biến shipping với giá trị None
+        user = request.user
+        shipping = Adress.objects.filter(customer=user)
 
     if request.method == 'POST':
         form = AddressForm(request.POST)
@@ -283,46 +263,61 @@ def Continue(request):
             city = form.cleaned_data['city']
             state = form.cleaned_data['state']
             mobile = form.cleaned_data['mobile']
-
-            if order:
-                # Tạo đối tượng ShippingAddress và gán đối tượng Order vào trường order
-                shipping = ShippingAdress.objects.create(
-                    customer=user,
-                    order=items,
-                    address=address,
-                    city=city,
-                    state=state,
-                    mobile=mobile
-                )
-
-            # Cập nhật thông tin địa chỉ trong order
-            if order:
-                order.address = address
-                order.city = city
-                order.state = state
-                order.mobile = mobile
-                order.save()
+            shipping = Adress(customer=request.user, address=address, city=city, state=state, mobile=mobile)
+            shipping.save()
+            messages.success(request, 'Address saved successfully!')
+        else:
+            messages.error(request, 'Failed to save address.')
     else:
         form = AddressForm()
 
-    context = {
-        'shipping': shipping,
-        'items': items,
-        'order': order,
-        'user_login': user_login,
-        'user_not_login': user_not_login,
-        'categories': categories,
-        'form': form,  # Thêm form vào context để sử dụng trong template
-    }
-    return render(request, 'app/payment.html', context)
+    context = {'shipping': shipping, 'items': items, 'order': order, 'user_login': user_login,
+               'user_not_login': user_not_login, 'allAddress': allAddress, 'messages': messages}
+    return render(request, 'app/address.html', context)
 
 
+def Information(request):
+    if request.user.is_authenticated:
+        user = request.user
+
+    user_address = None
+    if request.method == 'POST':
+        form = AddressForm(request.POST)
+        if form.is_valid():
+            address = form.cleaned_data['address']
+            city = form.cleaned_data['city']
+            state = form.cleaned_data['state']
+            mobile = form.cleaned_data['mobile']
+            user_address = Adress(customer=request.user, adress=address, city=city, state=state, mobile=mobile)
+            user_address.save()
+    else:
+        form = AddressForm()
+    context = {'user': user, 'form': form, 'user_address': user_address}
+    return render(request, 'app/information.html', context)
+
+
+def Manage(request):
+    context ={}
+    return render(request, 'admin/manage.html', context)
+
+def manageSlide(request):
+    context ={}
+    return render(request, 'admin/managementSlide.html', context)
+
+
+def manageProduct(request):
+    context ={}
+    return render(request, 'admin/managementProduct.html', context)
+
+def manageCategory(request):
+    context ={}
+    return render(request, 'admin/managementCategory.html', context)
 class CommentForm(forms.Form):
     # author = forms.CharField(max_length=100)
     content = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}))
 
 class AddressForm(forms.Form):
-    adress = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'placeholder': 'Adress.....', 'class': 'form-control'}) )
+    address = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'placeholder': 'Adress.....', 'class': 'form-control'}) )
     city = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'placeholder': 'City.....', 'class': 'form-control'}))
     state = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'placeholder': 'State.....', 'class': 'form-control'}))
     mobile = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'placeholder': 'Mobile.....', 'class': 'form-control'}))
@@ -335,3 +330,4 @@ class CreateUserForm(forms.Form):
         last_name = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'placeholder': 'Last name.....', 'class': 'form-control'}) )
         password1 = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'placeholder': 'Password.....', 'class': 'form-control'}) )
         password2 = forms.CharField(max_length=200,widget=forms.TextInput(attrs={'placeholder': 'Confix pasword.....', 'class': 'form-control'}))
+
