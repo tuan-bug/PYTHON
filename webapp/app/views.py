@@ -271,8 +271,13 @@ def Continue1(request):
     else:
         form = AddressForm()
 
-    context = {'shipping': shipping, 'items': items, 'order': order, 'user_login': user_login,
-               'user_not_login': user_not_login, 'allAddress': allAddress, 'messages': messages}
+    context = {'shipping': shipping,
+               'items': items,
+               'order': order,
+               'user_login': user_login,
+               'user_not_login': user_not_login,
+               'allAddress': allAddress,
+               'messages': messages}
     return render(request, 'app/address.html', context)
 
 
@@ -312,6 +317,10 @@ def manageProduct(request):
 def manageCategory(request):
     context ={}
     return render(request, 'admin/managementCategory.html', context)
+
+def test(request):
+    context ={}
+    return render(request, 'app/test.html', context)
 class CommentForm(forms.Form):
     # author = forms.CharField(max_length=100)
     content = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}))

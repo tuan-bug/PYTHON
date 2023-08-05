@@ -13,7 +13,7 @@
   <div class="carousel-inner">
     {% for item in slide %}
       <div class="carousel-item {% if forloop.first %}active{% endif %}">
-        <img style="height: 500px" class="d-block w-100 " src="{{ item.ImageURL }}" alt="Slide">
+        <img class="d-block w-100 img-responsive " src="{{ item.ImageURL }}" alt="Slide">
         <div class="carousel-caption d-none d-md-block">
           <h5> <a class="text-decoration-none text-reset" href="{% url 'category' %}?category={{ item.category_slide.slug }}" >{{ item.name }} </a> </h5>
           <p>{{ item.detail }}</p>
@@ -60,13 +60,15 @@
         </div>
       <div class="row  pt-4" style="width: 100%;">
         {% for product in products %}
-            <div class="col-lg-3 col-md-4">
+            <div class="col-lg-3 col-md-4 col-6">
                 <div class="card">
-                    <img src="{{product.ImageURL}}" class="card-img-top" alt="Product 1">
+                    <img src="{{product.ImageURL}}" class="card-img-top w-100" alt="Product 1">
                     <div class="card-body">
-                        <h5 class="card-title">{{product.name}}</h5>
-                        <p class="card-text">{{product.describe}}</p>
-                        <h5 class="card-title">${{product.price | floatformat:2}}</h5>
+                        <span class="card-title text-sm font-weight-bold">{{product.name}}</span>
+                        <br>
+{#                        <p class="card-text text-sm">{{product.describe}}</p>#}
+                        <span class="card-title text-sm font-weight-bold">${{product.price | floatformat:2}}</span>
+                        <br>
                         <button data-product={{product.id}} data-action="add" class="btn btn-primary add-btn update-btn">Add to cart</button>
                         <a class="btn btn-primary" href="{% url 'detail' %}?id={{ product.id }}">View</a>
                     </div>

@@ -20,4 +20,5 @@ urlpatterns = [
     path('manageSlide/', views.manageSlide, name="manageSlide"),
     path('manageProduct/', views.manageProduct, name="manageProduct"),
     path('manageCategory/', views.manageCategory, name="manageCategory"),
+    path('test/', views.test, name="test"),
 ]
