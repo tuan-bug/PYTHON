@@ -10,8 +10,13 @@ from django.contrib import messages
 from django import forms
 # Create your views here.
 def base(request):
+    slide = Slide.objects.all()
     categories = Category.objects.filter(is_sub=False)  # lay cac damh muc lon
-    return render(request, 'app/base.html', categories)
+    context = {
+        'slide': slide,
+        'categories': categories,
+    }
+    return render(request, 'app/base.html', context)
 
 def getHome(request):
     products = Product.objects.all()
@@ -20,7 +25,7 @@ def getHome(request):
         customer = request.user
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
-        user_not_login = "hidden"
+        user_not_login = "none"
         user_login = "show"
         for item in items:
             item.total = item.product.price * item.quantity
@@ -28,12 +33,18 @@ def getHome(request):
         order = None
         items = []
         user_not_login = "show"
-        user_login = "hidden"
+        user_login = "none"
 
     categories = Category.objects.filter(is_sub=False)  # lay cac damh muc lon
     active_category = request.GET.get('category', '')
-    context = {'products': products, 'slide': slide, 'items': items, 'order': order, 'user_login': user_login,
-               'user_not_login': user_not_login, 'categories': categories, 'active_category': active_category}
+    context = {'products': products,
+               'slide': slide,
+               'items': items,
+               'order': order,
+               'user_login': user_login,
+               'user_not_login': user_not_login,
+               'categories': categories,
+               'active_category': active_category}
     return render(request, 'app/home.html', context)
 
 
@@ -42,11 +53,13 @@ def getHome(request):
 #     return register(request, 'app/base.html', slide)
 
 def cart(request):
+    slide_hidden = "hidden"
+    fixed_height = "20px"
     if request.user.is_authenticated:
         customer = request.user
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
-        user_not_login = "hidden"
+        user_not_login = "none"
         user_login = "show"
         for item in items:
             item.total = item.product.price * item.quantity
@@ -54,14 +67,22 @@ def cart(request):
         order = None
         items = []
         user_not_login = "show"
-        user_login = "hidden"
+        user_login = "none"
     categories = Category.objects.filter(is_sub=False)  # lay cac damh muc lon
-    context = {'items': items, 'order': order, 'user_login': user_login, 'user_not_login': user_not_login, 'categories':categories}
+    context = {'items': items,
+               'order': order,
+               'user_login': user_login,
+               'user_not_login': user_not_login,
+               'categories':categories,
+               'slide_hidden': slide_hidden,
+               'fixed_height': fixed_height}
     return render(request, 'app/cart.html', context)
 
 
 
 def checkout(request):
+    slide_hidden = "hidden"
+    fixed_height = "20px"
     categories = Category.objects.filter(is_sub=False)  # lấy các danh mục lớn
     form = AddressForm()
     if request.user.is_authenticated:
@@ -69,7 +90,7 @@ def checkout(request):
         allAddress = Adress.objects.filter(customer=customer)
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
-        user_not_login = "hidden"
+        user_not_login = "none"
         user_login = "show"
         for item in items:
             item.total = item.product.price * item.quantity
@@ -78,7 +99,7 @@ def checkout(request):
         order = None
         items = []
         user_not_login = "show"
-        user_login = "hidden"
+        user_login = "none"
 
     if allAddress is not None and allAddress.exists():
         # Ẩn form thêm địa chỉ
@@ -88,9 +109,17 @@ def checkout(request):
         # Hiển thị form thêm địa chỉ
         form_hidden = "show"
         form_show = "hidden"
-    context = {'categories':categories , 'items': items, 'order': order, 'user_login': user_login,
-               'user_not_login': user_not_login, 'form': form, 'allAddress': allAddress,
-               'form_hidden': form_hidden, 'form_show': form_show}
+    context = {'categories':categories,
+               'items': items,
+               'order': order,
+               'user_login': user_login,
+               'user_not_login': user_not_login,
+               'form': form, 'allAddress': allAddress,
+               'form_hidden': form_hidden,
+               'form_show': form_show,
+               'slide_hidden': slide_hidden,
+               'fixed_height': fixed_height,
+               }
     return render(request, 'app/checkout.html', context)
 
 
@@ -115,10 +144,16 @@ def updateItem(request):
 
 
 def register(request):
+    slide_hidden = "hidden"
+    fixed_height = "20px"
     from_register = CreateUserForm()
     user_not_login = "show"
-    user_login = "hidden"
-    context = {'from': from_register, 'user_login': user_login, 'user_not_login': user_not_login}
+    user_login = "none"
+    context = {'from': from_register,
+               'user_login': user_login,
+               'user_not_login': user_not_login,
+               'slide_hidden': slide_hidden,
+               'fixed_height': fixed_height}
 
     # khi người dùng ấn nút đăng kí
     if request.method == 'POST':
@@ -129,8 +164,10 @@ def register(request):
     return render(request, "app/register.html", context)
 
 def loginPage(request):
+    slide_hidden = "hidden"
+    fixed_height = "20px"
     user_not_login = "show"
-    user_login = "hidden"
+    user_login = "none"
     if request.user.is_authenticated: # neu da xac thuc
         return redirect('home')
     if request.method == 'POST':
@@ -142,7 +179,10 @@ def loginPage(request):
             return redirect('home')
         else:
             messages.info(request, 'UserName or PassWord not ddungs')
-    context = {'user_login': user_login, 'user_not_login': user_not_login}
+    context = {'user_login': user_login,
+               'user_not_login': user_not_login,
+               'slide_hidden': slide_hidden,
+               'fixed_height': fixed_height,}
     return render(request, "app/login.html", context)
 
 def logoutPage(request):
@@ -152,12 +192,14 @@ def logoutPage(request):
 
 def searchProduct(request):
     categories = Category.objects.filter(is_sub=False)  # lay cac damh muc lon
+    slide_hidden = "hidden"
+    fixed_height = "20px"
     if request.user.is_authenticated: # neu da xac thuc
-        user_not_login = "hidden"
+        user_not_login = "none"
         user_login = "show"
     else:
         user_not_login = "show"
-        user_login = "hidden"
+        user_login = "none"
 
     if request.method == "POST":
         search = request.POST["searched"]
@@ -171,9 +213,21 @@ def searchProduct(request):
         else:
             order = None
             items = []
-    return render(request, "app/search.html", {'categories': categories, 'user_login': user_login, 'user_not_login': user_not_login,"search": search, "keys": keys, 'items': items, 'order': order})
+    return render(request, "app/search.html",
+                  {'categories': categories,
+                   'user_login': user_login,
+                   'user_not_login': user_not_login,
+                   "search": search,
+                   "keys": keys,
+                   'items': items,
+                   'order': order,
+                   'slide_hidden': slide_hidden,
+                   'fixed_height': fixed_height,
+                   })
 
 def category(request):
+    slide_hidden = "hidden"
+    fixed_height = "20px"
     # user_not_login = "hidden"
     # user_login = "show"
     categories = Category.objects.filter(is_sub=False) #lay cac damh muc lon
@@ -193,18 +247,29 @@ def category(request):
         order = None
         items = []
         user_not_login = "show"
-        user_login = "hidden"
+        user_login = "none"
 
-    context ={'items': items, 'order': order, 'categories': categories, 'products': products,
-              'active_category': active_category, 'user_login': user_login, 'user_not_login': user_not_login}
+    context ={'items': items,
+              'order': order,
+              'categories': categories,
+              'products': products,
+              'active_category': active_category,
+              'user_login': user_login,
+              'user_not_login': user_not_login,
+              'slide_hidden': slide_hidden,
+              'fixed_height': fixed_height,
+              }
     return render(request, "app/category.html", context)
 
 def detail(request):
+    slide_hidden = "hidden"
+    fixed_height = "20px"
+    fixed_comment = "100px"
     if request.user.is_authenticated:
         customer = request.user
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
-        user_not_login = "hidden"
+        user_not_login = "none"
         user_login = "show"
         for item in items:
             item.total = item.product.price * item.quantity
@@ -212,7 +277,7 @@ def detail(request):
         order = None
         items = []
         user_not_login = "show"
-        user_login = "hidden"
+        user_login = "none"
 
     id = request.GET.get('id', '') # lấy id khi người dùng vlick vào sản phẩm nào đó
     user = request.user
@@ -228,18 +293,30 @@ def detail(request):
     else:
         form = CommentForm()
     categories = Category.objects.filter(is_sub=False)  # lay cac damh muc lon
-    context = {'form': form, 'comments': comment, 'products': products, 'items': items, 'order': order, 'user_login': user_login,
-               'user_not_login': user_not_login, 'categories':categories}
+    context = {'form': form,
+               'comments': comment,
+               'products': products,
+               'items': items,
+               'order': order,
+               'user_login': user_login,
+               'user_not_login': user_not_login,
+               'categories':categories,
+               'slide_hidden': slide_hidden,
+               'fixed_height': fixed_height,
+               'fixed_comment': fixed_comment,
+               }
     return render(request, 'app/detail.html', context)
 
 
 def Continue1(request):
+    slide_hidden = "hidden"
+    fixed_height = "20px"
     # lấy các sản phẩm
     if request.user.is_authenticated:
         customer = request.user
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
-        user_not_login = "hidden"
+        user_not_login = "none"
         user_login = "show"
         for item in items:
             item.total = item.product.price * item.quantity
@@ -247,7 +324,7 @@ def Continue1(request):
         order = None
         items = []
         user_not_login = "show"
-        user_login = "hidden"
+        user_login = "none"
 
     # lấy địa chỉ
     form = AddressForm()
@@ -277,11 +354,16 @@ def Continue1(request):
                'user_login': user_login,
                'user_not_login': user_not_login,
                'allAddress': allAddress,
-               'messages': messages}
+               'messages': messages,
+               'slide_hidden': slide_hidden,
+               'fixed_height': fixed_height,
+               }
     return render(request, 'app/address.html', context)
 
 
 def Information(request):
+    slide_hidden = "hidden"
+    fixed_height = "20px"
     if request.user.is_authenticated:
         user = request.user
 
@@ -297,7 +379,12 @@ def Information(request):
             user_address.save()
     else:
         form = AddressForm()
-    context = {'user': user, 'form': form, 'user_address': user_address}
+    context = {'user': user,
+               'form': form,
+               'user_address': user_address,
+               'slide_hidden': slide_hidden,
+               'fixed_height': fixed_height,
+               }
     return render(request, 'app/information.html', context)
 
 
@@ -314,6 +401,38 @@ def manageProduct(request):
     context ={}
     return render(request, 'admin/managementProduct.html', context)
 
+
+def contact(request):
+
+    slide_hidden = "hidden"
+    fixed_height = "20px"
+    if request.user.is_authenticated:
+        customer = request.user
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        items = order.orderitem_set.all()
+        user_not_login = "none"
+        user_login = "show"
+        for item in items:
+            item.total = item.product.price * item.quantity
+    else:
+        order = None
+        items = []
+        user_not_login = "show"
+        user_login = "none"
+    categories = Category.objects.filter(is_sub=False)  # lay cac damh muc lon
+    active_category = request.GET.get('category', '')
+
+    context ={
+        'categories': categories,
+        'order': order,
+        'items': items,
+        'user_login': user_login,
+        'user_not_login': user_not_login,
+        'slide_hidden': slide_hidden,
+        'fixed_height': fixed_height,
+        }
+    return render(request, 'app/contact.html', context)
+
 def manageCategory(request):
     context ={}
     return render(request, 'admin/managementCategory.html', context)
@@ -323,7 +442,7 @@ def test(request):
     return render(request, 'app/test.html', context)
 class CommentForm(forms.Form):
     # author = forms.CharField(max_length=100)
-    content = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}))
+    content = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'style': 'height:100px', 'placeholder': 'Nhập nội dung comment.....'}))
 
 class AddressForm(forms.Form):
     address = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'placeholder': 'Adress.....', 'class': 'form-control'}) )

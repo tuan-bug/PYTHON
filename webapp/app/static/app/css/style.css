@@ -583,6 +583,7 @@ ol {
 }
 
 .hero.hero-normal .hero__search {
+	padding-bottom: 30px;
 	margin-bottom: 0;
 }
 
@@ -634,6 +635,7 @@ ol {
 }
 
 .hero__search {
+	padding-bottom: 30px;
 	overflow: hidden;
 	margin-bottom: 30px;
 }
@@ -1768,7 +1770,7 @@ ol {
 	margin-right: 6px;
 }
 
-.pro-qty {
+.btn-item {
 	width: 140px;
 	height: 50px;
 	display: inline-block;

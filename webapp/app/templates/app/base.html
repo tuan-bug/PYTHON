@@ -91,7 +91,7 @@
                     </ul>
                 </li>
                 <li><a href="./blog.html">Blog</a></li>
-                <li><a href="./contact.html">Contact</a></li>
+                <li><a href="{% url 'contact' %}">Contact</a></li>
             </ul>
         </nav>
         <div id="mobile-menu-wrap"></div>
@@ -132,9 +132,9 @@
                                 <a href="#"><i class="fa fa-pinterest-p"></i></a>
                             </div>
 
-                            <div class="header__top__right__auth dropdown ">
+                            <div class="header__top__right__auth dropdown " style="display: {{ user_login }}">
                                 <a class="dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false"  href="{% url 'login' %} " style="visibility: {{ user_login }}"><i class="fa fa-user"></i>Hello {{request.user}}</a>
+                                aria-expanded="false"  href="{% url 'login' %} " ><i class="fa fa-user"></i>Hello {{request.user}}</a>
                                 <!-- Dropdown Menu -->
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <a class="dropdown-item" href="{% url 'information' %}">Thông tin</a>
@@ -143,8 +143,8 @@
                                     <!-- Add more options as needed -->
                                 </div>
                             </div>
-                            <div class="header__top__right__auth">
-                                <a href="{% url 'login' %} " style="visibility: {{ user_not_login }}"><i class="fa fa-user"></i>Login</a>
+                            <div class="header__top__right__auth" style="display: {{ user_not_login }}">
+                                <a href="{% url 'login' %} " ><i class="fa fa-user"></i>Login</a>
                             </div>
                         </div>
                     </div>
@@ -165,7 +165,7 @@
                             <li><a href="./shop-grid.html">Shop</a></li>
                             <li><a href="#">Pages</a></li>
                             <li><a href="./blog.html">Blog</a></li>
-                            <li><a href="./contact.html">Contact</a></li>
+                            <li><a href="{% url 'contact' %}">Contact</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -173,9 +173,9 @@
                     <div class="header__cart">
                         <ul>
                             <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-                            <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3{{order.get_cart_item}}</span></a></li>
+                            <li><a href="{% url 'cart' %}"><i class="fa fa-shopping-bag"></i> <span>{{order.get_cart_item}}</span></a></li>
                         </ul>
-                        <div class="header__cart__price">Item: <span>{{order.get_cart_total}}</span></div>
+                        <div class="header__cart__price">Item: <span>{{order.get_cart_total | floatformat:2}}</span></div>
                     </div>
                 </div>
             </div>
@@ -187,7 +187,7 @@
     <!-- Header Section End -->
 
     <!-- Hero Section Begin -->
-    <section class="hero">
+    <section class="hero hero-normal">
         <div class="container">
             <div class="row">
                 <div class="col-lg-3">
@@ -203,11 +203,12 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-lg-9">
+                <div class="col-lg-9 " style="height: {{ fixed_height }}">
                     <div class="hero__search">
                         <div class="hero__search__form">
-                            <form action="#">
-                                <input type="text" placeholder="What do yo u need?">
+                            <form method="POST" action="{% url 'search' %}">
+                                {% csrf_token %}
+                                <input type="text" placeholder="What do yo u need?" name="searched"    >
                                 <button type="submit" class="site-btn">SEARCH</button>
                             </form>
                         </div>
@@ -221,7 +222,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="hero__item set-bg" data-setbg="{% static 'app/images/icbars.png' %}">
+                    {% for foo in slide %}
+                    <div class="hero__item set-bg" style="visibility: {{ slide_hidden }}"  data-setbg="{% static 'app/images/icbars.png' %}">
                         <div class="hero__text">
                             <span>FRUIT FRESH</span>
                             <h2>Vegetable <br />100% Organic</h2>
@@ -229,6 +231,9 @@
                             <a href="#" class="primary-btn">SHOP NOW</a>
                         </div>
                     </div>
+                    {% endfor %}
+
+
                 </div>
             </div>
         </div>
@@ -243,28 +248,73 @@
           {% block login_content %}{% endblock login_content %}
           {% block category_context %} {% endblock category_context %}
           {% block information %}{% endblock information %}
+          {% block blog_winshop %}{% endblock blog_winshop %}
           <!--footer-->
-          <footer class="footer bg-dark text-white mt-5">
-            <div class="container">
-              <div class="row">
-                <div class="col-md-6">
-                  <h3>Thông tin liên hệ</h3>
-                  <p>Địa chỉ: 123 đường ABC, Thành phố XYZ</p>
-                  <p>Email: info@example.com</p>
-                  <p>Số điện thoại: 123-456-789</p>
+          <footer class="footer spad">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="footer__about">
+                        <div class="footer__about__logo">
+                            <a href="{% url 'home' %}"><img src="{% static 'app/images/logo.png' %}" alt=""></a>
+                        </div>
+                        <ul>
+                            <li>Address: 60-49 Road 11378 New York</li>
+                            <li>Phone: +65 11.188.888</li>
+                            <li>Email: hello@colorlib.com</li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                  <h3>Đường dẫn nhanh</h3>
-                  <ul class="list-unstyled">
-                    <li><a href="#">Trang chủ</a></li>
-                    <li><a href="#">Giới thiệu</a></li>
-                    <li><a href="#">Sản phẩm</a></li>
-                    <li><a href="#">Liên hệ</a></li>
-                  </ul>
+                <div class="col-lg-4 col-md-6 col-sm-6 offset-lg-1">
+                    <div class="footer__widget">
+                        <h6>Useful Links</h6>
+                        <ul>
+                            <li><a href="#">About Us</a></li>
+                            <li><a href="#">About Our Shop</a></li>
+                            <li><a href="#">Secure Shopping</a></li>
+                            <li><a href="#">Delivery infomation</a></li>
+                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="#">Our Sitemap</a></li>
+                        </ul>
+                        <ul>
+                            <li><a href="#">Who We Are</a></li>
+                            <li><a href="#">Our Services</a></li>
+                            <li><a href="#">Projects</a></li>
+                            <li><a href="#">Contact</a></li>
+                            <li><a href="#">Innovation</a></li>
+                            <li><a href="#">Testimonials</a></li>
+                        </ul>
+                    </div>
                 </div>
-              </div>
+                <div class="col-lg-4 col-md-12">
+                    <div class="footer__widget">
+                        <h6>Join Our Newsletter Now</h6>
+                        <p>Get E-mail updates about our latest shop and special offers.</p>
+                        <form action="#">
+                            <input type="text" placeholder="Enter your mail">
+                            <button type="submit" class="site-btn">Subscribe</button>
+                        </form>
+                        <div class="footer__widget__social">
+                            <a href="#"><i class="fa fa-facebook"></i></a>
+                            <a href="#"><i class="fa fa-instagram"></i></a>
+                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="#"><i class="fa fa-pinterest"></i></a>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="footer__copyright">
+                        <div class="footer__copyright__text"><p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p></div>
+                        <div class="footer__copyright__payment"><img src="{% static 'app/images/payment-item.png' %}" alt=""></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     </body>
     <!-- Js Plugins -->
@@ -278,5 +328,6 @@
     <script src="{%static 'app/js/mixitup.min.js' %} "></script>
     <script src="{%static 'app/js/owl.carousel.min.js' %} "></script>
     <script src="{%static 'app/js/main.js' %} "></script>
+
 
 </html>

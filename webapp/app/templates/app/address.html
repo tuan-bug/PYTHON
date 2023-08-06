@@ -58,11 +58,11 @@
     document.getElementById('mobile').textContent = mobile;
 
     // Xóa dữ liệu đã lưu trong Local Storage (nếu muốn)
-    {#localStorage.removeItem('firstName');#}
-    {#localStorage.removeItem('address');#}
-    {#localStorage.removeItem('city');#}
-    {#localStorage.removeItem('state');#}
-    {#localStorage.removeItem('mobile');#}
+    localStorage.removeItem('firstName');
+    localStorage.removeItem('address');
+    localStorage.removeItem('city');
+    localStorage.removeItem('state');
+    localStorage.removeItem('mobile');
 </script>
 
 {% endblock content_checkout %}

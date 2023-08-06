@@ -3,19 +3,27 @@
 {% load static %}
 {% block login_content %}
     <h5 class="pt-3">Keet qua tim kiem {{ search }}</h5>
-    <div class="row g-2 pt-4" style="width:100%;">
-        {% for product in keys%}
-            <div class="col-lg-3">
-                <div class="card" style="width: 18rem;">
-                    <img src="{{product.ImageURL}}" class="img-thumbnail" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">{{product.name}}</h5>
-                        <p class="card-text"> {{product.describe}}</p>
-                        <h5 class="card-title"> ${{product.price | floatformat:2}}</h5>
-                        <button data-product={{product.id}} data-action="add" class="btn btn-primary add-btn update-btn">Add to cart</button>
+    <section class="featured spad">
+        <div class="container">
+            <div class="row featured__filter">
+                {% for product in keys %}
+                <div class="col-lg-3 col-md-4 col-sm-6 mix oranges fresh-meat">
+                    <div class="featured__item">
+                        <div class="featured__item__pic set-bg" data-setbg="{{product.ImageURL}}">
+                            <ul class="featured__item__pic__hover">
+                                <li><a href="#"><i class="fa fa-heart"></i></a></li>
+                                <li><a href="#"><i class="fa fa-retweet"></i></a></li>
+                                <li><a href="#" data-product={{product.id}} data-action="add"  class="add-btn update-btn"><i class="fa fa-shopping-cart"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="featured__item__text">
+                            <h6><a href="{% url 'detail' %}?id={{ product.id }}">{{product.name}}</a></h6>
+                            <h5>${{product.price | floatformat:2}}</h5>
+                        </div>
                     </div>
                 </div>
+                {% endfor %}
             </div>
-        {% endfor %}
-      </div>
+        </div>
+    </section>
 {% endblock login_content %}
