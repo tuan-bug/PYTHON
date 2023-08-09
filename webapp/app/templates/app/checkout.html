@@ -40,7 +40,7 @@
                                 </div>
                             </div>
                         {% endif %}
-                        <button type="submit" class="btn primary-btn btn-sm"><a style="color: white" href="{% url 'address' %}">Submit</a></button>
+                        <button id="submit-button" type="submit" class="btn primary-btn btn-sm"><a style="color: white" href="{% url 'address' %}">Submit</a></button>
                     </form>
                 </div>
             </div>
@@ -80,31 +80,29 @@
 
 
 <script>
-    $(document).ready(function () {
-        // Bắt sự kiện click vào radiobutton có class "form-check-input"
-        $('.form-check-input').on('click', function () {
-            // Lấy dữ liệu từ các thuộc tính data-*
-            var firstName = $(this).data('firstname');
-            var address = $(this).data('address');
-            var city = $(this).data('city');
-            var state = $(this).data('state');
-            var mobile = $(this).data('mobile');
+    document.addEventListener("DOMContentLoaded", function() {
+        const addressRadios = document.querySelectorAll('input[name="address"]');
+        const submitButton = document.getElementById("submit-button");
 
-            // Hiển thị thông tin lấy được từ radiobutton lên console (có thể thay đổi cách hiển thị theo ý muốn)
-            console.log("First Name: " + firstName);
-            console.log("Address: " + address);
-            console.log("City: " + city);
-            console.log("State: " + state);
-            console.log("Mobile: " + mobile);
-            // Lưu trữ dữ liệu vào Local Storage
-            localStorage.setItem('firstName', firstName);
-            localStorage.setItem('address', address);
-            localStorage.setItem('city', city);
-            localStorage.setItem('state', state);
-            localStorage.setItem('mobile', mobile);
+        submitButton.addEventListener("click", function() {
+            let selectedAddress = null;
+            addressRadios.forEach(function(radio) {
+                if (radio.checked) {
+                    selectedAddress = {
+                        firstName: radio.getAttribute("data-firstname"),
+                        address: radio.getAttribute("data-address"),
+                        city: radio.getAttribute("data-city"),
+                        state: radio.getAttribute("data-state"),
+                        mobile: radio.getAttribute("data-mobile")
+                    };
+                }
+            });
 
-            // Chuyển hướng người dùng đến trang khác
-            {#window.location.href = "address.html";#}
+            if (selectedAddress) {
+                sessionStorage.setItem("selectedAddress", JSON.stringify(selectedAddress));
+                // Chuyển hướng đến trang khác
+                window.location.href = "http://127.0.0.1:8000/address/";
+            }
         });
     });
 </script>

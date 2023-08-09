@@ -7,6 +7,10 @@ import json
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from .python.app.home import *
+from .python.app.cart import *
+from .python.admin.manage_product import *
+from .python.admin.manage_user import *
 from django import forms
 # Create your views here.
 def base(request):
@@ -47,7 +51,6 @@ def getHome(request):
                'active_category': active_category}
     return render(request, 'app/home.html', context)
 
-
 def cart(request):
     slide_hidden = "hidden"
     fixed_height = "20px"
@@ -73,8 +76,6 @@ def cart(request):
                'slide_hidden': slide_hidden,
                'fixed_height': fixed_height}
     return render(request, 'app/cart.html', context)
-
-
 
 def checkout(request):
     slide_hidden = "hidden"
@@ -130,7 +131,7 @@ def updateItem(request):
 
     if action == 'add':
         orderItem.quantity += 1
-    elif action == 'remote':
+    elif action == 'remove':
         orderItem.quantity -= 1
 
     orderItem.save()
@@ -395,7 +396,7 @@ def manageSlide(request):
 
 def manageProduct(request):
     products = Product.objects.all()
-    form = AddCategory()
+    form = AddProduct()
     context = {'products': products}
     return render(request, 'admin/managementProduct.html', context)
 
@@ -413,6 +414,31 @@ def addProduct(request):
                }
     return render(request, 'admin/addProduct.html', context)
 
+
+def editProduct(request):
+    id = request.GET.get('id', '')  # lấy id khi người dùng vlick vào sản phẩm nào đó
+    product = get_object_or_404(Product, id=id)
+    if request.method == 'POST':
+        form = AddProduct(request.POST, request.FILES, instance=product)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Category updated successfully!')
+            return redirect('manageProduct')
+    form = AddProduct(instance=product, initial={'name': product.name, 'category': product.category.values_list('id', flat=True), 'price': product.price, 'describe': product.describe, 'image': product.image})
+
+    context = {'product': product,
+               'form': form}
+    return render(request, 'admin/editProduct.html', context)
+
+def deleteProduct(request):
+    id = request.GET.get('id', '')  # lấy id khi người dùng vlick vào sản phẩm nào đó
+    product = get_object_or_404(Product, id=id)
+    if request.method == 'POST':
+        product.delete()
+        messages.success(request, 'Category deleted successfully!')
+        return redirect('manageProduct')
+    context ={'product': product}
+    return render(request, 'admin/deleteProduct.html', context)
 def contact(request):
 
     slide_hidden = "hidden"
@@ -487,26 +513,6 @@ def deleteCategory(request):
         return redirect('manageCategory')
     context ={'category': category}
     return render(request, 'admin/deleteCategory.html', context)
-def test(request):
-    context ={}
-    return render(request, 'app/test.html', context)
-class CommentForm(forms.Form):
-    # author = forms.CharField(max_length=100)
-    content = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'style': 'height:100px', 'placeholder': 'Nhập nội dung comment.....'}))
-
-class AddressForm(forms.Form):
-    address = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'placeholder': 'Adress.....', 'class': 'form-control'}) )
-    city = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'placeholder': 'City.....', 'class': 'form-control'}))
-    state = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'placeholder': 'State.....', 'class': 'form-control'}))
-    mobile = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'placeholder': 'Mobile.....', 'class': 'form-control'}))
-
-
-class CreateUserForm(forms.Form):
-        username = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'placeholder': 'Username.....', 'class': 'form-control'}) )
-        email = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'placeholder': 'Email.....', 'class': 'form-control'}) )
-        first_name = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'placeholder': 'Fist name.....', 'class': 'form-control'}) )
-        last_name = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'placeholder': 'Last name.....', 'class': 'form-control'}) )
-        password1 = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'placeholder': 'Password.....', 'class': 'form-control'}) )
-        password2 = forms.CharField(max_length=200,widget=forms.TextInput(attrs={'placeholder': 'Confix pasword.....', 'class': 'form-control'}))
-
+def manageUser(request):
+    return manageUser(request)
 

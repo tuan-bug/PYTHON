@@ -1,13 +1,7 @@
 
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse, JsonResponse
-import json
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import authenticate, login, logout
-from django.contrib import messages
-from django import forms
 
-from ..models import *
+from app.models import *
 
 
 def base(request):

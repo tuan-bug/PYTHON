@@ -16,14 +16,21 @@ urlpatterns = [
     path('detail/', views.detail, name="detail"),
     path('address/', views.Continue1, name="address"),
     path('information/', views.Information, name="information"),
+    path('contact/', views.contact, name="contact"),
+
+    # phan admin
     path('manage/', views.Manage, name="manage"),
     path('manageSlide/', views.manageSlide, name="manageSlide"),
+
     path('manageProduct/', views.manageProduct, name="manageProduct"),
     path('addProduct/', views.addProduct, name="addProduct"),
+    path('editProduct/', views.editProduct, name="editProduct"),
+    path('deleteProduct/', views.deleteProduct, name="deleteProduct"),
+
     path('manageCategory/', views.manageCategory, name="manageCategory"),
     path('addCategory/', views.addCategory, name="addCategory"),
     path('editCategory/', views.editCategory, name="editCategory"),
     path('deleteCategory/', views.deleteCategory, name="deleteCategory"),
-    path('test/', views.test, name="test"),
-    path('contact/', views.contact, name="contact"),
+
+    path('manageUser/', views.manageUser, name="manageUser"),
 ]

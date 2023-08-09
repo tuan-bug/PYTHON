@@ -34,22 +34,3 @@ function updateUserOrder(productId, action){
         location.reload();
     })
 }
-
-$(document).ready(function () {
-        // Bắt sự kiện click vào radiobutton có class "form-check-input"
-        $('.form-check-input').on('click', function () {
-            // Lấy dữ liệu từ các thuộc tính data-*
-            var firstName = $(this).data('firstname');
-            var address = $(this).data('address');
-            var city = $(this).data('city');
-            var state = $(this).data('state');
-            var mobile = $(this).data('mobile');
-
-            // Hiển thị thông tin lấy được từ radiobutton lên console (có thể thay đổi cách hiển thị theo ý muốn)
-            console.log("First Name: " + firstName);
-            console.log("Address: " + address);
-            console.log("City: " + city);
-            console.log("State: " + state);
-            console.log("Mobile: " + mobile);
-        });
-    });

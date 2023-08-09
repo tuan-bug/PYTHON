@@ -118,3 +118,37 @@ class AddCategory(forms.ModelForm):
             'name': forms.TextInput(attrs={'class': 'form-control'}),
             'slug': forms.TextInput(attrs={'class': 'form-control'}),
         }
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['user', 'product', 'title']
+        widgets = {
+            'name': forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'style': 'height:100px', 'placeholder': 'Nhập nội dung comment.....'})),
+        }
+
+class AddressForm(forms.ModelForm):
+    class Meta:
+        model = Adress
+        fields = ['customer', 'adress', 'city', 'state', 'mobile']
+        widgets = {
+            'customer': forms.TextInput(attrs={'class': 'form-control'}),
+            'adress': forms.TextInput(attrs={'class': 'form-control'}),
+            'city': forms.TextInput(attrs={'class': 'form-control'}),
+            'state': forms.TextInput(attrs={'class': 'form-control'}),
+            'mobile': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+class CreateUserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'first_name', 'last_name', 'password']
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.TextInput(attrs={'class': 'form-control'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'password': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+

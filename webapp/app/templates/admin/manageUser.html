@@ -2,7 +2,7 @@
 {% load static %}
 {% block blog-product %}
     <div class="container mt-4">
-       <h2>Quản lý sản phẩm</h2>
+       <h2>Quản lý thành viên</h2>
     <div class="text-right mb-3">
        <button style="border: none;" class="primary-btn" data-toggle="modal" ><a href="{% url 'addProduct' %}">Thêm sản phẩm</a></button>
   </div>
@@ -15,30 +15,34 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Ảnh</th>
-                                    <th>Tên Sản Phẩm</th>
-                                    <th>Giá</th>
+                                    <th>Tên Đăng Nhập</th>
+                                    <th>Email</th>
+                                    <th>Họ</th>
+                                    <th>Tên</th>
                                     <th>Thao Tác</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for product in products %}
+                                {% for user in users %}
                                 <tr>
                                     <td>
-                                        {{ product.id }}
+                                        {{ user.id }}
                                     </td>
                                     <td>
-                                        <img style="height: 100px" src="{{ product.ImageURL }}" alt="">
+                                        {{ user.username }}
                                     </td>
                                     <td>
-                                        {{ product.name }}
+                                        {{ user.email }}
                                     </td>
                                     <td>
-                                        {{ product.price }}
+                                        {{ user.last_name }}
+                                    </td>
+                                    <td>
+                                        {{ user.first_name }}
                                     </td>
                                     <td>
                                         <a href="{% url 'editProduct' %}?id={{ product.id }}" class="btn btn-primary btn-sm">Sửa</a>
-                                        <a href="{% url 'deleteProduct' %}?id={{ product.id }}" class="btn btn-danger btn-sm">Xóa</a>
+                                        <a href="{% url 'deleteCategory' %}?id={{ product.id }}" class="btn btn-danger btn-sm">Xóa</a>
                                     </td>
                                 </tr>
                                 {% endfor %}
