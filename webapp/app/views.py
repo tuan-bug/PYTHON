@@ -48,10 +48,6 @@ def getHome(request):
     return render(request, 'app/home.html', context)
 
 
-# def getSlide(request):
-#     slide = Slide.objects.all()
-#     return register(request, 'app/base.html', slide)
-
 def cart(request):
     slide_hidden = "hidden"
     fixed_height = "20px"
@@ -136,7 +132,7 @@ def updateItem(request):
         orderItem.quantity += 1
     elif action == 'remote':
         orderItem.quantity -= 1
-        
+
     orderItem.save()
     if orderItem.quantity <= 0:
         orderItem.delete()
@@ -398,9 +394,24 @@ def manageSlide(request):
 
 
 def manageProduct(request):
-    context ={}
+    products = Product.objects.all()
+    form = AddCategory()
+    context = {'products': products}
     return render(request, 'admin/managementProduct.html', context)
 
+def addProduct(request):
+    form = AddProduct()
+    if request.method == 'POST':
+        form = AddProduct(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Product saved successfully!')
+            return redirect('manageProduct')
+
+    context = {'form': form,
+               'messages': messages,
+               }
+    return render(request, 'admin/addProduct.html', context)
 
 def contact(request):
 
@@ -434,9 +445,48 @@ def contact(request):
     return render(request, 'app/contact.html', context)
 
 def manageCategory(request):
-    context ={}
+    categories = Category.objects.all()  # lay cac damh muc lon
+    context ={'categories': categories}
     return render(request, 'admin/managementCategory.html', context)
+def addCategory(request):
+    form = AddCategory()
+    if request.method == 'POST':
+        form = AddCategory(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Category saved successfully!')
+            return redirect('manageCategory')
 
+    context = {'form': form,
+               'messages': messages,
+               }
+    return render(request, 'admin/addCategory.html', context)
+
+def editCategory(request):
+    id = request.GET.get('id', '')  # lấy id khi người dùng vlick vào sản phẩm nào đó
+    category = get_object_or_404(Category, id=id)
+    if request.method == 'POST':
+        form = AddCategory(request.POST, request.FILES, instance=category)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Category updated successfully!')
+            return redirect('manageCategory')
+    form = AddCategory(instance=category, initial={'sub_category': category.sub_category, 'is_sub': category.is_sub,
+                                                   'name': category.name, 'slug': category.slug, 'image': category.image})
+
+    context = {'category': category,
+               'form': form}
+    return render(request, 'admin/editCategory.html', context)
+
+def deleteCategory(request):
+    id = request.GET.get('id', '')  # lấy id khi người dùng vlick vào sản phẩm nào đó
+    category = get_object_or_404(Category, id=id)
+    if request.method == 'POST':
+        category.delete()
+        messages.success(request, 'Category deleted successfully!')
+        return redirect('manageCategory')
+    context ={'category': category}
+    return render(request, 'admin/deleteCategory.html', context)
 def test(request):
     context ={}
     return render(request, 'app/test.html', context)
@@ -458,4 +508,5 @@ class CreateUserForm(forms.Form):
         last_name = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'placeholder': 'Last name.....', 'class': 'form-control'}) )
         password1 = forms.CharField(max_length=200, widget=forms.TextInput(attrs={'placeholder': 'Password.....', 'class': 'form-control'}) )
         password2 = forms.CharField(max_length=200,widget=forms.TextInput(attrs={'placeholder': 'Confix pasword.....', 'class': 'form-control'}))
+
 

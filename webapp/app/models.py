@@ -1,9 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django import forms
 from rest_framework import serializers
 from django.contrib.auth.forms import UserCreationForm
-
-
 class Category(models.Model):
     sub_category = models.ForeignKey('self', on_delete=models.CASCADE, related_name='sub_categories', null=True, blank=True)
     is_sub = models.BooleanField(default=False)
@@ -97,3 +96,25 @@ class Comment(models.Model):
     def __str__(self):
         return self.user.last_name
 # Create your models here.
+
+
+
+class AddProduct(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ['name', 'category', 'price', 'describe', 'digital', 'image']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'describe': forms.TextInput(attrs={'class': 'form-control'}),
+            'price': forms.TextInput(attrs={'class': 'form-control'}),
+            'category': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input, d-flex'}),
+        }
+
+class AddCategory(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['sub_category', 'is_sub', 'name', 'slug', 'image']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'slug': forms.TextInput(attrs={'class': 'form-control'}),
+        }
