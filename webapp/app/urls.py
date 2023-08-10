@@ -17,6 +17,7 @@ urlpatterns = [
     path('address/', views.Continue1, name="address"),
     path('information/', views.Information, name="information"),
     path('contact/', views.contact, name="contact"),
+    path('information_address/', views.information_address, name="information_address"),
 
     # phan admin
     path('manage/', views.Manage, name="manage"),

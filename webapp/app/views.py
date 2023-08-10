@@ -363,12 +363,12 @@ def Information(request):
     fixed_height = "20px"
     if request.user.is_authenticated:
         user = request.user
-
+        address_infor = Adress.objects.filter(customer=user)
     user_address = None
     if request.method == 'POST':
         form = AddressForm(request.POST)
         if form.is_valid():
-            address = form.cleaned_data['address']
+            address = form.cleaned_data['adress']
             city = form.cleaned_data['city']
             state = form.cleaned_data['state']
             mobile = form.cleaned_data['mobile']
@@ -378,12 +378,24 @@ def Information(request):
         form = AddressForm()
     context = {'user': user,
                'form': form,
+               'address_infor': address_infor,
                'user_address': user_address,
                'slide_hidden': slide_hidden,
                'fixed_height': fixed_height,
                }
     return render(request, 'app/information.html', context)
 
+
+def information_address(request):
+    slide_hidden = "hidden"
+    fixed_height = "20px"
+    if request.user.is_authenticated:
+        user = request.user
+        address_infor = Adress.objects.filter(customer=user)
+    context = {'address_infor': address_infor,
+               'fixed_height': fixed_height,
+               'slide_hidden': slide_hidden}
+    return render(request, 'app/information_address.html', context)
 
 def Manage(request):
     context ={}
