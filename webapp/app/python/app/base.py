@@ -1,5 +1,4 @@
-
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render
 
 from app.models import *
 
@@ -14,6 +13,7 @@ def base(request):
     return render(request, 'app/base.html', context)
 
 def getHome(request):
+    #return getHome(request)
     products = Product.objects.all()
     slide = Slide.objects.all()
     if request.user.is_authenticated:

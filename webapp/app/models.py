@@ -81,10 +81,12 @@ class OrderItem(models.Model):
         return total
 class Adress(models.Model):
     customer = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    name_user = models.CharField(max_length=200, null=True)
     adress = models.CharField(max_length=200, null=True)
     city = models.CharField(max_length=200, null=True)
-    state = models.CharField(max_length=200, null=True)
     mobile = models.CharField(max_length=200, null=True)
+    district = models.CharField(max_length=200, null=True)
+    commune = models.CharField(max_length=200, null=True)
     date_added = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return self.customer.username
@@ -130,13 +132,16 @@ class CommentForm(forms.ModelForm):
 class AddressForm(forms.ModelForm):
     class Meta:
         model = Adress
-        fields = ['customer', 'adress', 'city', 'state', 'mobile']
+        fields = ['customer', 'name_user', 'adress', 'city', 'mobile', 'district', 'commune']
         widgets = {
             'customer': forms.TextInput(attrs={'class': 'form-control'}),
-            'adress': forms.TextInput(attrs={'class': 'form-control'}),
-            'city': forms.TextInput(attrs={'class': 'form-control'}),
-            'state': forms.TextInput(attrs={'class': 'form-control'}),
+            'name_user': forms.TextInput(attrs={'class': 'form-control'}),
             'mobile': forms.TextInput(attrs={'class': 'form-control'}),
+            'city': forms.TextInput(attrs={'class': 'form-control'}),
+            'district': forms.TextInput(attrs={'class': 'form-control'}),
+            'commune': forms.TextInput(attrs={'class': 'form-control'}),
+            'adress': forms.TextInput(attrs={'class': 'form-control'}),
+
         }
 
 class CreateUserForm(forms.ModelForm):

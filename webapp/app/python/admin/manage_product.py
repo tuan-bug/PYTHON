@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 
-from app.models import Product, AddCategory, AddProduct, Category
+from app.models import *
 
 
 def manageProduct(request):

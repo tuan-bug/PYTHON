@@ -3,7 +3,7 @@
 {% block information %}
     <div class="container mt-5">
     <div class="row">
-      <div class="col-md-5">
+      <div class="col-md-4">
         <!-- Thông tin người dùng -->
         <div class="card">
           <img src="path_to_user_image.jpg" class="card-img-top" alt="User Image">
@@ -13,44 +13,38 @@
               <p class="card-text">Email người dùng: {{ user.email }} </p>
               <p class="card-text">Fist name:{{ user.first_name }} </p>
               <p class="card-text">Last name: {{ user.last_name }} </p>
-                  {% for address in address_infor %}
-                      <p class="card-text">Địa chỉ: {{ address.adress }} - {{ address.city }} - {{ address.state }} - {{ address.mobile }}
-                      <br>
-                  {% endfor %}
-              </p>
             <!-- Các liên kết xử lý khác cho người dùng -->
-            <a href="#" class="btn btn-primary">Chỉnh sửa thông tin</a>
+             <a href="#" class="btn btn-primary">Chỉnh sửa thông tin</a>
           </div>
         </div>
       </div>
-      <div class="col-md-7">
+      <div class="col-md-8">
         <!-- Hiển thị danh sách bài đăng hoặc thông tin người dùng khác -->
         <div class="card">
+        <div class="d-flex justify-content-md-between p-2">
+            <h4>Địa chỉ của tôi</h4>
+            <div class="text-right mb-3">
+               <button style="border: none;" class="primary-btn" data-toggle="modal" ><a style="color: white" href="{% url 'addAddress' %}">Thêm địa chỉ</a></button>
+            </div>
+        </div>
           <div class="card-body">
-            <!-- Nội dung trang thông tin người dùng -->
-            <form id="form" method="POST" action="">
-                    {% csrf_token %}
-					<div id="shipping-info">
-						<h4>Thêm địa chỉ:</h4>
-						<div class="form-field pt-3">
-                            Địa chỉ:
-                            {{ form.adress }}
-						</div>
-						<div class="form-field pt-3">
-                            Thành phố:
-                            {{ form.city }}
-						</div>
-						<div class="form-field pt-3">
-                            CHi tiết:
-                            {{ form.state }}
-						</div>
-						<div class="form-field pt-3 pb-5">
-                            Số điện thoại:
-                            {{ form.mobile }}
-						</div>
-					</div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-				</form>
+              {% for foo in address_infor %}
+                  <div class="d-flex justify-content-md-between">
+                    <div class="col-md-6">
+                        <strong>Địa chỉ</strong>
+                        <address>
+                            {{ foo.name_user }} |  {{ foo.mobile}} <br>
+                            {{ foo.commune }} - {{ foo.district }} - {{ foo.city }}<br>
+                            {{ foo.adress }}<br>
+                        </address>
+                    </div>
+                    <div>
+                        <a href="{% url 'editAddress' %}?id={{ foo.id }}" class="btn btn-primary btn-sm">Sửa</a>
+                        <a href="{% url 'deleteAddress' %}?id={{ foo.id }}" class="btn btn-danger btn-sm">Xóa</a>
+                    </div>
+                  </div>
+
+                {% endfor %}
           </div>
         </div>
       </div>

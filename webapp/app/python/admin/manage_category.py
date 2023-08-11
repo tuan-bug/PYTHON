@@ -47,4 +47,3 @@ def deleteCategory(request):
         return redirect('manageCategory')
     context ={'category': category}
     return render(request, 'admin/deleteCategory.html', context)
-

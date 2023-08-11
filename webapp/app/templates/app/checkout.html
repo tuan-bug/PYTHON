@@ -24,21 +24,6 @@
                                 {% endfor %}
                             </div>
                         {% else %}
-                            <div id="shipping-info" class="form_hidden">
-                                <h4>Shipping Information:</h4>
-                                <div class="form-field pt-3">
-                                    {{ form.address }}
-                                </div>
-                                <div class="form-field pt-3">
-                                    {{ form.city }}
-                                </div>
-                                <div class="form-field pt-3">
-                                    {{ form.state }}
-                                </div>
-                                <div class="form-field pt-3 pb-5">
-                                    {{ form.mobile }}
-                                </div>
-                            </div>
                         {% endif %}
                         <button id="submit-button" type="submit" class="btn primary-btn btn-sm"><a style="color: white" href="{% url 'address' %}">Submit</a></button>
                     </form>

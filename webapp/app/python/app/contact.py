@@ -3,7 +3,8 @@ from django.shortcuts import render
 from app.models import *
 
 
-def cart(request):
+def contact(request):
+
     slide_hidden = "hidden"
     fixed_height = "20px"
     if request.user.is_authenticated:
@@ -20,11 +21,16 @@ def cart(request):
         user_not_login = "show"
         user_login = "none"
     categories = Category.objects.filter(is_sub=False)  # lay cac damh muc lon
-    context = {'items': items,
-               'order': order,
-               'user_login': user_login,
-               'user_not_login': user_not_login,
-               'categories':categories,
-               'slide_hidden': slide_hidden,
-               'fixed_height': fixed_height}
-    return render(request, 'app/cart.html', context)
+    active_category = request.GET.get('category', '')
+
+    context ={
+        'categories': categories,
+        'order': order,
+        'items': items,
+        'user_login': user_login,
+        'user_not_login': user_not_login,
+        'slide_hidden': slide_hidden,
+        'fixed_height': fixed_height,
+        }
+    return render(request, 'app/contact.html', context)
+
