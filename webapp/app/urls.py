@@ -29,7 +29,7 @@ urlpatterns = [
     path('addProduct/', views.addProduct, name="addProduct"),
     path('editProduct/', views.editProduct, name="editProduct"),
     path('deleteProduct/', views.deleteProduct, name="deleteProduct"),
-
+    path('viewProduct/', views.viewProduct, name="viewProduct"),
     path('manageCategory/', views.manageCategory, name="manageCategory"),
     path('addCategory/', views.addCategory, name="addCategory"),
     path('editCategory/', views.editCategory, name="editCategory"),

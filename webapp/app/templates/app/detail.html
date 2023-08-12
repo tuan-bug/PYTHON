@@ -12,16 +12,6 @@
                             <img class="product__details__pic__item--large"
                                 src="{{products.ImageURL}}" alt="">
                         </div>
-{#                        <div class="product__details__pic__slider owl-carousel">#}
-{#                            <img data-imgbigurl="img/product/details/product-details-2.jpg"#}
-{#                                src="img/product/details/thumb-1.jpg" alt="">#}
-{#                            <img data-imgbigurl="img/product/details/product-details-3.jpg"#}
-{#                                src="img/product/details/thumb-2.jpg" alt="">#}
-{#                            <img data-imgbigurl="img/product/details/product-details-5.jpg"#}
-{#                                src="img/product/details/thumb-3.jpg" alt="">#}
-{#                            <img data-imgbigurl="img/product/details/product-details-4.jpg"#}
-{#                                src="img/product/details/thumb-4.jpg" alt="">#}
-{#                        </div>#}
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6">
@@ -38,11 +28,6 @@
                         <div class="product__details__price">${{products.price | floatformat:2}}</div>
                         <p>{{products.describe}}</p>
                         <div class="product__details__quantity">
-{#                            <div class="quantity">#}
-{#                                <div class="pro-qty">#}
-{#                                    <input type="text" value="1">#}
-{#                                </div>#}
-{#                            </div>#}
                         </div>
                         <button style="border: none" data-product={{products.id}} data-action="add" class="primary-btn add-btn update-btn ">ADD TO CARD</button>
                         <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
@@ -66,7 +51,7 @@
                         <div class="tab-content form-outline w-100">
                             <form  method="POST" action="">
                                 {% csrf_token %}
-                                {{ form.content }}
+                                {{ form.title }}
 {#                                <button name="comment"  type="submit"  class="btn btn-primary">Gửi</button>#}
                                 <div class="float-end mt-2 pt-1">
                                     <button name="comment" type="submit" class="btn primary-btn btn-sm">Post comment</button>
@@ -82,8 +67,8 @@
                                     <div class="ml-3">
                                         <h6 class="fw-bold">{{ comment.user.first_name }}</h6>
                                             <div class="d-flex align-items-center">
-                                                <p class="mb-0">
-                                                    March 07, 2021 {{ comment.date }}
+                                                <p style="font-size: 11px; font-weight: bold;" class="mb-0">
+                                                    {{ comment.date }}
                                                 </p>
                                             </div>
                                         <p class="mb-0">{{ comment.title }}</p>

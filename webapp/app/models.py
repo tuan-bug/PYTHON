@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django import forms
+from django.utils import timezone
 from rest_framework import serializers
 from django.contrib.auth.forms import UserCreationForm
 class Category(models.Model):
@@ -38,9 +39,12 @@ class Product(models.Model):
     name = models.CharField(max_length=200, null=True)
     category = models.ManyToManyField(Category, related_name='product_category')
     price = models.FloatField()
+    price_sale = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     describe = models.CharField(max_length=300, null=True)
     digital = models.BooleanField(default=False, null=True, blank=False)
     image = models.ImageField(null=True, blank=True)
+    unit = models.CharField(max_length=50, null=True, blank=True)
+    count = models.IntegerField(default=0)
     def __str__(self):
         return self.name
     @property
@@ -89,27 +93,29 @@ class Adress(models.Model):
     commune = models.CharField(max_length=200, null=True)
     date_added = models.DateTimeField(auto_now_add=True)
     def __str__(self):
-        return self.customer.username
+        return self.name_user
 
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, blank=True)
     title = models.TextField(null=True, blank=False)
+    date = models.DateTimeField(default=timezone.now, blank=True, null=True)
     def __str__(self):
         return self.user.last_name
 # Create your models here.
 
-
-
 class AddProduct(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ['name', 'category', 'price', 'describe', 'digital', 'image']
+        fields = ['name', 'category', 'price', 'price_sale', 'describe', 'digital', 'image', 'unit', 'count']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'describe': forms.TextInput(attrs={'class': 'form-control'}),
+            'describe': forms.Textarea(attrs={'class': 'form-control', 'style': 'height: 150px'}),
             'price': forms.TextInput(attrs={'class': 'form-control'}),
+            'price_sale': forms.TextInput(attrs={'class': 'form-control'}),
             'category': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input, d-flex'}),
+            'unit': forms.TextInput(attrs={'class': 'form-control'}),
+            'count': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
 class AddCategory(forms.ModelForm):
@@ -126,7 +132,7 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ['user', 'product', 'title']
         widgets = {
-            'name': forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'style': 'height:100px', 'placeholder': 'Nhập nội dung comment.....'})),
+            'title': forms.Textarea(attrs={'class': 'form-control', 'style': 'height:100px', 'placeholder': 'Nhập nội dung comment.....'}),
         }
 
 class AddressForm(forms.ModelForm):

@@ -5,6 +5,13 @@ from app.models import *
 
 
 def deleteAddress(request):
+    check_staff = request.user
+    if check_staff.is_staff:
+        print('admin')
+        show_manage = 'show'
+    else:
+        print('not admin')
+        show_manage = 'none'
     id = request.GET.get('id', '')  # lấy id khi người dùng vlick vào sản phẩm nào đó
     address = get_object_or_404(Adress, id=id)
     if request.method == 'POST':
@@ -14,6 +21,13 @@ def deleteAddress(request):
     return render(request, 'app/delete_address.html', context)
 
 def addAddress(request):
+    check_staff = request.user
+    if check_staff.is_staff:
+        print('admin')
+        show_manage = 'show'
+    else:
+        print('not admin')
+        show_manage = 'none'
     slide_hidden = "hidden"
     fixed_height = "20px"
     form = AddressForm()
@@ -42,12 +56,22 @@ def addAddress(request):
                'messages': messages,
                'slide_hidden': slide_hidden,
                'fixed_height': fixed_height,
+               'show_manage': show_manage,
                }
     return render(request, 'app/add_address.html', context)
 
 def editAddress(request):
     slide_hidden = "hidden"
     fixed_height = "20px"
+    # check xem phải admin không
+    check_staff = request.user
+    if check_staff.is_staff:
+        print('admin')
+        show_manage = 'show'
+    else:
+        print('not admin')
+        show_manage = 'none'
+
     id = request.GET.get('id', '')
     address_user = get_object_or_404(Adress, id=id)
     if request.method == 'POST':
@@ -79,5 +103,6 @@ def editAddress(request):
     context = {'form': form,
                'slide_hidden': slide_hidden,
                'fixed_height': fixed_height,
+               'show_manage': show_manage,
                }
     return render(request, 'app/edit_address.html', context)

@@ -138,7 +138,7 @@
                                 <!-- Dropdown Menu -->
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <a class="dropdown-item" href="{% url 'information' %}">Thông tin</a>
-                                    <a class="dropdown-item" href="{% url 'information_address' %}">Địa chỉ</a>
+                                    <a style="display: {{ show_manage }}" class="dropdown-item" href="{% url 'manage' %}">Trang quản trị</a>
                                     <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
                                     <!-- Add more options as needed -->
                                 </div>

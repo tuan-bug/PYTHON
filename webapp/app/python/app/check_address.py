@@ -7,9 +7,17 @@ from app.models import *
 def Continue1(request):
     slide_hidden = "hidden"
     fixed_height = "20px"
+    check_staff = request.user
+    if check_staff.is_staff:
+        print('admin')
+        show_manage = 'show'
+    else:
+        print('not admin')
+        show_manage = 'none'
     # lấy các sản phẩm
     if request.user.is_authenticated:
         customer = request.user
+
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
         user_not_login = "none"
@@ -53,5 +61,6 @@ def Continue1(request):
                'messages': messages,
                'slide_hidden': slide_hidden,
                'fixed_height': fixed_height,
+               'show_manage': show_manage
                }
     return render(request, 'app/address.html', context)

@@ -4,6 +4,13 @@ from app.models import *
 
 
 def checkout(request):
+    check_staff = request.user
+    if check_staff.is_staff:
+        print('admin')
+        show_manage = 'show'
+    else:
+        print('not admin')
+        show_manage = 'none'
     slide_hidden = "hidden"
     fixed_height = "20px"
     categories = Category.objects.filter(is_sub=False)  # lấy các danh mục lớn
@@ -42,6 +49,7 @@ def checkout(request):
                'form_show': form_show,
                'slide_hidden': slide_hidden,
                'fixed_height': fixed_height,
+               'show_manage': show_manage,
                }
     return render(request, 'app/checkout.html', context)
 

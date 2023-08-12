@@ -34,7 +34,12 @@ def editProduct(request):
             form.save()
             messages.success(request, 'Category updated successfully!')
             return redirect('manageProduct')
-    form = AddProduct(instance=product, initial={'name': product.name, 'category': product.category.values_list('id', flat=True), 'price': product.price, 'describe': product.describe, 'image': product.image})
+    form = AddProduct(instance=product,
+                      initial={'name': product.name,
+                               'category': product.category.values_list('id', flat=True),
+                               'price': product.price,
+                               'describe': product.describe,
+                               'image': product.image})
 
     context = {'product': product,
                'form': form}
@@ -49,3 +54,11 @@ def deleteProduct(request):
         return redirect('manageProduct')
     context ={'product': product}
     return render(request, 'admin/deleteProduct.html', context)
+
+def viewProduct(request):
+    id = request.GET.get('id', '')  # lấy id khi người dùng vlick vào sản phẩm nào đó
+    user = request.user
+    print(user)
+    product = get_object_or_404(Product, id=id)
+    context = {'product': product}
+    return render(request, 'admin/view_product.html', context)

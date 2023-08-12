@@ -1,13 +1,17 @@
 from django.shortcuts import render
 
 from app.models import *
-
-
+from app.python.app.base import show_manage
 def Information(request):
     slide_hidden = "hidden"
     fixed_height = "20px"
-    user_not_login = "none"
-    user_login = "show"
+    check_staff = request.user
+    if check_staff.is_staff:
+        print('admin')
+        show_manage = 'show'
+    else:
+        print('not admin')
+        show_manage = 'none'
     if request.user.is_authenticated:
         user = request.user
         address_infor = Adress.objects.filter(customer=user)
@@ -48,5 +52,6 @@ def Information(request):
                'user_login': user_login,
                'items': items,
                'order': order,
+               'show_manage': show_manage,
                }
     return render(request, 'app/information.html', context)

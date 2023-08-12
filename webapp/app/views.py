@@ -21,6 +21,6 @@ from .python.admin.manage import Manage
 from .python.admin.manage_slide import manageSlide
 from .python.admin.manage_user import manageUser
 from .python.admin.manage_category import manageCategory, addCategory, editCategory, deleteCategory
-from .python.admin.manage_product import manageProduct, addProduct, editProduct, deleteProduct
+from .python.admin.manage_product import manageProduct, addProduct, editProduct, deleteProduct, viewProduct
 
 

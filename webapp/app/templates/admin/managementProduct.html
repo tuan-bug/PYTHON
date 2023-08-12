@@ -37,6 +37,7 @@
                                         {{ product.price }}
                                     </td>
                                     <td>
+                                        <a style="h" href="{% url 'viewProduct' %}?id={{ product.id }}" class="btn btn-primary btn-sm">Xem</a>
                                         <a href="{% url 'editProduct' %}?id={{ product.id }}" class="btn btn-primary btn-sm">Sửa</a>
                                         <a href="{% url 'deleteProduct' %}?id={{ product.id }}" class="btn btn-danger btn-sm">Xóa</a>
                                     </td>
