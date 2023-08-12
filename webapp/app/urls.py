@@ -1,10 +1,13 @@
 from django.contrib import admin
 from django.urls import path
 from . import views
+from .views import *
 
 urlpatterns = [
     path('base/', views.base, name="base"),
     path('', views.getHome, name="home"),
+    path('shop/', views.shop, name="shop"),
+    path('blog/', views.blog, name="blog"),
     path('cart/', views.cart, name="cart"),
     path('checkout/', views.checkout, name="checkout"),
     path('update_item/', views.updateItem, name="update_item"),
@@ -36,4 +39,12 @@ urlpatterns = [
     path('deleteCategory/', views.deleteCategory, name="deleteCategory"),
 
     path('manageUser/', views.manageUser, name="manageUser"),
+
+
+    #API
+    path('api/products/', CreateProductAPI.as_view(), name='create-product-api'),
+    path('api/productsl/<int:pk>/', UpdateProductAPI.as_view(), name='update-product-api'),
+    path('api/category/', CreateCategoryAPI.as_view(), name='create-category-ap'),
+    path('api/categorysl/<int:pk>/', UpdateCategoryAPI.as_view(), name='update-category-api'),
+
 ]
