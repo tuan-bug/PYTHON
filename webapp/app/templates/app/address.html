@@ -2,10 +2,11 @@
 {% extends 'app/base.html' %}
 {% load static %}
 {% block content_checkout %}
-    <div class="container">
+    <div class="container align-items-center">
         <div class="row" style="width:100%">
-            <div class="col-md-12">
-            <h2>THANH TOÁN</h2>
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+            <h3 class="text-center">THANH TOÁN</h3>
                 <div class="box-element" id="form-wrapper">
                     <div id="shipping-info">
                         <p id="selected-address"></p>
@@ -15,7 +16,6 @@
                     <table class="table table-borderless">
                         <thead>
                           <tr>
-                            <th>Ảnh</th>
                             <th>Sản phẩm</th>
                             <th>Đơn Giá</th>
                             <th>Số lượng</th>
@@ -25,7 +25,6 @@
                         <tbody>
                           {% for item in items %}
                           <tr>
-                            <td> <img style="height: 80px; width: auto;" src="{{item.product.ImageURL}}"/> </td>
                             <td>{{item.product.name}}</td>
                             <td>${{item.product.price}}</td>
                             <td>{{item.quantity}}</td>
@@ -35,8 +34,8 @@
                           {% endfor %}
                         </tbody>
                       </table>
-                      <div class="text-right">
-                        <h4>Tổng cộng: ${{order.get_cart_total | floatformat:2}}</h4>
+                      <div class="">
+                        <h5> <b> Tổng cộng:</b>  ${{order.get_cart_total | floatformat:2}}</h5>
                       </div>
                 </div>
             </div>
@@ -44,43 +43,18 @@
     </div>
 
     <script>
-    {#// Lấy dữ liệu từ Local Storage#}
-    {#var firstName = localStorage.getItem('firstName');#}
-    {#var address = localStorage.getItem('address');#}
-    {#var city = localStorage.getItem('city');#}
-    {#var state = localStorage.getItem('state');#}
-    {#var mobile = localStorage.getItem('mobile');#}
-    {##}
-    {#// Hiển thị thông tin lên trang#}
-    {#document.getElementById('firstName').textContent = firstName;#}
-    {#document.getElementById('address').textContent = address;#}
-    {#document.getElementById('city').textContent = city;#}
-    {#document.getElementById('state').textContent = state;#}
-    {#document.getElementById('mobile').textContent = mobile;#}
+        document.addEventListener("DOMContentLoaded", function() {
+            const selectedAddressElement = document.getElementById("selected-address");
+            const selectedAddressJSON = sessionStorage.getItem("selectedAddress");
+            if (selectedAddressJSON) {
+                const selectedAddress = JSON.parse(selectedAddressJSON);
+                console.log(selectedAddress);
+                // Thực hiện xử lý dữ liệu địa chỉ ở đây
+                selectedAddressElement.textContent = `Địa chỉ: ${selectedAddress.name_user} - ${selectedAddress.moblie} - ${selectedAddress.address}
+                -  ${selectedAddress.commune} - ${selectedAddress.district} - ${selectedAddress.city} `;
+            }
+        });
 
-    {#// Xóa dữ liệu đã lưu trong Local Storage (nếu muốn)#}
-    {#localStorage.removeItem('firstName');#}
-    {#localStorage.removeItem('address');#}
-    {#localStorage.removeItem('city');#}
-    {#localStorage.removeItem('state');#}
-    {#localStorage.removeItem('mobile');#}
-
-    document.addEventListener("DOMContentLoaded", function() {
-        const selectedAddressElement = document.getElementById("selected-address");
-        const selectedAddressJSON = sessionStorage.getItem("selectedAddress");
-        if (selectedAddressJSON) {
-            const selectedAddress = JSON.parse(selectedAddressJSON);
-            console.log(selectedAddress);
-            // Thực hiện xử lý dữ liệu địa chỉ ở đây
-            selectedAddressElement.textContent = `Địa chỉ: ${selectedAddress.firstName} - ${selectedAddress.mobile} - ${selectedAddress.state} -  ${selectedAddress.address}  ${selectedAddress.city} `;
-        }
-});
-
-
-
-
-
-
-</script>
+    </script>
 
 {% endblock content_checkout %}

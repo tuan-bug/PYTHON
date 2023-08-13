@@ -28,11 +28,22 @@ def detail(request):
         items = []
         user_not_login = "show"
         user_login = "none"
+
+
     form = CommentForm()
     id = request.GET.get('id', '') # lấy id khi người dùng vlick vào sản phẩm nào đó
     user = request.user
     products = get_object_or_404(Product, id=id)
     comment = Comment.objects.filter(product=products) # lấy đúng cái cmt của cái sp đó
+
+    categories_product = products.category.values_list('id', flat=True)
+    # Lấy danh sách tên danh mục từ danh sách ID
+    category_names = Category.objects.filter(id__in=categories_product).values_list('name', flat=True)
+    print(category_names)
+    # Chuyển danh sách tên thành danh sách Python
+    category_names_list = list(category_names)
+
+    print(category_names_list)
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
@@ -43,6 +54,7 @@ def detail(request):
     context = {'form': form,
                'comments': comment,
                'products': products,
+               'category_names_list': category_names_list,
                'items': items,
                'order': order,
                'user_login': user_login,

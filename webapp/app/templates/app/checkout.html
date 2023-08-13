@@ -15,17 +15,18 @@
                                 {% for address in allAddress %}
                                     <div class="form-check p-2">
                                         <input class="form-check-input" type="radio" name="address" id="address{{ forloop.counter }}" value="{{ forloop.counter }}"
-                                               data-firstname="{{ address.customer.first_name }}" data-address="{{ address.address }}" data-city="{{ address.city }}"
-                                               data-state="{{ address.state }}" data-mobile="{{ address.mobile }}">
+                                               data-id="{{  address.id }}" data-name="{{  address.name_user }}" data-moblie="{{ address.mobile }}" data-address="{{ address.adress }}"
+                                               data-commune="{{ address.commune }}" data-district="{{ address.district }}" data-city="{{ address.city }}">
                                         <label class="form-check-label" for="address{{ forloop.counter }}">
-                                            Địa chỉ: {{ address.customer.first_name }} - {{ address.adress }} - {{ address.city }} - {{ address.state }} - {{ address.mobile }}
+                                            Địa chỉ: {{ address.name_user }} - {{ address.mobile }} - {{ address.adress }}
+                                             - {{ address.commune }} - {{ address.district }} - {{ address.city }}
                                         </label>
                                     </div>
                                 {% endfor %}
                             </div>
                         {% else %}
                         {% endif %}
-                        <button id="submit-button" type="submit" class="btn primary-btn btn-sm"><a style="color: white" href="{% url 'address' %}">Submit</a></button>
+                        <button id="submit-button" type="submit" class="btn primary-btn btn-sm"><a style="color: white" href="{% url 'address' %}?address={{ address.id }}">Submit</a></button>
                     </form>
                 </div>
             </div>
@@ -62,34 +63,43 @@
             </div>
         </div>
     </div>
-
-
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        const addressRadios = document.querySelectorAll('input[name="address"]');
-        const submitButton = document.getElementById("submit-button");
+    const form = document.getElementById("form");
+    const selectedAddressIdInput = document.getElementById("selected-address-id");
+    const addressRadios = form.querySelectorAll('input[type="radio"][name="address"]');
+    const submitButton = document.getElementById("submit-button");
 
-        submitButton.addEventListener("click", function() {
-            let selectedAddress = null;
-            addressRadios.forEach(function(radio) {
-                if (radio.checked) {
-                    selectedAddress = {
-                        firstName: radio.getAttribute("data-firstname"),
-                        address: radio.getAttribute("data-address"),
-                        city: radio.getAttribute("data-city"),
-                        state: radio.getAttribute("data-state"),
-                        mobile: radio.getAttribute("data-mobile")
-                    };
-                }
-            });
+    submitButton.addEventListener("click", function(event) {
+        event.preventDefault();  // Ngăn chặn gửi form mặc định
 
-            if (selectedAddress) {
-                sessionStorage.setItem("selectedAddress", JSON.stringify(selectedAddress));
-                // Chuyển hướng đến trang khác
-                window.location.href = "http://127.0.0.1:8000/address/";
+        let selectedAddress = null;
+        let id_address = null;
+
+        addressRadios.forEach(function(radio) {
+            if (radio.checked) {
+                selectedAddress = {
+                    id: radio.getAttribute("data-id"),
+                    name_user: radio.getAttribute("data-name"),
+                    moblie: radio.getAttribute("data-moblie"),
+                    address: radio.getAttribute("data-address"),
+                    commune: radio.getAttribute("data-commune"),
+                    district: radio.getAttribute("data-district"),
+                    city: radio.getAttribute("data-city"),
+                };
+                id_address = selectedAddress.id;
             }
         });
+
+        if (selectedAddress) {
+            sessionStorage.setItem("selectedAddress", JSON.stringify(selectedAddress));
+            // Chuyển hướng đến trang khác với ID của địa chỉ đẩy lên đường dẫn
+            window.location.href = "http://127.0.0.1:8000/address/?id=" + id_address;
+        }
     });
+});
+
+
 </script>
 
 {% endblock content_checkout %}

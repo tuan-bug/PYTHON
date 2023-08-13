@@ -8,17 +8,6 @@
         <title>Home</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-{#        <link rel="stylesheet" href="{%static 'app/css/style.css' %}">#}
-{#        <link rel="stylesheet" href="{%static 'app/css/all.min.css' %}">#}
-{#        <link rel="stylesheet" href="{%static 'app/css/owl.carousel.css' %}">#}
-{#        <link rel="stylesheet" href="{%static 'app/css/bootstrap.min.css' %}">#}
-{#        <link rel="stylesheet" href="{%static 'app/css/reponsive.css' %}">#}
-{##}
-{#        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">#}
-{#        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">#}
-{##}
-{#        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">#}
-{#        #}
         <!-- Google Font -->
         <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
         <!-- Css Styles -->
@@ -55,42 +44,36 @@
 
     </head>
     <body>
-    <!-- Page Preloder -->
-    <div id="preloder">
-        <div class="loader"></div>
-    </div>
-
-    <!-- Humberger Begin -->
-    <div class="humberger__menu__overlay"></div>
+    <!-- Nhớ fix màn hình nha -->
     <div class="humberger__menu__wrapper">
         <div class="humberger__menu__logo">
-            <a href="#"><img src="img/logo.png" alt=""></a>
+            <a href="#"><img src="{% static 'app/images/logo.png' %}" alt=""></a>
         </div>
         <div class="humberger__menu__cart">
             <ul>
                 <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-                <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                <li><a href="{% url 'cart' %}"><i class="fa fa-shopping-bag"></i> <span>{{order.get_cart_item}}</span></a></li>
             </ul>
-            <div class="header__cart__price">item: <span>$150.00</span></div>
+            <div class="header__cart__price">item: <span>${{order.get_cart_total | floatformat:2}}</span></div>
         </div>
-        <div class="humberger__menu__widget">
-            <div class="header__top__right__auth">
-                <a href="{% url 'login' %}"><i class="fa fa-user"></i> Login</a>
+        <div class="header__top__right__auth dropdown " style="display: {{ user_login }}">
+            <a class="dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  href="{% url 'login' %} " ><i class="fa fa-user"></i>Xin chào {{request.user}}</a>
+            <!-- Dropdown Menu -->
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="{% url 'information' %}">Thông tin</a>
+                <a style="display: {{ show_manage }}" class="dropdown-item" href="{% url 'manage' %}">Trang quản trị</a>
+                <a class="dropdown-item" href="{% url 'logout' %}">Đăng xuất</a>
+                <!-- Add more options as needed -->
             </div>
+        </div>
+        <div class="header__top__right__auth" style="display: {{ user_not_login }}">
+            <a href="{% url 'login' %} " ><i class="fa fa-user"></i>Đăng Nhập</a>
         </div>
         <nav class="humberger__menu__nav mobile-menu">
             <ul>
-                <li class="active"><a href="./index.html">Home</a></li>
-                <li><a href="./shop-grid.html">Shop</a></li>
-                <li><a href="#">Pages</a>
-                    <ul class="header__menu__dropdown">
-                        <li><a href="./shop-details.html">Shop Details</a></li>
-                        <li><a href="./shoping-cart.html">Shoping Cart</a></li>
-                        <li><a href="./checkout.html">Check Out</a></li>
-                        <li><a href="./blog-details.html">Blog Details</a></li>
-                    </ul>
-                </li>
-                <li><a href="./blog.html">Blog</a></li>
+                <li class="active"><a href="{% url 'home' %}">Trang chủ</a></li>
+                <li><a href="{% url 'shop' %}">Shop</a></li>
+                <li><a href="{% url 'blog' %}">Blog</a></li>
                 <li><a href="{% url 'contact' %}">Contact</a></li>
             </ul>
         </nav>
@@ -119,7 +102,7 @@
                         <div class="header__top__left">
                             <ul>
                                 <li><i class="fa fa-envelope"></i> hello@colorlib.com</li>
-                                <li>Free Shipping for all Order of $99</li>
+                                <li>Miễn phí ship cho đơn hàng từ 199K</li>
                             </ul>
                         </div>
                     </div>
@@ -134,17 +117,17 @@
 
                             <div class="header__top__right__auth dropdown " style="display: {{ user_login }}">
                                 <a class="dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true"
-                                aria-expanded="false"  href="{% url 'login' %} " ><i class="fa fa-user"></i>Hello {{request.user}}</a>
+                                aria-expanded="false"  href="{% url 'login' %} " ><i class="fa fa-user"></i>Xin chào {{request.user}}</a>
                                 <!-- Dropdown Menu -->
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <a class="dropdown-item" href="{% url 'information' %}">Thông tin</a>
                                     <a style="display: {{ show_manage }}" class="dropdown-item" href="{% url 'manage' %}">Trang quản trị</a>
-                                    <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                                    <a class="dropdown-item" href="{% url 'logout' %}">Đăng xuất</a>
                                     <!-- Add more options as needed -->
                                 </div>
                             </div>
                             <div class="header__top__right__auth" style="display: {{ user_not_login }}">
-                                <a href="{% url 'login' %} " ><i class="fa fa-user"></i>Login</a>
+                                <a href="{% url 'login' %} " ><i class="fa fa-user"></i>Đăng Nhập</a>
                             </div>
                         </div>
                     </div>
@@ -161,11 +144,11 @@
                 <div class="col-lg-6">
                     <nav class="header__menu">
                         <ul>
-                            <li class="active"><a href="{% url 'home' %}">Home</a></li>
+                            <li class="active"><a href="{% url 'home' %}">Trang chủ</a></li>
                             <li><a href="{% url 'shop' %}">Shop</a></li>
                             <li><a href="#">Pages</a></li>
                             <li><a href="{% url 'blog' %}">Blog</a></li>
-                            <li><a href="{% url 'contact' %}">Contact</a></li>
+                            <li><a href="{% url 'contact' %}">Liên hệ</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -194,7 +177,7 @@
                     <div class="hero__categories">
                         <div class="hero__categories__all">
                             <i class="fa fa-bars"></i>
-                            <span>All departments</span>
+                            <span>Danh Mục</span>
                         </div>
                         <ul>
                             {% for category in categories  %}
@@ -209,7 +192,7 @@
                             <form method="POST" action="{% url 'search' %}">
                                 {% csrf_token %}
                                 <input type="text" placeholder="What do yo u need?" name="searched"    >
-                                <button type="submit" class="site-btn">SEARCH</button>
+                                <button type="submit" class="site-btn">TÌM KIẾM</button>
                             </form>
                         </div>
                         <div class="hero__search__phone">
@@ -217,8 +200,8 @@
                                 <i class="fa fa-phone"></i>
                             </div>
                             <div class="hero__search__phone__text">
-                                <h5>+65 11.188.888</h5>
-                                <span>support 24/7 time</span>
+                                <h5>+84 974.897.450</h5>
+                                <span>Hỗ trợ 24/7</span>
                             </div>
                         </div>
                     </div>
@@ -263,15 +246,15 @@
                             <a href="{% url 'home' %}"><img src="{% static 'app/images/logo.png' %}" alt=""></a>
                         </div>
                         <ul>
-                            <li>Address: 60-49 Road 11378 New York</li>
-                            <li>Phone: +65 11.188.888</li>
+                            <li>Địa chỉ: 20 Hoàng Hoa Thám, TN</li>
+                            <li>Phone: +84 974.897.450</li>
                             <li>Email: hello@colorlib.com</li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-6 offset-lg-1">
                     <div class="footer__widget">
-                        <h6>Useful Links</h6>
+                        <h6>Liên Kết</h6>
                         <ul>
                             <li><a href="#">About Us</a></li>
                             <li><a href="#">About Our Shop</a></li>

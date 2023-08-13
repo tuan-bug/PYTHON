@@ -5,6 +5,7 @@ from app.models import *
 
 
 def Continue1(request):
+
     slide_hidden = "hidden"
     fixed_height = "20px"
     check_staff = request.user
@@ -17,7 +18,6 @@ def Continue1(request):
     # lấy các sản phẩm
     if request.user.is_authenticated:
         customer = request.user
-
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
         user_not_login = "none"
@@ -30,34 +30,32 @@ def Continue1(request):
         user_not_login = "show"
         user_login = "none"
 
-    # lấy địa chỉ
-    form = AddressForm()
-    allAddress = Adress.objects.all()
-    if request.user.is_authenticated:
-        user = request.user
-        shipping = Adress.objects.filter(customer=user)
+# Xử lý chính
+    id = request.GET.get('id', '')
+    print("lấy id của address: " + id)
+    address = Adress.objects.filter(id=id)
+    address_data = address.values()
+    try:
+        single_address = address.get()
+        # Lấy các trường cụ thể, ví dụ lấy tên người dùng và địa chỉ
+        city = single_address.city
+        address_sate = single_address.adress
+        name = single_address.name_user
+        mobile = single_address.mobile
+        district = single_address.district
+        commune = single_address.commune
+    except Adress.DoesNotExist:
+        # Xử lý trường hợp không tìm thấy bản ghi
+        pass
 
-    if request.method == 'POST':
-        form = AddressForm(request.POST)
-        if form.is_valid():
-            address = form.cleaned_data['address']
-            city = form.cleaned_data['city']
-            state = form.cleaned_data['state']
-            mobile = form.cleaned_data['mobile']
-            shipping = Adress(customer=request.user, address=address, city=city, state=state, mobile=mobile)
-            shipping.save()
-            messages.success(request, 'Address saved successfully!')
-        else:
-            messages.error(request, 'Failed to save address.')
-    else:
-        form = AddressForm()
-
-    context = {'shipping': shipping,
+    print(name, city, address_sate, mobile, district, commune)
+    for item in items:
+        print(item)
+    context = {
                'items': items,
                'order': order,
                'user_login': user_login,
                'user_not_login': user_not_login,
-               'allAddress': allAddress,
                'messages': messages,
                'slide_hidden': slide_hidden,
                'fixed_height': fixed_height,

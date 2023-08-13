@@ -3173,6 +3173,7 @@ ol {
 	}
 	.hero__search__form {
 		width: 100%;
+		margin-bottom: 10px;
 	}
 	.hero__search__form form input {
 		width: 100%;
@@ -3181,6 +3182,7 @@ ol {
 		display: none;
 	}
 	.hero__search__phone {
+		display: none;
 		float: left;
 		margin-top: 30px;
 	}

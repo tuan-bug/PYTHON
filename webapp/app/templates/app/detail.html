@@ -23,19 +23,23 @@
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star-half-o"></i>
-                            <span>(18 reviews)</span>
+                            <span>(18 đánh giá)</span>
                         </div>
-                        <div class="product__details__price">${{products.price | floatformat:2}}</div>
+                        <div class="product__details__price">${{products.price | floatformat:2}} </div>
                         <p>{{products.describe}}</p>
                         <div class="product__details__quantity">
                         </div>
-                        <button style="border: none" data-product={{products.id}} data-action="add" class="primary-btn add-btn update-btn ">ADD TO CARD</button>
-                        <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                        <button style="border: none" data-product={{products.id}} data-action="add" class="primary-btn add-btn update-btn ">Thêm vào giỏ hàng</button>
+                        <a href="#" class="heart-icon"><img src="{% static 'app/images/icons/heart.png' %}" alt=""></a>
                         <ul>
-                            <li><b>Availability</b> <span>In Stock</span></li>
-                            <li><b>Shipping</b> <span>01 day shipping. <samp>Free pickup today</samp></span></li>
-                            <li><b>Weight</b> <span>0.5 kg</span></li>
-                            <li><b>Share on</b>
+                            <li><b>Loại sản phẩm</b>
+                                {% for category_name in category_names_list %}
+                                    <span>{{ category_name }}</span>,
+                                {% endfor %}
+                            </li>
+                            <li><b>Đơn vị tính</b><span>{{ products.unit }}</span></li>
+                            <li><b>Sả phẩm còn lại</b><span>{{ products.count }}</span></li>
+                            <li><b>Chia sẻ sản phẩm</b>
                                 <div class="share">
                                     <a href="#"><i class="fa fa-facebook"></i></a>
                                     <a href="#"><i class="fa fa-twitter"></i></a>
