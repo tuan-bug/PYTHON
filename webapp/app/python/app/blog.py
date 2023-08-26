@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from app.models import Order
+from app.models import *
 
 
 def blog(request):
@@ -13,16 +13,19 @@ def blog(request):
     else:
         print('not admin')
         show_manage = 'none'
+    total_all = 0
+    count = 0
     if request.user.is_authenticated:
         customer = request.user
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
-        items = order.orderitem_set.all()
+        items = Cart.objects.filter(user=customer)
         user_not_login = "none"
         user_login = "show"
         for item in items:
+            print(item)
             item.total = item.product.price * item.quantity
+            total_all += item.product.price * item.quantity
+            count += item.quantity
     else:
-        order = None
         items = []
         user_not_login = "show"
         user_login = "none"
@@ -31,7 +34,8 @@ def blog(request):
                'user_login': user_login,
                'slide_hidden': slide_hidden,
                'fixed_height': fixed_height,
-               'order': order,
                'items': items,
+               'total_all': total_all,
+               'count': count,
                }
     return render(request, 'app/blog.html', context)

@@ -24,16 +24,19 @@ def shop(request):
         product.price_sale = float(product.price_sale)
         product.sale = ((product.price - product.price_sale) / product.price) * 100
 
+    total_all = 0
+    count = 0
     if request.user.is_authenticated:
         customer = request.user
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
-        items = order.orderitem_set.all()
+        items = Cart.objects.filter(user=customer)
         user_not_login = "none"
         user_login = "show"
         for item in items:
+            print(item)
             item.total = item.product.price * item.quantity
+            total_all += item.product.price * item.quantity
+            count += item.quantity
     else:
-        order = None
         items = []
         user_not_login = "show"
         user_login = "none"
@@ -46,8 +49,9 @@ def shop(request):
                'user_login': user_login,
                'slide_hidden': slide_hidden,
                'fixed_height': fixed_height,
-               'order': order,
                'items': items,
+               'total_all': total_all,
+               'count': count,
 
                }
     return render(request, 'app/shop.html', context)

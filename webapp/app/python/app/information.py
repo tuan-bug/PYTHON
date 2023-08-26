@@ -28,16 +28,19 @@ def Information(request):
     else:
         form = AddressForm()
 
+    total_all = 0
+    count = 0
     if request.user.is_authenticated:
         customer = request.user
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
-        items = order.orderitem_set.all()
+        items = Cart.objects.filter(user=customer)
         user_not_login = "none"
         user_login = "show"
         for item in items:
+            print(item)
             item.total = item.product.price * item.quantity
+            total_all += item.product.price * item.quantity
+            count += item.quantity
     else:
-        order = None
         items = []
         user_not_login = "show"
         user_login = "none"
@@ -51,7 +54,8 @@ def Information(request):
                'user_not_login': user_not_login,
                'user_login': user_login,
                'items': items,
-               'order': order,
+               'total_all': total_all,
+               'count': count,
                'show_manage': show_manage,
                }
     return render(request, 'app/information.html', context)

@@ -47,7 +47,7 @@ def Continue1(request):
         mobile = single_address.mobile
         district = single_address.district
         commune = single_address.commune
-        order = Order(customer=customer, complete=False)
+        order = Order(customer=customer, address=single_address, complete=False)
         order.save()
 
         for item in items:

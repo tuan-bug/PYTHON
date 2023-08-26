@@ -26,7 +26,6 @@ def cart(request):
             total_all += item.product.price * item.quantity
             count += item.quantity
     else:
-        order = None
         items = []
         user_not_login = "show"
         user_login = "none"

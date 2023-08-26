@@ -24,6 +24,7 @@ urlpatterns = [
     path('deleteAddress/', views.deleteAddress, name="deleteAddress"),
     path('addAddress/', views.addAddress, name="addAddress"),
     path('editAddress/', views.editAddress, name="editAddress"),
+    path('my_order/', views.myOrder, name="myOrder"),
     # phan admin
     path('manage/', views.Manage, name="manage"),
     path('manageSlide/', views.manageSlide, name="manageSlide"),
