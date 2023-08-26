@@ -51,7 +51,7 @@ def Continue1(request):
         order.save()
 
         for item in items:
-            items_order = OrderItem(product=item.product, order=order, quantity=item.quantity)
+            items_order = OrderItem(product=item.product, order=order, quantity=item.quantity, total= item.product.price * item.quantity)
             items_order.save()
             print("Lưu thành công đối tượng OrderItem")
 

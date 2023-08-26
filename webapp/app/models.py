@@ -102,6 +102,7 @@ class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, blank=True)
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True, blank=True)
     quantity = models.IntegerField(default=0, null=True, blank=True)
+    total = models.FloatField(default=0)
     date_added = models.DateTimeField(auto_now_add=True)
     # lấy tiền của mỗi sản phẩm
     @property
@@ -150,10 +151,6 @@ class CommentForm(forms.ModelForm):
         }
 
 class AddressForm(forms.ModelForm):
-    city = forms.ChoiceField(choices=[], widget=forms.Select(attrs={'class': 'form-control', 'id': 'province', 'style': 'display: block'}))
-    district = forms.ChoiceField(choices=[], widget=forms.Select(attrs={'class': 'form-control', 'id': 'district'}))
-    commune = forms.ChoiceField(choices=[], widget=forms.Select(attrs={'class': 'form-control', 'id': 'ward'}))
-
     class Meta:
         model = Adress
         fields = ['customer', 'name_user', 'adress', 'city', 'mobile', 'district', 'commune']
@@ -164,27 +161,6 @@ class AddressForm(forms.ModelForm):
             'adress': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['city'].choices = self.get_city_choices()
-
-    def get_city_choices(self):
-        response = requests.get('https://api.example.com/provinces')  # Thay URL bằng URL API thực tế
-        data = response.json()
-        choices = [(province['id'], province['name']) for province in data]
-        return [('', 'Chọn Tỉnh/Thành phố')] + choices
-
-    def get_district_choices(self, province_id):
-        response = requests.get(f'https://api.example.com/districts?province_id={province_id}')
-        data = response.json()
-        choices = [(district['id'], district['name']) for district in data]
-        return [('', 'Chọn Quận/Huyện')] + choices
-
-    def get_commune_choices(self, district_id):
-        response = requests.get(f'https://api.example.com/wards?district_id={district_id}')
-        data = response.json()
-        choices = [(commune['id'], commune['name']) for commune in data]
-        return [('', 'Chọn Xã/Phường')] + choices
 class CreateUserForm(forms.ModelForm):
     class Meta:
         model = User
