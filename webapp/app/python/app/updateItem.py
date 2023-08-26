@@ -1,25 +1,35 @@
 import json
 
 from django.http import JsonResponse
-
+from django.contrib.auth.decorators import login_required  # Đảm bảo người dùng đã đăng nhập
 from app.models import *
+8
 
-
+@login_required
 def updateItem(request):
-    data = json.loads(request.body)
-    productId = data['productId']
-    action = data['action']
-    customer = request.user
-    product = Product.objects.get(id = productId)
-    order, created = Order.objects.get_or_create(customer=customer, complete=False)
-    orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        productId = data.get('productId')
+        action = data.get('action')
 
-    if action == 'add':
-        orderItem.quantity += 1
-    elif action == 'remove':
-        orderItem.quantity -= 1
+        if productId is not None and action in ['add', 'remove']:
+            customer = request.user
+            product = Product.objects.get(id=productId)
 
-    orderItem.save()
-    if orderItem.quantity <= 0:
-        orderItem.delete()
-    return JsonResponse('added', safe=False)
+            cart, created = Cart.objects.get_or_create(product=product, user=customer)
+
+            if action == 'add':
+                cart.quantity += 1
+            elif action == 'remove':
+                cart.quantity -= 1
+
+            if cart.quantity > 0:
+                cart.save()
+            else:
+                cart.delete()
+
+            return JsonResponse({'message': 'Cart updated successfully.'})
+        else:
+            return JsonResponse({'error': 'Invalid request data.'}, status=400)
+    else:
+        return JsonResponse({'error': 'Invalid request method.'}, status=405)

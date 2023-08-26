@@ -52,9 +52,9 @@
         <div class="humberger__menu__cart">
             <ul>
                 <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-                <li><a href="{% url 'cart' %}"><i class="fa fa-shopping-bag"></i> <span>{{order.get_cart_item}}</span></a></li>
+                <li><a href="{% url 'cart' %}"><i class="fa fa-shopping-bag"></i> <span></span></a></li>
             </ul>
-            <div class="header__cart__price">item: <span>${{order.get_cart_total | floatformat:2}}</span></div>
+            <div class="header__cart__price">item: <span></span></div>
         </div>
         <div class="header__top__right__auth dropdown " style="display: {{ user_login }}">
             <a class="dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  href="{% url 'login' %} " ><i class="fa fa-user"></i>Xin chào {{request.user}}</a>

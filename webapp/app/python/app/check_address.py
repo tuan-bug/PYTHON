@@ -16,14 +16,17 @@ def Continue1(request):
         print('not admin')
         show_manage = 'none'
     # lấy các sản phẩm
+    total_all = 0
+    count = 0
     if request.user.is_authenticated:
         customer = request.user
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
-        items = order.orderitem_set.all()
+        items = Cart.objects.filter(user=customer)
         user_not_login = "none"
         user_login = "show"
         for item in items:
             item.total = item.product.price * item.quantity
+            total_all += item.product.price * item.quantity
+            count += item.quantity
     else:
         order = None
         items = []
@@ -44,6 +47,18 @@ def Continue1(request):
         mobile = single_address.mobile
         district = single_address.district
         commune = single_address.commune
+        order = Order(customer=customer, complete=False)
+        order.save()
+
+        for item in items:
+            items_order = OrderItem(product=item.product, order=order, quantity=item.quantity)
+            items_order.save()
+            print("Lưu thành công đối tượng OrderItem")
+
+        products = OrderItem.objects.filter(order=order)
+        for item in products:
+            item.total = item.product.price * item.quantity
+        items.delete()
     except Adress.DoesNotExist:
         # Xử lý trường hợp không tìm thấy bản ghi
         pass
@@ -52,8 +67,9 @@ def Continue1(request):
     for item in items:
         print(item)
     context = {
-               'items': items,
-               'order': order,
+               'products': products,
+               'total_all': total_all,
+               'count': count,
                'user_login': user_login,
                'user_not_login': user_not_login,
                'messages': messages,

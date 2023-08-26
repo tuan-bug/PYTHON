@@ -32,12 +32,11 @@ def getHome(request):
     slide = Slide.objects.all()
     if request.user.is_authenticated:
         customer = request.user
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
-        items = order.orderitem_set.all()
+        # items = Cart.objects.all(user=customer)
         user_not_login = "none"
         user_login = "show"
-        for item in items:
-            item.total = item.product.price * item.quantity
+        # for item in items:
+        #     item.total = item.product.price * item.quantity
     else:
         order = None
         items = []
@@ -48,8 +47,7 @@ def getHome(request):
     active_category = request.GET.get('category', '')
     context = {'products': products,
                'slide': slide,
-               'items': items,
-               'order': order,
+
                'user_login': user_login,
                'user_not_login': user_not_login,
                'categories': categories,
