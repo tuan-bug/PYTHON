@@ -9,4 +9,5 @@ admin.site.register(Order)
 admin.site.register(OrderItem)
 admin.site.register(Adress)
 admin.site.register(Cart)
+admin.site.register(Contact)
 # Register your models here.

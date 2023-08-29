@@ -27,9 +27,15 @@ def homeManage(request):
     for user in users:
         if user:
             member += 1
+
+    feedback = Contact.objects.all().count()
+    contacts = Contact.objects.all()
+
     context = {
         'count': count,
         'total': total,
         'member': member - 1,
+        'feedback': feedback,
+        'contacts': contacts,
     }
     return render(request, 'admin/home_manage.html', context)

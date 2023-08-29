@@ -119,6 +119,26 @@ class Comment(models.Model):
         return self.user.last_name
 # Create your models here.
 
+class Contact(models.Model):
+    name = models.CharField(max_length=200, null=True, blank=True)
+    email = models.CharField(max_length=200, null=True, blank=True)
+    message = models.TextField(max_length=700, null=True, blank=True)
+    date = models.DateTimeField(default=timezone.now, blank=True, null=True)
+    def __str__(self):
+        return self.name
+
+
+class FormContact(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = ['name', 'email', 'message']
+        widgets = {
+            'name': forms.TextInput(attrs={'placeholder': 'Tên của bạn'}),
+            'email': forms.TextInput(attrs={'placeholder': 'Email của bạn'}),
+            'message': forms.Textarea(attrs={'placeholder': 'Nội dung ....'}),
+        }
+
+
 class AddProduct(forms.ModelForm):
     class Meta:
         model = Product

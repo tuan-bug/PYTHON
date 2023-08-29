@@ -13,7 +13,12 @@ def is_admin(user):
 def manageProduct(request):
     products = Product.objects.all()
     form = AddProduct()
-    context = {'products': products}
+    feedback = Contact.objects.all().count()
+    contacts = Contact.objects.all()
+    context = {'products': products,
+               'feedback': feedback,
+               'contacts': contacts,
+               }
     return render(request, 'admin/managementProduct.html', context)
 
 def addProduct(request):

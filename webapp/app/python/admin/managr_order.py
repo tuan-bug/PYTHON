@@ -13,9 +13,13 @@ def is_admin(user):
 def manageOrder(request):
 
     orders = Order.objects.all()
+    feedback = Contact.objects.all().count()
+    contacts = Contact.objects.all()
 
     context = {
         'orders': orders,
+        'feedback': feedback,
+        'contacts': contacts,
 
     }
     return render(request, 'admin/manageOrders.html', context)

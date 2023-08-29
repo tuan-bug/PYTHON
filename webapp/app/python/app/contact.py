@@ -30,7 +30,18 @@ def contact(request):
         user_not_login = "show"
         user_login = "none"
     categories = Category.objects.filter(is_sub=False)  # lay cac damh muc lon
-    active_category = request.GET.get('category', '')
+
+    form = FormContact()
+    if request.method == 'POST':
+        form = FormContact(request.POST)
+        if form.is_valid():
+            try:
+                form.save()
+            except Exception as e:
+                print('Lỗi khi lưu dữ liệu:', e)
+        else:
+            print('Dữ liệu không hợp lệ:', form.errors)
+
 
     context ={
         'categories': categories,
@@ -42,6 +53,7 @@ def contact(request):
         'slide_hidden': slide_hidden,
         'fixed_height': fixed_height,
         'show_manage': show_manage,
+        'form': form,
         }
     return render(request, 'app/contact.html', context)
 

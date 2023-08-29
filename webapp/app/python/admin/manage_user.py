@@ -3,6 +3,9 @@ from django.shortcuts import render
 
 from django.contrib.auth.decorators import login_required, user_passes_test
 
+from app.models import *
+
+
 def is_admin(user):
     return user.is_authenticated and user.is_staff
 
@@ -10,5 +13,10 @@ def is_admin(user):
 @user_passes_test(is_admin)
 def manageUser(request):
     users = User.objects.all()  # lay cac damh muc lon
-    context = {'users': users}
+    feedback = Contact.objects.all().count()
+    contacts = Contact.objects.all()
+    context = {'users': users,
+               'feedback': feedback,
+               'contacts': contacts,
+               }
     return render(request, 'admin/manageUser.html', context)

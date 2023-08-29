@@ -12,7 +12,12 @@ def is_admin(user):
 @user_passes_test(is_admin)
 def manageCategory(request):
     categories = Category.objects.all()  # lay cac damh muc lon
-    context ={'categories': categories}
+    feedback = Contact.objects.all().count()
+    contacts = Contact.objects.all()
+    context ={'categories': categories,
+              'feedback': feedback,
+              'contacts': contacts,
+              }
     return render(request, 'admin/managementCategory.html', context)
 def addCategory(request):
     form = AddCategory()
