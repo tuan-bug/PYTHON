@@ -66,7 +66,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="{% url 'home' %}">
+                <a class="nav-link" href="{% url 'home_manage' %}">
                     <img src="{%  static 'app/images/dashboard.png' %}" alt="">
                     <span>Dashboard</span></a>
             </li>
@@ -287,6 +287,7 @@
                 {% block blog-slide %}{% endblock blog-slide %}
                 {% block blog-product %}{% endblock blog-product %}
                 {% block home_manage %}{% endblock home_manage %}
+                {% block view-order %}{% endblock view-order %}
 
             </div>
             <!-- End of Main Content -->

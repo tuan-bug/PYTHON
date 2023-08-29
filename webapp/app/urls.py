@@ -44,6 +44,8 @@ urlpatterns = [
     path('manageUser/', views.manageUser, name="manageUser"),
 
     path('manageOrder/', views.manageOrder, name="manageOrder"),
+    path('viewOrder/', views.viewOrder, name="viewOrder"),
+    path('delOrder/', views.delOrder, name="delOrder"),
 
 
     #API

@@ -53,7 +53,11 @@ def Continue1(request):
         for item in items:
             items_order = OrderItem(product=item.product, order=order, quantity=item.quantity, total= item.product.price * item.quantity)
             items_order.save()
-            print("Lưu thành công đối tượng OrderItem")
+            items_order.product.count -= item.quantity
+            item.product.save()
+            print("Lưu thành công đối tượng OrderItem, SL còn: ")
+            print(items_order.product.count)
+
 
         products = OrderItem.objects.filter(order=order)
         for item in products:

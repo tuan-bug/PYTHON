@@ -2,7 +2,13 @@ from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 
 from app.models import *
+from django.contrib.auth.decorators import login_required, user_passes_test
 
+def is_admin(user):
+    return user.is_authenticated and user.is_staff
+
+@login_required
+@user_passes_test(is_admin)
 
 def manageProduct(request):
     products = Product.objects.all()
@@ -60,5 +66,13 @@ def viewProduct(request):
     user = request.user
     print(user)
     product = get_object_or_404(Product, id=id)
-    context = {'product': product}
+    categories_product = product.category.values_list('id', flat=True)
+    # Lấy danh sách tên danh mục từ danh sách ID
+    category_names = Category.objects.filter(id__in=categories_product).values_list('name', flat=True)
+    print(category_names)
+    # Chuyển danh sách tên thành danh sách Python
+    category_names_list = list(category_names)
+    context = {'product': product,
+               'category_names_list': category_names_list,
+               }
     return render(request, 'admin/view_product.html', context)

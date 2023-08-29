@@ -1,25 +1,9 @@
+{% extends 'admin/manage.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-        <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;600;900&display=swap" rel="stylesheet">
-        <!-- Css Styles -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-        <link rel="stylesheet" href="{%static 'app/css/bootstrap.min.css' %}">
-        <link rel="stylesheet" href="{%static 'app/css/font-awesome.min.css' %}">
-        <link rel="stylesheet" href="{%static 'app/css/elegant-icons.css' %}">
-        <link rel="stylesheet" href="{%static 'app/css/nice-select.css' %}">
-        <link rel="stylesheet" href="{%static 'app/css/jquery-ui.min.css' %}">
-        <link rel="stylesheet" href="{%static 'app/css/owl.carousel.min.css' %}">
-        <link rel="stylesheet" href="{%static 'app/css/slicknav.min.css' %}">
-        <link rel="stylesheet" href="{%static 'app/css/style.css' %}">
-        <link rel="stylesheet" href="{%static 'app/sass/style.scss' %}">
-</head>
-<body>
-    <section class="product-details spad">
+{% block blog-slide %}
+    <section style="padding-top: 30px;" class="product-details spad">
         <div class="container">
+        <h3 class="text-center mb-3">CHI TIẾT SẢN PHẨM</h3>
             <div class="row">
                 <div class="col-lg-5 col-md-5">
                     <div class="product__details__pic">
@@ -33,18 +17,22 @@
                     <div class="product__details__text">
                         <ul style="border-top: 0; padding-top: 0; margin-top: 0;">
                             <li><b>Tên sản phẩm: </b> <span>{{product.name}}</span></li>
-                            <li><b>Danh mục: </b> <span>{{product.category.name}}</span></li>
-                            <li><b>Tên sản phẩm: </b> <span>{{product.name}}</span></li>
+                            <li>
+                                <b>Danh mục: </b>
+                                {% for category_name in category_names_list %}
+                                    <span>{{ category_name }}</span>,
+                                {% endfor %}
+
+                            </li>
                             <li><b>Giá: </b> <span>${{product.price | floatformat:2}}</span></li>
                             <li><b>Giá khuyến mãi: </b> <span>${{product.price_sale | floatformat:2}}</span></li>
-                            <li><b>Mô tả: </b> <span>{{product.describe}}</span></li>
                             <li><b>Đơn vị:  </b> <span>{{product.unit}}</span></li>
                             <li><b>Số lượng:  </b> <span>{{product.count}}</span></li>
+                            <li><b>Mô tả: </b> <br> <span>{{product.describe}}</span></li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-</body>
-</html>
+{% endblock blog-slide %}

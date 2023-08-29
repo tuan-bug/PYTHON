@@ -2,7 +2,7 @@
 {% load static %}
 {% block blog-slide %}
     <div class="container mt-4">
-           <h2>Quản lý đơn hàn</h2>
+           <h2 class="text-center">QUẢN LÝ ĐƠN HÀNG</h2>
         <section class="mt-3">
             <div class="container">
                 <div class="row">
@@ -42,9 +42,9 @@
                                             Đang giao
                                         </td>
                                         <td>
-                                            <a style="" href="{% url 'viewProduct' %}?id={{ product.id }}" class="btn btn-primary btn-sm">Xem</a>
-                                            <a href="{% url 'editProduct' %}?id={{ product.id }}" class="btn btn-primary btn-sm">Sửa</a>
-                                            <a href="{% url 'deleteProduct' %}?id={{ product.id }}" class="btn btn-danger btn-sm">Xóa</a>
+                                            <a style="" href="{% url 'viewOrder' %}?id={{ order.id }}" class="btn btn-primary btn-sm">Xem</a>
+                                            <a href="{% url 'manageOrder' %}" class="btn btn-primary btn-sm">Sửa</a>
+                                            <a href="{% url 'delOrder' %}?id={{ order.id }}" class="btn btn-danger btn-sm">Xóa</a>
                                         </td>
                                     </tr>
                                     {% endfor %}
