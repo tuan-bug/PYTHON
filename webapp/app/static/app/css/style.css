@@ -1889,7 +1889,7 @@ ol {
 
 .shoping__cart__table table {
 	width: 100%;
-	text-align: center;
+	text-align: left;
 }
 
 .shoping__cart__table table thead tr {
@@ -1908,8 +1908,8 @@ ol {
 }
 
 .shoping__cart__table table tbody tr td {
-	padding-top: 30px;
-	padding-bottom: 30px;
+	padding-top: 15px;
+	padding-bottom: 10px;
 	border-bottom: 1px solid #ebebeb;
 }
 

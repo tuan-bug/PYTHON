@@ -58,6 +58,7 @@ def Continue1(request):
         products = OrderItem.objects.filter(order=order)
         for item in products:
             item.total = item.product.price * item.quantity
+
         items.delete()
     except Adress.DoesNotExist:
         # Xử lý trường hợp không tìm thấy bản ghi

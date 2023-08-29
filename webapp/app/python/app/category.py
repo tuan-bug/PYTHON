@@ -1,10 +1,10 @@
 from django.shortcuts import render
 
 from app.models import *
+from django.db.models import Q
 
 
 def category(request):
-
     slide_hidden = "hidden"
     fixed_height = "20px"
 
@@ -16,9 +16,26 @@ def category(request):
         print('not admin')
         show_manage = 'none'
     categories = Category.objects.filter(is_sub=False) #lay cac damh muc lon
+
     active_category = request.GET.get('category', '')
-    if active_category:
-        products = Product.objects.filter(category__slug=active_category) # lay theo duong dan
+    # Lấy danh mục cha
+    category = Category.objects.get(slug=active_category)
+
+    # Xây dựng truy vấn Q để lấy tất cả sản phẩm trong danh mục cha và tất cả danh mục con của nó
+    query = Q(category=category) | Q(category__sub_category=category)
+
+    # Thực hiện truy vấn để lấy tất cả sản phẩm thuộc danh mục cha và danh mục con
+    products = Product.objects.filter(query)
+    sub_categories = category.sub_categories.all()
+
+    print("Category:", category.name)
+    print("Sub-Categories:")
+    for sub_category in sub_categories:
+        print(sub_category.name)
+    print("Category:", category.name)
+    print("Products:")
+    print(products)
+    print("/// hết")
 
     total_all = 0
     count = 0
@@ -42,6 +59,8 @@ def category(request):
               'count': count,
               'categories': categories,
               'products': products,
+              'category': category,
+              'sub_categories': sub_categories,
               'active_category': active_category,
               'user_login': user_login,
               'user_not_login': user_not_login,

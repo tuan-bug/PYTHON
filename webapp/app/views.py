@@ -107,3 +107,57 @@ def myOrder(request):
 
     }
     return render(request, 'app/my_order.html', context)
+
+
+def deletemyOrder(request):
+    id = request.GET.get('id', '')  # lấy id khi người dùng vlick vào sản phẩm nào đó
+    order = get_object_or_404(Order, id=id)
+    print(order)
+    items = OrderItem.objects.filter(order=order)
+    print(items)
+    if request.method == 'POST':
+        items.delete()
+        order.delete()
+        messages.success(request, 'Xóa đơn hàng thành công')
+        return redirect('myOrder')
+    context = {'product': order}
+
+    return render(request, 'app/delete_my_order.html', context)
+
+
+def homeManage(request):
+    orders = Order.objects.all();
+    count = 0;
+    for order in orders:
+        if order:
+            count += 1
+
+    items = OrderItem.objects.all()
+
+    total = 0
+    for item in items:
+        if item:
+            total += item.total
+
+    users = User.objects.all()
+    member = 0
+    for user in users:
+        if user:
+            member += 1
+    context = {
+        'count': count,
+        'total': total,
+        'member': member - 1,
+    }
+    return render(request, 'admin/home_manage.html', context)
+
+
+def manageOrder(request):
+
+    orders = Order.objects.all()
+
+    context = {
+        'orders': orders,
+
+    }
+    return render(request, 'admin/manageOrders.html', context)

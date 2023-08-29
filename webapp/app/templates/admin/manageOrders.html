@@ -1,11 +1,8 @@
 {% extends 'admin/manage.html' %}
 {% load static %}
-{% block blog-product %}
+{% block blog-slide %}
     <div class="container mt-4">
-           <h2>Quản lý sản phẩm</h2>
-        <div class="text-right mb-3">
-           <button style="border: none;" class="primary-btn" data-toggle="modal" ><a href="{% url 'addProduct' %}">Thêm sản phẩm</a></button>
-        </div>
+           <h2>Quản lý đơn hàn</h2>
         <section class="mt-3">
             <div class="container">
                 <div class="row">
@@ -15,26 +12,34 @@
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Ảnh</th>
-                                        <th>Tên Sản Phẩm</th>
-                                        <th>Giá</th>
-                                        <th>Thao Tác</th>
+                                        <th>Khách Hàng</th>
+                                        <th> Sản Phẩm</th>
+                                        <th>Tổng Tiền</th>
+                                        <th>Trạng Thái</th>
+                                        <th>Thao tác</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for product in products %}
+                                    {% for order in orders %}
                                     <tr>
-                                        <td>
-                                            {{ product.id }}
+                                        <td class="shoping__cart__price">
+                                            {{ order.id }}
                                         </td>
                                         <td>
-                                            <img style="height: 100px" src="{{ product.ImageURL }}" alt="">
+                                            {{ order.customer.username }}
                                         </td>
                                         <td>
-                                            {{ product.name }}
+                                            <ul>
+                                                {% for item in order.orderitem_set.all %}
+                                                    <li>{{ item.product.name}} x {{ item.quantity }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </td>
+                                        <td >
+                                            {{ order.get_cart_total }}
                                         </td>
                                         <td>
-                                            {{ product.price }}
+                                            Đang giao
                                         </td>
                                         <td>
                                             <a style="" href="{% url 'viewProduct' %}?id={{ product.id }}" class="btn btn-primary btn-sm">Xem</a>
@@ -51,4 +56,4 @@
             </div>
         </section>
     </div>
-{% endblock blog-product %}
+{% endblock blog-slide %}

@@ -25,8 +25,10 @@ urlpatterns = [
     path('addAddress/', views.addAddress, name="addAddress"),
     path('editAddress/', views.editAddress, name="editAddress"),
     path('my_order/', views.myOrder, name="myOrder"),
+    path('delete_my_order/', views.deletemyOrder, name="delete_myOrder"),
     # phan admin
     path('manage/', views.Manage, name="manage"),
+    path('home_manage/', views.homeManage, name="home_manage"),
     path('manageSlide/', views.manageSlide, name="manageSlide"),
 
     path('manageProduct/', views.manageProduct, name="manageProduct"),
@@ -40,6 +42,8 @@ urlpatterns = [
     path('deleteCategory/', views.deleteCategory, name="deleteCategory"),
 
     path('manageUser/', views.manageUser, name="manageUser"),
+
+    path('manageOrder/', views.manageOrder, name="manageOrder"),
 
 
     #API

@@ -161,16 +161,17 @@ class AddressForm(forms.ModelForm):
             'adress': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
-class CreateUserForm(forms.ModelForm):
+class CreateUserForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ['username', 'email', 'first_name', 'last_name', 'password']
+        fields = ['username', 'email', 'first_name', 'last_name', 'password1','password2']
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control'}),
             'email': forms.TextInput(attrs={'class': 'form-control'}),
             'first_name': forms.TextInput(attrs={'class': 'form-control'}),
             'last_name': forms.TextInput(attrs={'class': 'form-control'}),
-            'password': forms.TextInput(attrs={'class': 'form-control'}),
+            'password1': forms.TextInput(attrs={'class': 'form-control', 'style': 'width: 100%'}),
+            'password2': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
 

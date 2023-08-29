@@ -31,13 +31,18 @@
                                     </td>
                                     <td class="shoping__cart__quantity">
                                         <div class="quantity">
-                                            <div class="">
-                                                <button data-product={{item.product.id}} data-action="remove" style="width:30px;" class="btn btn-outline-secondary update-btn" type="button">-</button>
-                                                <input style="width: 60px;" type="number" value="{{item.quantity}}">
-                                                <button data-product={{item.product.id}} data-action="add" style="width:30px;" class="btn btn-outline-secondary update-btn" type="button">+</button>
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <button data-product="{{item.product.id}}" data-action="remove" class="btn btn-outline-secondary update-btn" type="button">-</button>
+                                                </div>
+                                                <input style="width: 60px; text-align: center;" type="number" value="{{item.quantity}}" >
+                                                <div class="input-group-append">
+                                                    <button data-product="{{item.product.id}}" data-action="add" class="btn btn-outline-secondary update-btn" type="button">+</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </td>
+
                                     <td class="shoping__cart__total">
                                         ${{ item.total }}
                                     </td>
