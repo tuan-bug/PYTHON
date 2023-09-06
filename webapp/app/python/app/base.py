@@ -12,6 +12,7 @@ def base(request):
         print('not admin')
         show_manage = 'none'
     slide = Slide.objects.all()
+    test = slide.category_slide
     categories = Category.objects.filter(is_sub=False)  # lay cac damh muc lon
     context = {
         'slide': slide,

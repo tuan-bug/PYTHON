@@ -140,6 +140,7 @@ class FormContact(forms.ModelForm):
 
 
 class AddProduct(forms.ModelForm):
+    # images = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False)
     class Meta:
         model = Product
         fields = ['name', 'category', 'price', 'price_sale', 'describe', 'digital', 'image', 'unit', 'count']

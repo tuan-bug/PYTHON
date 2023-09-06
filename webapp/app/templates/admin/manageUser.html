@@ -19,6 +19,7 @@
                                     <th>Email</th>
                                     <th>Họ</th>
                                     <th>Tên</th>
+                                    <th>Quền</th>
                                     <th>Thao Tác</th>
                                 </tr>
                             </thead>
@@ -39,6 +40,9 @@
                                     </td>
                                     <td>
                                         {{ user.first_name }}
+                                    </td>
+                                    <td>
+                                        {{ user.staff_status }}
                                     </td>
                                     <td>
                                         <a href="{% url 'editProduct' %}?id={{ product.id }}" class="btn btn-primary btn-sm">Sửa</a>

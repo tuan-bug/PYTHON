@@ -1080,7 +1080,9 @@ ol {
 /*---------------------
   Sidebar
 -----------------------*/
-
+#slide {
+	height: 400px;
+}
 .sidebar__item {
 	margin-bottom: 35px;
 }

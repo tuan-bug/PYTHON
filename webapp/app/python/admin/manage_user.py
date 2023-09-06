@@ -15,6 +15,9 @@ def manageUser(request):
     users = User.objects.all()  # lay cac damh muc lon
     feedback = Contact.objects.all().count()
     contacts = Contact.objects.all()
+    # us = users.staff_status
+    print('hahaha: ')
+
     context = {'users': users,
                'feedback': feedback,
                'contacts': contacts,

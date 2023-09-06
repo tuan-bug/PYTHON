@@ -51,7 +51,7 @@
                                 <h5><b>Thành tiền:</b> ${{ total_amount|floatformat:2 }}</h5>
                                 </div>
                                 <div style="margin-top: 0px" class="mt-3">
-                                    <button class="primary-btn border-0 mr-4">Liên hệ người bán</button>
+                                    <a href="{%url 'contact' %}" class="primary-btn border-0 mr-4">Liên hệ người bán</a>
                                     <a href="{% url 'delete_myOrder' %}?id={{ order.id }}" style="color: black" class="primary-btn cart-btn border-0">Hủy đơn hàng</a>
                                 </div>
                             </div>

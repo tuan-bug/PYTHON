@@ -1,6 +1,6 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
-
+from django.http import JsonResponse
 from app.models import *
 from django.contrib.auth.decorators import login_required, user_passes_test
 
@@ -26,7 +26,9 @@ def addProduct(request):
     if request.method == 'POST':
         form = AddProduct(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            instance = form.save()  # Lưu thông tin model vào cơ sở dữ liệu
+            for image in request.FILES.getlist('images'):
+                instance.image.create(image=image)
             messages.success(request, 'Product saved successfully!')
             return redirect('manageProduct')
 
@@ -57,13 +59,13 @@ def editProduct(request):
     return render(request, 'admin/editProduct.html', context)
 
 def deleteProduct(request):
-    id = request.GET.get('id', '')  # lấy id khi người dùng vlick vào sản phẩm nào đó
+    id = request.GET.get('id', '')
     product = get_object_or_404(Product, id=id)
     if request.method == 'POST':
         product.delete()
-        messages.success(request, 'Category deleted successfully!')
-        return redirect('manageProduct')
-    context ={'product': product}
+        response_data = {'message': 'Product deleted successfully!'}
+        return JsonResponse(response_data)
+    context = {'product': product}
     return render(request, 'admin/deleteProduct.html', context)
 
 def viewProduct(request):
