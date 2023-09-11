@@ -7,7 +7,8 @@
         <div class="col-md-12 text-center">
             <h2 class="text-center">ĐƠN HÀNG CỦA TÔI</h2>
         </div>
-        {% for order, items in order_items.items %}
+        {% if order_items %}
+            {% for order, items in order_items.items %}
             <div class="col-md-1"></div>
             <div class="col-md-10 pt-4 mb-3">
             <h4 class="text-center">HÓA ĐƠN</h4>
@@ -61,6 +62,11 @@
             </div>
             <div class="col-md-1"></div>
         {% endfor %}
+        {% else %}
+            <p>Bạn chưa có đơn hàng nào</p>
+        {% endif %}
+
+
         </div>
     </div>
 {% endblock my_order %}

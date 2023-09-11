@@ -42,8 +42,13 @@ def editCategory(request):
             form.save()
             messages.success(request, 'Category updated successfully!')
             return redirect('manageCategory')
-    form = AddCategory(instance=category, initial={'sub_category': category.sub_category, 'is_sub': category.is_sub,
-                                                   'name': category.name, 'slug': category.slug, 'image': category.image})
+    form = AddCategory(instance=category,
+                       initial={'sub_category': category.sub_category,
+                                'is_sub': category.is_sub,
+                                'name': category.name,
+                                'slug': category.slug,
+                                'image': category.image
+                                })
 
     context = {'category': category,
                'form': form}

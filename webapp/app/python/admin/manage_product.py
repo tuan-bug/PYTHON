@@ -58,15 +58,11 @@ def editProduct(request):
                'form': form}
     return render(request, 'admin/editProduct.html', context)
 
-def deleteProduct(request):
-    id = request.GET.get('id', '')
-    product = get_object_or_404(Product, id=id)
-    if request.method == 'POST':
-        product.delete()
-        response_data = {'message': 'Product deleted successfully!'}
-        return JsonResponse(response_data)
-    context = {'product': product}
-    return render(request, 'admin/deleteProduct.html', context)
+def deleteProduct(request, id):
+    product_del = Product.objects.filter(id=id).delete()
+
+    context = {'product_del': product_del}
+    return redirect(request,'admin/managementProduct.html', context)
 
 def viewProduct(request):
     id = request.GET.get('id', '')  # lấy id khi người dùng vlick vào sản phẩm nào đó
