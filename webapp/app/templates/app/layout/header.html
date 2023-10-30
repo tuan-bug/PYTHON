@@ -1,0 +1,161 @@
+{% load static %}
+<!-- Header Section Begin -->
+    <header class="header">
+        <div class="header__top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="header__top__left">
+                            <ul>
+                                <li><i class="fa fa-envelope"></i> hello@colorlib.com</li>
+                                <li>Miễn phí ship cho đơn hàng từ 199K</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="header__top__right">
+                            <div class="header__top__right__social">
+                                <a href="#"><i class="fa fa-facebook"></i></a>
+                                <a href="#"><i class="fa fa-twitter"></i></a>
+                                <a href="#"><i class="fa fa-linkedin"></i></a>
+                                <a href="#"><i class="fa fa-pinterest-p"></i></a>
+                            </div>
+
+                            <div class="header__top__right__auth dropdown " style="display: {{ user_login }}">
+                                <a class="dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false"  href="{% url 'login' %} " ><i class="fa fa-user"></i>Xin chào {{request.user}}</a>
+                                <!-- Dropdown Menu -->
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="{% url 'information' %}">Thông tin</a>
+                                     <a class="dropdown-item" href="{% url 'myOrder' %}">Đơn hàng</a>
+                                    <a style="display: {{ show_manage }}" class="dropdown-item" href="{% url 'home_manage' %}">Trang quản trị</a>
+                                    <a class="dropdown-item" href="{% url 'logout' %}">Đăng xuất</a>
+                                    <!-- Add more options as needed -->
+                                </div>
+                            </div>
+                            <div class="header__top__right__auth" style="display: {{ user_not_login }}">
+                                <a href="{% url 'login' %} " ><i class="fa fa-user"></i>Đăng Nhập</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="header__logo">
+                        <a href="{% url 'home' %}"><img src="{% static 'app/images/logo.png'%}" alt=""></a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <nav class="header__menu">
+                        <ul>
+                            <li class="active"><a href="{% url 'home' %}">Trang chủ</a></li>
+                            <li><a href="{% url 'shop' %}">Shop</a></li>
+                            <li><a href="#">Pages</a></li>
+                            <li><a href="{% url 'blog' %}">Blog</a></li>
+                            <li><a href="{% url 'contact' %}">Liên hệ</a></li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-lg-3">
+                    <div class="header__cart">
+                        <ul>
+                            <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
+                            <li><a href="{% url 'cart' %}"><i class="fa fa-shopping-bag"></i> <span>{{count}}</span></a></li>
+                        </ul>
+                        <div class="header__cart__price">Item: <span>${{total_all | floatformat:2}}</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="humberger__open">
+                <i class="fa fa-bars"></i>
+            </div>
+        </div>
+    </header>
+    <!-- Header Section End -->
+
+    <!-- Hero Section Begin -->
+    <section class="hero hero-normal">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="hero__categories">
+                        <div class="hero__categories__all">
+                            <i class="fa fa-bars"></i>
+                            <span>Danh Mục</span>
+                        </div>
+                        <ul>
+                            {% for category in categories  %}
+                                <li><a href="{% url 'category' %}?category={{ category.slug }}">{{ category.name }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-9 " style="height: {{ fixed_height }}">
+                    <div class="hero__search">
+                        <div class="hero__search__form">
+                            <form method="POST" action="{% url 'search' %}">
+                                {% csrf_token %}
+                                <input type="text" placeholder="What do yo u need?" name="searched"    >
+                                <button type="submit" class="site-btn">TÌM KIẾM</button>
+                            </form>
+                        </div>
+                        <div class="hero__search__phone">
+                            <div class="hero__search__phone__icon">
+                                <i class="fa fa-phone"></i>
+                            </div>
+                            <div class="hero__search__phone__text">
+                                <h5>+84 974.897.450</h5>
+                                <span>Hỗ trợ 24/7</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="max-height: 400px;" class="container mt-5">
+            <div id="slider" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    {% for index in slide %}
+                        <li data-target="#carouselExampleIndicators" data-slide-to="{{ index }}" {% if forloop.first %}class="active"{% endif %}></li>
+                    {% endfor %}
+                </ol>
+                <div class="carousel-inner">
+                    {% for index in slide %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                            <img src="{{ index.ImageURL }}" class="d-block w-100" alt="">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h3 style="color: white; font-weight: bold;">
+                                    <a style="color:white;" href="{% url 'category' %}?category={{ index.category_slide.slug }}">{{ index.name }}</a>
+                                </h3>
+                                <p style="color: white">{{ index.detail }}</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <a class="carousel-control-prev" href="#slider" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#slider" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+{#                    {% for foo in slide %}#}
+{#                    <div class="hero__item set-bg" style="visibility: {{ slide_hidden }}"  data-setbg="{% static 'app/images/icbars.png' %}">#}
+{#                        <div class="hero__text">#}
+{#                            <span>FRUIT FRESH</span>#}
+{#                            <h2>Vegetable <br />100% Organic</h2>#}
+{#                            <p>Free Pickup and Delivery Available</p>#}
+{#                            <a href="#" class="primary-btn">SHOP NOW</a>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                    {% endfor %}#}
+
+
+                </div>
+            </div>
+        </div>
+    </section>

@@ -26,23 +26,26 @@ urlpatterns = [
     path('editAddress/', views.editAddress, name="editAddress"),
     path('my_order/', views.myOrder, name="myOrder"),
     path('delete_my_order/', views.deletemyOrder, name="delete_myOrder"),
-    # phan admin
+
+    # ADMIN
     path('manage/', views.Manage, name="manage"),
     path('home_manage/', views.homeManage, name="home_manage"),
     path('manageSlide/', views.manageSlide, name="manageSlide"),
-
+    #PRODUCTS
     path('manageProduct/', views.manageProduct, name="manageProduct"),
     path('addProduct/', views.addProduct, name="addProduct"),
     path('editProduct/', views.editProduct, name="editProduct"),
-    path('deleteProduct/<str:id>', views.deleteProduct, name="deleteProduct"),
+    path('deleteProduct/<int:id>', views.deleteProduct, name="deleteProduct"),
     path('viewProduct/', views.viewProduct, name="viewProduct"),
+
+    #CATEGORY
     path('manageCategory/', views.manageCategory, name="manageCategory"),
     path('addCategory/', views.addCategory, name="addCategory"),
     path('editCategory/', views.editCategory, name="editCategory"),
     path('deleteCategory/', views.deleteCategory, name="deleteCategory"),
 
+    #ORDER
     path('manageUser/', views.manageUser, name="manageUser"),
-
     path('manageOrder/', views.manageOrder, name="manageOrder"),
     path('viewOrder/', views.viewOrder, name="viewOrder"),
     path('delOrder/', views.delOrder, name="delOrder"),

@@ -1,6 +1,8 @@
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
+from django.urls import reverse
+
 from app.models import *
 from django.contrib.auth.decorators import login_required, user_passes_test
 
@@ -27,10 +29,15 @@ def addProduct(request):
         form = AddProduct(request.POST, request.FILES)
         if form.is_valid():
             instance = form.save()  # Lưu thông tin model vào cơ sở dữ liệu
+            print('oke luu thanh cong')
             for image in request.FILES.getlist('images'):
                 instance.image.create(image=image)
-            messages.success(request, 'Product saved successfully!')
+            messages.success(request, 'Thêm sản phẩm thành công')
             return redirect('manageProduct')
+        else:
+            messages.error(request, 'Thêm sản phẩm thất bại')
+    else:
+        messages.error(request, 'Thêm sản phẩm thất bại')
 
     context = {'form': form,
                'messages': messages,
@@ -45,7 +52,7 @@ def editProduct(request):
         form = AddProduct(request.POST, request.FILES, instance=product)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Category updated successfully!')
+            messages.success(request, 'Sửa sản phẩm thành công!!')
             return redirect('manageProduct')
     form = AddProduct(instance=product,
                       initial={'name': product.name,
@@ -59,10 +66,18 @@ def editProduct(request):
     return render(request, 'admin/editProduct.html', context)
 
 def deleteProduct(request, id):
-    product_del = Product.objects.filter(id=id).delete()
-
-    context = {'product_del': product_del}
-    return redirect(request,'admin/managementProduct.html', context)
+    print('hello')
+    print(id)
+    print(request.method)
+    if request.method == 'GET':
+        print('nhảy vào thằng post')
+        print(id)
+        Product.objects.filter(id=id).delete()
+        messages.success(request, 'Sản phẩm đã được xóa thành công.')
+        return redirect(reverse('manageProduct'))
+    else:
+        print('không voo đc rôif')
+        return render(request, 'admin/managementProduct.html')
 
 def viewProduct(request):
     id = request.GET.get('id', '')  # lấy id khi người dùng vlick vào sản phẩm nào đó

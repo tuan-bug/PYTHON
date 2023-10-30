@@ -16,9 +16,10 @@ def loginPage(request):
         user = authenticate(request, username=userName, password=passWord)
         if user is not None:
             login(request, user)
+            messages.success(request, 'Đăng nhập thành công.')
             return redirect('home')
         else:
-            messages.info(request, 'UserName or PassWord not ddungs')
+            messages.error(request, 'Tên đăng nhập hoặc mật khẩu không chính xác')
     context = {'user_login': user_login,
                'user_not_login': user_not_login,
                'slide_hidden': slide_hidden,

@@ -1,15 +1,16 @@
 {% extends 'admin/manage.html' %}
 {% load static %}
 {% block blog-slide %}
+    {% include 'admin/layout/message.html' %}
     <div class="container mt-4">
            <h2 class="text-center">QUẢN LÝ ĐƠN HÀNG</h2>
         <section class="mt-3">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="shoping__cart__table">
-                            <table>
-                                <thead>
+                        <div>
+                            <table style="width: 100%">
+                                <thead class="mb-3">
                                     <tr>
                                         <th>ID</th>
                                         <th>Khách Hàng</th>
@@ -42,9 +43,18 @@
                                             Đang giao
                                         </td>
                                         <td>
-                                            <a style="" href="{% url 'viewOrder' %}?id={{ order.id }}" class="btn btn-primary btn-sm">Xem</a>
-                                            <a href="{% url 'manageOrder' %}" class="btn btn-primary btn-sm">Sửa</a>
-                                            <a href="{% url 'delOrder' %}?id={{ order.id }}" class="btn btn-danger btn-sm">Xóa</a>
+                                            <a style="" href="{% url 'viewOrder' %}?id={{ order.id }}" class="btn btn-info btn-circle">
+                                                <img src="{% static 'admin/icons/view.png' %}" alt="">
+                                            </a>
+                                            <a href="{% url 'manageOrder' %}" class="btn btn-warning btn-circle">
+                                                <img src="{% static 'admin/icons/pen (1).png' %}" alt="">
+                                            </a>
+                                            <a href="{% url 'delOrder' %}?id={{ order.id }}" class="btn btn-danger btn-circle ">
+                                                <img src="{% static 'admin/icons/trash (1).png' %}" alt="">
+                                            </a>
+{#                                            <a style="" href="" class="btn btn-primary btn-sm">Xem</a>#}
+{#                                            <a href="{% url 'manageOrder' %}" class="btn btn-primary btn-sm">Sửa</a>#}
+{#                                            <a href="{% url 'delOrder' %}?id={{ order.id }}" class="btn btn-danger btn-sm">Xóa</a>#}
                                         </td>
                                     </tr>
                                     {% endfor %}

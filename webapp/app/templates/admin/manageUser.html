@@ -1,17 +1,18 @@
 {% extends 'admin/manage.html' %}
 {% load static %}
 {% block blog-product %}
+    {% include 'admin/layout/message.html' %}
     <div class="container mt-4">
        <h2 class="text-center">QUẢN LÝ THÀNH VIÊN</h2>
     <div class="text-right mb-3">
-       <button style="border: none;" class="primary-btn" data-toggle="modal" ><a style="color: white;" href="{% url 'addProduct' %}">Thêm người dùng</a></button>
+       <button class="btn btn-primary btn-icon-split p-2" data-toggle="modal" ><a style="color: white;" href="{% url 'addProduct' %}">Thêm người dùng</a></button>
   </div>
   <section class="mt-3">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="shoping__cart__table">
-                        <table>
+                        <table style="width: 100%">
                             <thead>
                                 <tr>
                                     <th>ID</th>
@@ -19,7 +20,7 @@
                                     <th>Email</th>
                                     <th>Họ</th>
                                     <th>Tên</th>
-                                    <th>Quền</th>
+                                    <th>Quyền</th>
                                     <th>Thao Tác</th>
                                 </tr>
                             </thead>
@@ -45,8 +46,8 @@
                                         {{ user.staff_status }}
                                     </td>
                                     <td>
-                                        <a href="{% url 'editProduct' %}?id={{ product.id }}" class="btn btn-primary btn-sm">Sửa</a>
-                                        <a href="{% url 'deleteCategory' %}?id={{ product.id }}" class="btn btn-danger btn-sm">Xóa</a>
+                                        <a href="{% url 'editProduct' %}?id={{ product.id }}" class="btn btn-primary btn-sm mr-1">Sửa</a>
+                                        <a href="{% url 'deleteCategory' %}?id={{ product.id }}" class="btn btn-danger btn-sm mr-1">Xóa</a>
                                     </td>
                                 </tr>
                                 {% endfor %}

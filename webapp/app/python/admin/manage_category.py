@@ -25,9 +25,12 @@ def addCategory(request):
         form = AddCategory(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Category saved successfully!')
+            messages.success(request, 'Thêm danh mục thành công')
             return redirect('manageCategory')
-
+        else:
+            messages.error(request, 'Thêm danh mục thất bại')
+    else:
+        messages.error(request, 'Thêm danh mục thất bại')
     context = {'form': form,
                'messages': messages,
                }
@@ -40,14 +43,19 @@ def editCategory(request):
         form = AddCategory(request.POST, request.FILES, instance=category)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Category updated successfully!')
+            messages.success(request, 'Sửa danh mục thành công')
             return redirect('manageCategory')
+        else:
+            messages.success(request, 'Sửa danh mục thất bại')
+    else:
+        messages.success(request, 'Sửa danh mục thất bại')
     form = AddCategory(instance=category,
                        initial={'sub_category': category.sub_category,
                                 'is_sub': category.is_sub,
                                 'name': category.name,
                                 'slug': category.slug,
-                                'image': category.image
+                                'image': category.image,
+                                'messages': messages,
                                 })
 
     context = {'category': category,
@@ -59,7 +67,8 @@ def deleteCategory(request):
     category = get_object_or_404(Category, id=id)
     if request.method == 'POST':
         category.delete()
-        messages.success(request, 'Category deleted successfully!')
+        messages.success(request, 'Đã xóa danh mục')
         return redirect('manageCategory')
-    context ={'category': category}
+    context ={'category': category,
+              'messages': messages,}
     return render(request, 'admin/deleteCategory.html', context)

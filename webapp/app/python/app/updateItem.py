@@ -1,5 +1,5 @@
 import json
-
+from django.contrib import messages
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required  # Đảm bảo người dùng đã đăng nhập
 from app.models import *
@@ -19,13 +19,16 @@ def updateItem(request):
             cart, created = Cart.objects.get_or_create(product=product, user=customer)
 
             if action == 'add':
+                messages.success(request,"Thêm sản phẩm vào giỏ hàng");
                 cart.quantity += 1
             elif action == 'remove':
+                messages.success(request, "Giảm số lượng sản phẩm");
                 cart.quantity -= 1
 
             if cart.quantity > 0:
                 cart.save()
             else:
+                messages.error(request, "Xóa sản phẩm khỏi giỏ hàng");
                 cart.delete()
 
             return JsonResponse({'message': 'Cart updated successfully.'})
