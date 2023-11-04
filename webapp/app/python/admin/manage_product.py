@@ -26,17 +26,24 @@ def manageProduct(request):
 def addProduct(request):
     form = AddProduct()
     if request.method == 'POST':
+        images = request.FILES.getlist('listImages')
         form = AddProduct(request.POST, request.FILES)
         if form.is_valid():
             instance = form.save()  # Lưu thông tin model vào cơ sở dữ liệu
             print('oke luu thanh cong')
             for image in request.FILES.getlist('images'):
                 instance.image.create(image=image)
+            for image in images:
+                photo = ImagesProduct.objects.create(product=instance, image=image)
             messages.success(request, 'Thêm sản phẩm thành công')
             return redirect('manageProduct')
         else:
+            print('lỗi form')
+            print(form.errors)
             messages.error(request, 'Thêm sản phẩm thất bại')
     else:
+        print('khog biet')
+        print(request.method)
         messages.error(request, 'Thêm sản phẩm thất bại')
 
     context = {'form': form,

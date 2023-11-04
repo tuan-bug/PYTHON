@@ -45,6 +45,8 @@ def detail(request):
     # Chuyển danh sách tên thành danh sách Python
     category_names_list = list(category_names)
 
+    product_images = ImagesProduct.objects.filter(product=products)
+
     print(category_names_list)
     if request.method == 'POST':
         form = CommentForm(request.POST)
@@ -67,5 +69,6 @@ def detail(request):
                'fixed_height': fixed_height,
                'fixed_comment': fixed_comment,
                'show_manage': show_manage,
+               'product_images': product_images,
                }
     return render(request, 'app/detail.html', context)

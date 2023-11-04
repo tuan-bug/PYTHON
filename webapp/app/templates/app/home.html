@@ -1,38 +1,5 @@
 {% extends 'app/base.html' %}
 {% load static %}
-{#{% block blog_slider %}#}
-{#<div class="container pt-4">#}
-{#  <div class="row g-2" style="width:100%;">#}
-{#    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">#}<li data-target="#carouselExampleIndicators" data-slide-to="{{ index }}" {% if forloop.first %}class="active"{% endif %}></li>
-{#  <ol class="carousel-indicators">#}
-{#    {% for index in slide %}#}
-{#      #}
-{#    {% endfor %}#}
-{#  </ol>#}
-{##}
-{#  <div class="carousel-inner">#}
-{#    {% for item in slide %}#}
-{#      <div class="carousel-item {% if forloop.first %}active{% endif %}">#}
-{#        <img class="d-block w-100 img-responsive " src="{{ item.ImageURL }}" alt="Slide">#}
-{#        <div class="carousel-caption d-none d-md-block">#}
-{#          <h5> <a class="text-decoration-none text-reset" href="{% url 'category' %}?category={{ item.category_slide.slug }}" >{{ item.name }} </a> </h5>#}
-{#          <p>{{ item.detail }}</p>#}
-{#        </div>#}
-{#      </div>#}
-{#    {% endfor %}#}
-{#  </div>#}
-{#      <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">#}
-{#        <span class="carousel-control-prev-icon" aria-hidden="true"></span>#}
-{#        <span class="sr-only">Previous</span>#}
-{#      </a>#}
-{#      <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">#}
-{#        <span class="carousel-control-next-icon" aria-hidden="true"></span>#}
-{#        <span class="sr-only">Next</span>#}
-{#      </a>#}
-{#    </div>#}
-{#    </div>#}
-{#</div>#}
-{#{% endblock blog_slider %}#}
 
 {% block main-content %}
     {% include 'app/layout/message.html' %}

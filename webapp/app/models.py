@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django import forms
 from django.utils import timezone
 from rest_framework import serializers
+from ckeditor.fields import RichTextField
 from django.contrib.auth.forms import UserCreationForm
 class Category(models.Model):
     sub_category = models.ForeignKey('self', on_delete=models.CASCADE, related_name='sub_categories', null=True, blank=True)
@@ -41,7 +42,7 @@ class Product(models.Model):
     category = models.ManyToManyField(Category, related_name='product_category')
     price = models.FloatField()
     price_sale = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
-    describe = models.CharField(max_length=300, null=True)
+    describe = RichTextField()
     digital = models.BooleanField(default=False, null=True, blank=False)
     image = models.ImageField(null=True, blank=True)
     unit = models.CharField(max_length=50, null=True, blank=True)
@@ -56,6 +57,16 @@ class Product(models.Model):
             url = ''
         return url
 
+
+class ImagesProduct(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, blank=True)
+    image = models.ImageField(null=True, blank=True)
+    def ImageURL(self):
+        try:
+            url = self.image.url
+        except:
+            url = ''
+        return url
 class Cart(models.Model):
     product = models.ForeignKey(Product, on_delete=models.SET_NULL, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
@@ -146,12 +157,13 @@ class AddProduct(forms.ModelForm):
         fields = ['name', 'category', 'price', 'price_sale', 'describe', 'digital', 'image', 'unit', 'count']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
-            'describe': forms.Textarea(attrs={'class': 'form-control', 'style': 'height: 150px'}),
+            # 'describe': forms.Textarea(attrs={'class': 'form-control', 'style': 'height: 150px'}),
             'price': forms.TextInput(attrs={'class': 'form-control'}),
             'price_sale': forms.TextInput(attrs={'class': 'form-control'}),
             'category': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input, d-flex'}),
             'unit': forms.TextInput(attrs={'class': 'form-control'}),
             'count': forms.TextInput(attrs={'class': 'form-control'}),
+
         }
 
 class AddCategory(forms.ModelForm):
