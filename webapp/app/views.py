@@ -210,24 +210,33 @@ def payment_return(request):
         vnp_CardType = inputData['vnp_CardType']
         if vnp.validate_response(settings.VNPAY_HASH_SECRET_KEY):
             if vnp_ResponseCode == "00":
-                return render(request, "payment/payment_return.html", {"title": "Kết quả thanh toán",
-                                                               "result": "Thành công", "order_id": order_id,
-                                                               "amount": amount,
-                                                               "order_desc": order_desc,
-                                                               "vnp_TransactionNo": vnp_TransactionNo,
-                                                               "vnp_ResponseCode": vnp_ResponseCode})
+                return render(request, "payment/payment_return.html",
+                              {
+                                   "title": "Kết quả thanh toán",
+                                   "result": "Thành công", "order_id": order_id,
+                                   "amount": amount,
+                                   "order_desc": order_desc,
+                                   "vnp_TransactionNo": vnp_TransactionNo,
+                                   "vnp_ResponseCode": vnp_ResponseCode
+                               })
             else:
-                return render(request, "payment/payment_return.html", {"title": "Kết quả thanh toán",
-                                                               "result": "Lỗi", "order_id": order_id,
-                                                               "amount": amount,
-                                                               "order_desc": order_desc,
-                                                               "vnp_TransactionNo": vnp_TransactionNo,
-                                                               "vnp_ResponseCode": vnp_ResponseCode})
+                return render(request, "payment/payment_return.html",
+                              {
+                                  "title": "Kết quả thanh toán",
+                                  "result": "Lỗi", "order_id": order_id,
+                                  "amount": amount,
+                                  "order_desc": order_desc,
+                                  "vnp_TransactionNo": vnp_TransactionNo,
+                                  "vnp_ResponseCode": vnp_ResponseCode
+                              })
         else:
             return render(request, "payment/payment_return.html",
-                          {"title": "Kết quả thanh toán", "result": "Lỗi", "order_id": order_id, "amount": amount,
-                           "order_desc": order_desc, "vnp_TransactionNo": vnp_TransactionNo,
-                           "vnp_ResponseCode": vnp_ResponseCode, "msg": "Sai checksum"})
+                          {
+                              "title": "Kết quả thanh toán",
+                              "result": "Lỗi", "order_id": order_id, "amount": amount,
+                              "order_desc": order_desc, "vnp_TransactionNo": vnp_TransactionNo,
+                              "vnp_ResponseCode": vnp_ResponseCode, "msg": "Sai checksum"
+                          })
     else:
         return render(request, "payment/payment_return.html", {"title": "Kết quả thanh toán", "result": ""})
 
