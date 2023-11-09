@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'ckeditor',
+    'paypal.standard.ipn',
 ]
 
 MIDDLEWARE = [
@@ -149,3 +150,15 @@ STATICFILE_DIRS = [
 ]
 MEDIA_ROOT = os.path.join(BASE_DIR, 'app/static/images')
 MEDIA_URL = '/images/'
+
+
+PAYPAL_TEST = True
+
+
+
+# VNPAY CONFIG
+VNPAY_RETURN_URL = 'http://localhost:8888/payment_return'  # get from config
+VNPAY_PAYMENT_URL = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html'  # get from config
+VNPAY_API_URL = 'https://sandbox.vnpayment.vn/merchant_webapi/api/transaction'
+VNPAY_TMN_CODE = 'RQRUPPGA'  # Website ID in VNPAY System, get from config
+VNPAY_HASH_SECRET_KEY = 'GAKOYJOISULXHURYEVPVZHRRIQWVUTGZ'  # Secret key for create checksum,get from config

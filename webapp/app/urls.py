@@ -1,7 +1,8 @@
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from . import views
 from .views import *
+
 
 urlpatterns = [
     path('base/', views.base, name="base"),
@@ -50,11 +51,25 @@ urlpatterns = [
     path('viewOrder/', views.viewOrder, name="viewOrder"),
     path('delOrder/', views.delOrder, name="delOrder"),
 
+    path('abcpaypal/',views.view_money, name="viewmoney" ),
+    path('paypal_ipn/',views.paypal_ipn, name="paypal_ipn" ),
+    path('your_return_view/',views.your_return_view, name="your_return_view" ),
+    path('your_cancel_view/',views.view_money, name="your_cancel_view" ),
 
     #API
     path('api/products/', CreateProductAPI.as_view(), name='create-product-api'),
     path('api/productsl/<int:pk>/', UpdateProductAPI.as_view(), name='update-product-api'),
     path('api/category/', CreateCategoryAPI.as_view(), name='create-category-ap'),
     path('api/categorysl/<int:pk>/', UpdateCategoryAPI.as_view(), name='update-category-api'),
+
+
+
+    path('pay/', views.index, name='index'),
+    path('payment/',views.payment, name='payment'),
+    path('payment_ipn/', views.payment_ipn, name='payment_ipn'),
+    path('payment_return/', views.payment_return, name='payment_return'),
+    path('query/', views.query, name='query'),
+    path('refund/', views.refund, name='refund'),
+    # path('admin/', admin.site.urls),
 
 ]
