@@ -108,7 +108,9 @@ def hmacsha512(key, data):
 
 
 def payment(request):
-
+    total_amount = request.GET.get('total', '')
+    print("Tien đc day sang:")
+    print(total_amount)
     if request.method == 'POST':
         # Process input data and build url payment
         form = PaymentForm(request.POST)
@@ -148,7 +150,7 @@ def payment(request):
         else:
             print("Form input not validate")
     else:
-        return render(request, "payment/payment.html", {"title": "Thanh toán"})
+        return render(request, "payment/payment.html", {"title": "Thanh toán",'total_amount': total_amount})
 
 
 def payment_ipn(request):
@@ -208,6 +210,19 @@ def payment_return(request):
         vnp_PayDate = inputData['vnp_PayDate']
         vnp_BankCode = inputData['vnp_BankCode']
         vnp_CardType = inputData['vnp_CardType']
+
+        payment_record = PaymentRecord.objects.create(
+            order_id=order_id,
+            amount=amount,
+            order_desc=order_desc,
+            transaction_no=vnp_TransactionNo,
+            response_code=vnp_ResponseCode,
+           
+            bank_code=vnp_BankCode,
+            card_type=vnp_CardType,
+            success=(vnp_ResponseCode == "00")
+        )
+
         if vnp.validate_response(settings.VNPAY_HASH_SECRET_KEY):
             if vnp_ResponseCode == "00":
                 return render(request, "payment/payment_return.html",

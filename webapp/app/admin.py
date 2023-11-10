@@ -11,4 +11,5 @@ admin.site.register(Adress)
 admin.site.register(Cart)
 admin.site.register(Contact)
 admin.site.register(ImagesProduct)
+admin.site.register(PaymentRecord)
 # Register your models here.

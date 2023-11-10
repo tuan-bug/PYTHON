@@ -77,7 +77,7 @@ def Continue1(request):
                'count': count,
                'user_login': user_login,
                'user_not_login': user_not_login,
-               'messages': messages,
+
                'slide_hidden': slide_hidden,
                'fixed_height': fixed_height,
                'show_manage': show_manage

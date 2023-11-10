@@ -42,7 +42,7 @@ class Product(models.Model):
     category = models.ManyToManyField(Category, related_name='product_category')
     price = models.FloatField()
     price_sale = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
-    describe = RichTextField()
+    describe = models.TextField(max_length=10000, null=True, blank=True)
     digital = models.BooleanField(default=False, null=True, blank=False)
     image = models.ImageField(null=True, blank=True)
     unit = models.CharField(max_length=50, null=True, blank=True)
@@ -138,6 +138,18 @@ class Contact(models.Model):
     def __str__(self):
         return self.name
 
+
+
+class PaymentRecord(models.Model):
+    order_id = models.CharField(max_length=255)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    order_desc = models.TextField()
+    transaction_no = models.CharField(max_length=255)
+    response_code = models.CharField(max_length=10)
+    payment_date = models.DateTimeField(default=timezone.now, blank=True, null=True)
+    bank_code = models.CharField(max_length=10)
+    card_type = models.CharField(max_length=20)
+    success = models.BooleanField(default=False)
 
 class FormContact(forms.ModelForm):
     class Meta:

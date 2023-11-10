@@ -15,10 +15,10 @@
                             <h4>CHỌN ĐỊA CHỈ NGƯỜI DÙNG</h4>
                                 {% for address in allAddress %}
                                     <div class="form-check p-2">
-                                        <input class="form-check-input" type="radio" name="address" id="address{{ forloop.counter }}" value="{{ forloop.counter }}"
+                                        <input class="form-check-input ml-1" type="radio" name="address" id="address{{ forloop.counter }}" value="{{ forloop.counter }}"
                                                data-id="{{  address.id }}" data-name="{{  address.name_user }}" data-moblie="{{ address.mobile }}" data-address="{{ address.adress }}"
                                                data-commune="{{ address.commune }}" data-district="{{ address.district }}" data-city="{{ address.city }}">
-                                        <label class="form-check-label" for="address{{ forloop.counter }}">
+                                        <label class="form-check-label ml-4" for="address{{ forloop.counter }}">
                                             Địa chỉ: {{ address.name_user }} - {{ address.mobile }} - {{ address.adress }}
                                              - {{ address.commune }} - {{ address.district }} - {{ address.city }}
                                         </label>
@@ -27,6 +27,25 @@
                             </div>
                         {% else %}
                         {% endif %}
+                            <div id="shipping-info" class="form-show">
+                                <h4>CHỌN PHƯƠNG THỨC THANH TOÁN</h4>
+
+                                <div class="form-check p-2">
+                                    <input class="form-check-input ml-1" type="radio" name="receive">
+                                    <label class="form-check-label ml-4">Thanh toán khi nhận hàng</label>
+                                </div>
+                                <a href="{% url "payment"%}?total={{ total_all }}">
+                                    <div class="form-check p-2">
+                                        <input class="form-check-input ml-1" type="radio" name="pay_by_card">
+                                        <label class="form-check-label ml-4">
+                                            <a style="color: black" href="{% url "payment"%}?total={{ total_all }} ">Thanh toán bằng thẻ</a>
+                                        </label>
+                                    </div>
+                                </a>
+
+
+                            </div>
+
                         <button id="submit-button" type="submit" class="btn primary-btn btn-sm"><a style="color: white" href="{% url 'address' %}?address={{ address.id }}">Submit</a></button>
                     </form>
                 </div>
