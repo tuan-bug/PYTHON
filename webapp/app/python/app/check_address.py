@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from app.models import *
 
@@ -33,9 +33,13 @@ def Continue1(request):
         user_not_login = "show"
         user_login = "none"
 
+    total_temp = total_all
+
 # Xử lý chính
     id = request.GET.get('id', '')
     print("lấy id của address: " + id)
+    payment_method_value = request.GET.get('payment_method', '')
+    print("Phương thức thanh toán:", payment_method_value)
     address = Adress.objects.filter(id=id)
     address_data = address.values()
     try:
@@ -58,7 +62,6 @@ def Continue1(request):
             print("Lưu thành công đối tượng OrderItem, SL còn: ")
             print(items_order.product.count)
 
-
         products = OrderItem.objects.filter(order=order)
         for item in products:
             item.total = item.product.price * item.quantity
@@ -67,10 +70,16 @@ def Continue1(request):
     except Adress.DoesNotExist:
         # Xử lý trường hợp không tìm thấy bản ghi
         pass
-
     print(name, city, address_sate, mobile, district, commune)
     for item in items:
         print(item)
+
+    print(total_temp)
+    if payment_method_value == 'credit_card':
+        # Điều hướng đến trang thanh toán trực tuyến (thay thế URL này bằng URL thực tế của bạn)
+        return render(request, 'payment/payment.html', {'total_amount': total_temp,
+                                                        'order_id': order.id,
+                                                        } )
     context = {
                'products': products,
                'total_all': total_all,

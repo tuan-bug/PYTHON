@@ -13,6 +13,7 @@ def myOrder(request):
     order_items = {}  # Tạo một từ điển để lưu trữ các đơn hàng và mặt hàng tương ứng
     order_addresses = {}  # Tạo một từ điển để lưu trữ đơn hàng và thông tin địa chỉ tương ứng
     order_total_amounts = {}
+    order_check = {}
 
     for order in my_orders:
         items = OrderItem.objects.filter(order=order)
@@ -26,6 +27,13 @@ def myOrder(request):
 
         address = order.address  # Truy cập vào đối tượng Address liên kết với đơn hàng
         order_addresses[order] = address
+        print("ID")
+        print(order.id)
+        check = PaymentRecord.objects.filter(order_id=order.id)
+        print("Check test xem sao: ")
+        print(check)
+        order_check[order.id] = check
+        print(order_check)
         if order.id in order_total_amounts:  # Sửa lại kiểm tra xem order.id có trong order_total_amounts
             print(f"Giá trị đã được lưu cho đơn hàng '{order}': {order_total_amounts[order.id]}")
         else:
@@ -35,6 +43,7 @@ def myOrder(request):
 
     context = {
         'order_addresses': order_addresses,
+        'order_check': order_check,
         'order_items': order_items,
         'slide_hidden': slide_hidden,
         'fixed_height': fixed_height,

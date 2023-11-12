@@ -108,7 +108,7 @@ def hmacsha512(key, data):
 
 
 def payment(request):
-    total_amount = request.GET.get('total', '')
+    total_amount = request.GET.get('total_amount', '')
     print("Tien đc day sang:")
     print(total_amount)
     if request.method == 'POST':
