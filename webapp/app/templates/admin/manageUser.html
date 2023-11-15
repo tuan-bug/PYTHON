@@ -43,11 +43,17 @@
                                         {{ user.first_name }}
                                     </td>
                                     <td>
-                                        {{ user.staff_status }}
+                                        {% if user.is_staff %}
+                                            Admin
+                                        {% else %}
+                                            Người dùng
+                                        {% endif %}
+
+
                                     </td>
                                     <td>
                                         <a href="{% url 'editProduct' %}?id={{ product.id }}" class="btn btn-primary btn-sm mr-1">Sửa</a>
-                                        <a href="{% url 'deleteCategory' %}?id={{ product.id }}" class="btn btn-danger btn-sm mr-1">Xóa</a>
+                                        <a href="" class="btn btn-danger btn-sm mr-1">Xóa</a>
                                     </td>
                                 </tr>
                                 {% endfor %}

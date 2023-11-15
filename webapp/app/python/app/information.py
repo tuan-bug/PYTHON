@@ -44,7 +44,7 @@ def Information(request):
         items = []
         user_not_login = "show"
         user_login = "none"
-
+    total_all = '{:,.0f}'.format(total_all)
     context = {'user': user,
                'form': form,
                'address_infor': address_infor,

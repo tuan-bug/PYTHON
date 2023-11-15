@@ -12,7 +12,7 @@
         {% if order_items %}
             {% for order, items in order_items.items %}
             <div class="col-md-1"></div>
-            <div class="col-md-10 pt-4 mb-3">
+            <div class="col-md-10 pt-4 mb-5">
             <h4 class="text-center">HÓA ĐƠN</h4>
                 <div class="box-element pt-2 " id="form-wrapper">
                 <div class="d-flex">
@@ -36,9 +36,6 @@
                             {% else %}
                                 <span> Trạng thái: Chưa thanh toán </span>
                             {% endif %}
-{#                                {% with payment_status=order_check %}#}
-{#                                    <span> Trạng thái: {% if payment_status != '' %} Đã thanh toán {% else %} Chưa thanh toán {% endif %}</span>#}
-{#                                {% endwith %}#}
                             </div>
                         </div>
                 </div>

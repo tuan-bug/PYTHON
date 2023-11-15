@@ -1,6 +1,6 @@
 {% extends 'app/base.html' %}
 {% load static %}
-
+{% load custom_filters %}
 {% block shop-content %}
     {% include 'app/layout/message.html' %}
     <section class="breadcrumb-section set-bg mt-4" data-setbg="{% static 'app/images/details/details-hero.jpg' %}">
@@ -111,7 +111,7 @@
                                         </div>
                                         <div class="product__discount__item__text">
                                             <h5><a href="{% url 'detail' %}?id={{ product.id }}" >{{ product.name }}</a></h5>
-                                            <div class="product__item__price">${{ product.price_sale }} <span>${{ product.price }}</span></div>
+                                            <div class="product__item__price">{{ product_sale_price | get_item:product.id }} VND <span> {{ pr_sale | get_item:product.id  }} VND</span></div>
                                         </div>
                                     </div>
                                 </div>
@@ -131,7 +131,7 @@
                                     </div>
                                     <div class="product__item__text">
                                         <h6><a href="#">{{ product.name}}</a></h6>
-                                        <h5>{{product.price}}</h5>
+                                        <h5>{{product_price | get_item:product.id}} VND</h5>
                                     </div>
                                 </div>
                             </div>

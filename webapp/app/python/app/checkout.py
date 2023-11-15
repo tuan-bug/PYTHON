@@ -33,7 +33,7 @@ def checkout(request):
         items = []
         user_not_login = "show"
         user_login = "none"
-
+    total_all = '{:,.0f}'.format(total_all)
     if allAddress is not None and allAddress.exists():
         # Ẩn form thêm địa chỉ
         form_hidden = "hidden"

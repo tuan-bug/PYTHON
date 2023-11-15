@@ -32,7 +32,7 @@ def Continue1(request):
         items = []
         user_not_login = "show"
         user_login = "none"
-
+    total_all = '{:,.0f}'.format(total_all)
     total_temp = total_all
 
 # Xử lý chính
@@ -58,6 +58,7 @@ def Continue1(request):
             items_order = OrderItem(product=item.product, order=order, quantity=item.quantity, total= item.product.price * item.quantity)
             items_order.save()
             items_order.product.count -= item.quantity
+            items_order.product.sell_number += item.quantity
             item.product.save()
             print("Lưu thành công đối tượng OrderItem, SL còn: ")
             print(items_order.product.count)

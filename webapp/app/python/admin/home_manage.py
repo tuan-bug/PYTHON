@@ -30,7 +30,7 @@ def homeManage(request):
 
     feedback = Contact.objects.all().count()
     contacts = Contact.objects.all()
-
+    total = '{:,.0f}'.format(total)
     context = {
         'count': count,
         'total': total,

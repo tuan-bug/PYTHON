@@ -43,7 +43,7 @@ urlpatterns = [
     path('manageCategory/', views.manageCategory, name="manageCategory"),
     path('addCategory/', views.addCategory, name="addCategory"),
     path('editCategory/', views.editCategory, name="editCategory"),
-    path('deleteCategory/', views.deleteCategory, name="deleteCategory"),
+    path('deleteCategory/<int:id>', views.deleteCategory, name="deleteCategory"),
 
     #ORDER
     path('manageUser/', views.manageUser, name="manageUser"),

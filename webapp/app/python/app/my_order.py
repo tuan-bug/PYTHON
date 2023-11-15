@@ -9,12 +9,27 @@ def myOrder(request):
     fixed_height = "20px"
     show_manage = 'show'  # Đảm bảo rằng biến show_manage đã được khai báo
 
+    if request.user.is_authenticated:
+        customer = request.user
+        items = Cart.objects.filter(user=customer)
+        user_not_login = "none"
+        user_login = "show"
+        for item in items:
+            print(item)
+            # item.total = item.product.price * item.quantity
+            # total_all += item.product.price * item.quantity
+            # count += item.quantity
+    else:
+        items = []
+        user_not_login = "show"
+        user_login = "none"
+
+
     my_orders = Order.objects.filter(customer=request.user)
     order_items = {}  # Tạo một từ điển để lưu trữ các đơn hàng và mặt hàng tương ứng
     order_addresses = {}  # Tạo một từ điển để lưu trữ đơn hàng và thông tin địa chỉ tương ứng
     order_total_amounts = {}
     order_check = {}
-
     for order in my_orders:
         items = OrderItem.objects.filter(order=order)
         order_items[order] = items
@@ -43,6 +58,8 @@ def myOrder(request):
 
     context = {
         'order_addresses': order_addresses,
+        'user_not_login': user_not_login,
+        'user_login': user_login,
         'order_check': order_check,
         'order_items': order_items,
         'slide_hidden': slide_hidden,

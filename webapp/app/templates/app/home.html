@@ -1,6 +1,6 @@
 {% extends 'app/base.html' %}
 {% load static %}
-
+{% load custom_filters %}
 {% block main-content %}
     {% include 'app/layout/message.html' %}
 
@@ -54,7 +54,7 @@
                         </div>
                         <div class="featured__item__text">
                             <h6><a href="{% url 'detail' %}?id={{ product.id }}">{{product.name}}</a></h6>
-                            <h5>${{product.price | floatformat:2}}</h5>
+                            <h5>{{product_price | get_item:product.id}} VND</h5>
                         </div>
                     </div>
                 </div>

@@ -25,23 +25,33 @@ def searchProduct(request):
     if request.method == "POST":
         search = request.POST["searched"]
         keys = Product.objects.filter(name__contains=search)
+        total_all = 0
+        count = 0
         if request.user.is_authenticated:
             customer = request.user
-            order, created = Order.objects.get_or_create(customer=customer, complete=False)
-            items = order.orderitem_set.all()
+            items = Cart.objects.filter(user=customer)
+            user_not_login = "none"
+            user_login = "show"
             for item in items:
+                print(item)
                 item.total = item.product.price * item.quantity
+                total_all += item.product.price * item.quantity
+                count += item.quantity
         else:
             order = None
             items = []
+        total_all = '{:,.0f}'.format(total_all)
     return render(request, "app/search.html",
                   {'categories': categories,
+                   'items': items,
+                   'total_all': total_all,
+                   'count': count,
                    'user_login': user_login,
                    'user_not_login': user_not_login,
                    "search": search,
                    "keys": keys,
                    'items': items,
-                   'order': order,
+
                    'slide_hidden': slide_hidden,
                    'fixed_height': fixed_height,
                    'show_manage': show_manage,

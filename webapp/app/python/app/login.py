@@ -17,6 +17,9 @@ def loginPage(request):
         if user is not None:
             login(request, user)
             messages.success(request, 'Đăng nhập thành công.')
+            print(user.is_staff)
+            if user.is_staff:
+                return redirect('home_manage')
             return redirect('home')
         else:
             messages.error(request, 'Tên đăng nhập hoặc mật khẩu không chính xác')

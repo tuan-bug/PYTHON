@@ -29,6 +29,7 @@ def blog(request):
         items = []
         user_not_login = "show"
         user_login = "none"
+    total_all = '{:,.0f}'.format(total_all)
     context = {'show_manage': show_manage,
                'user_not_login': user_not_login,
                'user_login': user_login,

@@ -53,7 +53,7 @@ def category(request):
         items = []
         user_not_login = "show"
         user_login = "none"
-
+    total_all = '{:,.0f}'.format(total_all)
     context ={'items': items,
               'total_all': total_all,
               'count': count,

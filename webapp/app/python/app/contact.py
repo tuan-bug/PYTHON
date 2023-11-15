@@ -42,7 +42,7 @@ def contact(request):
         else:
             print('Dữ liệu không hợp lệ:', form.errors)
 
-
+    total_all = '{:,.0f}'.format(total_all)
     context ={
         'categories': categories,
         'items': items,

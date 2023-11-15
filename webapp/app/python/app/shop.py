@@ -15,7 +15,17 @@ def shop(request):
         show_manage = 'none'
     categories = Category.objects.all()
     products = Product.objects.filter(price_sale=0)
+    product_price = {}
+    for item in products:
+        product_price[item.id] = '{:,.0f}'.format(item.price)
+
     products_sale = Product.objects.exclude(price_sale=0)
+
+    product_sale_price = {}
+    pr_sale = {}
+    for item in products_sale:
+        product_sale_price[item.id] = '{:,.0f}'.format(item.price_sale)
+        pr_sale[item.id] = '{:,.0f}'.format(item.price)
     first_product_sale = products_sale[0]
     print(categories)
 
@@ -40,9 +50,14 @@ def shop(request):
         items = []
         user_not_login = "show"
         user_login = "none"
+
+    total_all = '{:,.0f}'.format(total_all)
     context = {'categories': categories,
                'products': products,
+               'product_price': product_price,
                'products_sale': products_sale,
+               'pr_sale': pr_sale,
+               'product_sale_price': product_sale_price,
                'first_product_sale': first_product_sale,
                'show_manage': show_manage,
                'user_not_login': user_not_login,

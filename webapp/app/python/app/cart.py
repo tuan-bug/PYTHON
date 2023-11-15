@@ -30,6 +30,7 @@ def cart(request):
         user_not_login = "show"
         user_login = "none"
     categories = Category.objects.filter(is_sub=False)  # lay cac damh muc lon
+    total_all = '{:,.0f}'.format(total_all)
     context = {'items': items,
                'total_all': total_all,
                'count': count,

@@ -36,6 +36,8 @@ def detail(request):
     id = request.GET.get('id', '') # lấy id khi người dùng vlick vào sản phẩm nào đó
     user = request.user
     products = get_object_or_404(Product, id=id)
+    products.view += 1
+    products.save()
     comment = Comment.objects.filter(product=products) # lấy đúng cái cmt của cái sp đó
 
     categories_product = products.category.values_list('id', flat=True)
@@ -46,6 +48,10 @@ def detail(request):
     category_names_list = list(category_names)
 
     product_images = ImagesProduct.objects.filter(product=products)
+
+    formatted_price = '{:,.0f}'.format(products.price)
+    print('Giá: ')
+    print(formatted_price)
 
     print(category_names_list)
     if request.method == 'POST':
@@ -58,6 +64,7 @@ def detail(request):
     context = {'form': form,
                'comments': comment,
                'products': products,
+               'formatted_price': formatted_price,
                'category_names_list': category_names_list,
                'items': items,
                'total_all': total_all,

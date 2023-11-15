@@ -30,6 +30,10 @@ def getHome(request):
         print('not admin')
         show_manage = 'none'
     products = Product.objects.all()
+    product_price = {}
+    for product in products:
+        product_price[product.id] = '{:,.0f}'.format(product.price)
+    # format_price =  '{:,.0f}'.format(products.)
     slide = Slide.objects.all()
     total_all = 0
     count = 0
@@ -47,10 +51,14 @@ def getHome(request):
         items = []
         user_not_login = "show"
         user_login = "none"
+    total_all = '{:,.0f}'.format(total_all)
+    print('tong: ....')
+    print(total_all)
 
     categories = Category.objects.filter(is_sub=False)  # lay cac damh muc lon
     active_category = request.GET.get('category', '')
     context = {'products': products,
+               'product_price': product_price,
                'slide': slide,
                'items': items,
                'total_all': total_all,
