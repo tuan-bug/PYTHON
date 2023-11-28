@@ -6,6 +6,7 @@
 # pip install django-cors-headers
 # pip install django-ckeditor
 # pip install paypal
+#pip install Pillow
 # python manage.py createsuperuser  : bạn phải tạo 1 tài khoản để truy cập vào trang admin
 
 # chạy lệnh để khởi tạo
