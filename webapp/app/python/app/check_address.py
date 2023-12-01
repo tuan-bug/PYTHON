@@ -32,7 +32,7 @@ def Continue1(request):
         items = []
         user_not_login = "show"
         user_login = "none"
-    total_all = '{:,.0f}'.format(total_all)
+    # total_all = '{:,.0f}'.format(total_all)
     total_temp = total_all
 
 # Xử lý chính

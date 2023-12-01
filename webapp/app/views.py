@@ -28,7 +28,7 @@ from .python.app.my_order import myOrder, deletemyOrder
 from .python.admin.manage import Manage
 from .python.admin.home_manage import homeManage
 from .python.admin.manage_slide import manageSlide
-from .python.admin.manage_user import manageUser
+from .python.admin.manage_user import manageUser, deleteUser, addUser
 from .python.admin.managr_order import manageOrder, viewOrder, delOrder
 from .python.admin.manage_category import manageCategory, addCategory, editCategory, deleteCategory
 from .python.admin.manage_product import manageProduct, addProduct, editProduct, deleteProduct, viewProduct

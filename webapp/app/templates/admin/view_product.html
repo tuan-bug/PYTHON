@@ -9,7 +9,7 @@
                 <div class="col-lg-5 col-md-5">
                     <div class="product__details__pic">
                         <div class="product__details__pic__item">
-                            <img class="product__details__pic__item--large"
+                            <img style="width: 100%" class="product__details__pic__item--large"
                                 src="{{product.ImageURL}}" alt="">
                         </div>
                     </div>
@@ -23,7 +23,6 @@
                                 {% for category_name in category_names_list %}
                                     <span>{{ category_name }}</span>,
                                 {% endfor %}
-
                             </li>
                             <li><b>Giá: </b> <span>${{product.price | floatformat:2}}</span></li>
                             <li><b>Giá khuyến mãi: </b> <span>${{product.price_sale | floatformat:2}}</span></li>

@@ -11,9 +11,11 @@ def is_admin(user):
 def homeManage(request):
     orders = Order.objects.all();
     count = 0;
+    total_2 = 0
     for order in orders:
         if order:
             count += 1
+            # total_2 += order.get_cart_total
 
     items = OrderItem.objects.all()
 
@@ -21,6 +23,8 @@ def homeManage(request):
     for item in items:
         if item:
             total += item.total
+            print("tien: ")
+            print(total)
 
     users = User.objects.all()
     member = 0
@@ -30,7 +34,7 @@ def homeManage(request):
 
     feedback = Contact.objects.all().count()
     contacts = Contact.objects.all()
-    total = '{:,.0f}'.format(total)
+
     context = {
         'count': count,
         'total': total,

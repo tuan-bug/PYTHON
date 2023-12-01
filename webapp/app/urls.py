@@ -47,9 +47,13 @@ urlpatterns = [
 
     #ORDER
     path('manageUser/', views.manageUser, name="manageUser"),
+    path('addUser/', views.addUser, name="addUser"),
+    path('delUser/<int:id>', views.deleteUser, name="deleteUser"),
+
+
     path('manageOrder/', views.manageOrder, name="manageOrder"),
     path('viewOrder/', views.viewOrder, name="viewOrder"),
-    path('delOrder/', views.delOrder, name="delOrder"),
+    path('delOrder/<int:id>', views.delOrder, name="deleteOrder"),
 
     path('abcpaypal/',views.view_money, name="viewmoney" ),
     path('paypal_ipn/',views.paypal_ipn, name="paypal_ipn" ),

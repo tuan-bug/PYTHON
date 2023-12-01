@@ -2,7 +2,6 @@
 {% extends 'app/base.html' %}
 {% load static %}
 {% block content_checkout %}
-{#    {% include 'app/layout/message.html' %}#}
     <div class="container align-items-center">
         <div class="row" style="width:100%">
             <div class="col-md-3"></div>
@@ -10,10 +9,9 @@
             <h3 class="text-center">THANH TOÁN</h3>
                 <div class="box-element" id="form-wrapper">
                     <div id="shipping-info">
+                    {# Địa chỉ nhận hàng lấy từ JS #}
                         <p id="selected-address"></p>
-{#                        <p>Địa chỉ nhận hàng: <span id="firstName"></span> , <span id="mobile"></span>, <span id="state"></span>, <span id="address"></span>, <span id="city"></span> </p>#}
                     </div>
-
                     <table class="table table-borderless">
                         <thead>
                           <tr>
@@ -30,7 +28,6 @@
                             <td>${{item.product.price}}</td>
                             <td>{{item.quantity}}</td>
                             <td>${{ item.total | floatformat:2 }}</td>
-
                           </tr>
                           {% endfor %}
                         </tbody>
@@ -55,7 +52,6 @@
                 -  ${selectedAddress.commune} - ${selectedAddress.district} - ${selectedAddress.city} `;
             }
         });
-
     </script>
 
 {% endblock content_checkout %}

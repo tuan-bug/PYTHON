@@ -7,7 +7,10 @@ from app.python.admin.manage import is_admin
 def manageSlide(request):
     feedback = Contact.objects.all().count()
     contacts = Contact.objects.all()
+    slides = Slide.objects.all()
+
     context ={'feedback': feedback,
               'contacts': contacts,
+              'slides': slides,
               }
     return render(request, 'admin/managementSlide.html', context)

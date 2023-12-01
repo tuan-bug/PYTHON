@@ -1,6 +1,76 @@
 {% extends 'admin/manage.html' %}
 {% load static %}
-{% block blog-slide %}
+{% block blog-category %}
     {% include 'admin/layout/message.html' %}
-    <h5>Trang slide</h5>
-{% endblock blog-slide %}
+    <div class=" mt-4">
+       <h2 class="text-center">QUẢN LÝ SLIDE</h2>
+        <div class="container-fluid">
+            <div class="text-right mb-3">
+                <button class="btn btn-primary btn-icon-split p-2" data-toggle="modal" ><a style="color: white" href="{% url 'addCategory' %}">Thêm danh mục</a></button>
+            </div>
+
+            <div class="card shadow mb-4">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr style="padding-bottom: 25px;">
+                                    <th>ID</th>
+                                    <th>Ảnh</th>
+                                    <th>Tên Danh Mục</th>
+
+                                    <th>Thao Tác</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for slide in slides %}
+                                <tr>
+                                    <td>
+                                        {{ slide.id }}
+                                    </td>
+                                    <td>
+                                        <img style="height: 100px" src="{{ slide.ImageURL }}" alt="">
+                                    </td>
+                                    <td>
+                                        {{ slide.name }}
+                                    </td>
+
+                                    <td>
+                                        <a href="{% url 'editCategory' %}?id={{ slide.id }}" class="mr-2 btn btn-warning btn-circle">
+                                            <img src="{% static 'admin/icons/pen (1).png' %}" alt="">
+                                        </a>
+                                        <a href="" data-product-id="{{ slide.id }}"
+                                            data-product-name="{{ slide.name }}"
+                                            class="mr-2 btn btn-danger btn-circle"
+                                            data-toggle="modal" data-target="#deleteCategoryModal_{{ slide.id }}">
+                                            <img src="{% static 'admin/icons/trash (1).png' %}" alt="">
+                                        </a>
+                                        <div class="modal" id="deleteCategoryModal_{{ slide.id }}">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Xóa Danh Mục</h5>
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Bạn có chắc chắn muốn xóa danh mục sản phẩm <span id="product-name"></span>?</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                                        <a href="{% url 'deleteCategory' slide.id %}" type="button" class="delete-product btn btn-danger">Xác nhận</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock blog-category %}

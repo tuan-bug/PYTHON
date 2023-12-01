@@ -19,7 +19,6 @@ def manageOrder(request):
         order_check[order.id] = check
         print(order_check)
 
-
     context = {
         'orders': orders,
         'order_price': order_price,
@@ -52,17 +51,13 @@ def viewOrder(request):
              }
     return render(request, 'admin/view_order.html', context)
 
-def delOrder(request):
-    id = request.GET.get('id', '')  # lấy id khi người dùng vlick vào sản phẩm nào đó
+def delOrder(request, id):
     order = get_object_or_404(Order, id=id)
     print(order)
-    items = OrderItem.objects.filter(order=order)
-    print(items)
-    if request.method == 'POST':
-        items.delete()
-        order.delete()
-        messages.success(request, 'Xóa đơn hàng thành công')
-        return redirect('manageOrder')
+    Order.objects.filter(id=id).delete()
+    messages.success(request, 'Xóa đơn hàng thành công')
+    return redirect('manageOrder')
+
     context = {'product': order}
 
     return render(request, 'admin/delete_order.html', context)

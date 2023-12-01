@@ -22,9 +22,10 @@ def cart(request):
         user_login = "show"
         for item in items:
             print(item)
-            item.total = item.product.price * item.quantity
+            item.total = '{:,.0f}'.format(item.product.price * item.quantity)
             total_all += item.product.price * item.quantity
             count += item.quantity
+            item.product.price = '{:,.0f}'.format(item.product.price)
     else:
         items = []
         user_not_login = "show"

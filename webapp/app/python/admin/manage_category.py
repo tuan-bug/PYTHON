@@ -64,10 +64,9 @@ def editCategory(request):
 def deleteCategory(request, id):
     # id = request.GET.get('id', '')  # lấy id khi người dùng vlick vào sản phẩm nào đó
     category = get_object_or_404(Category, id=id)
-    if request.method == 'GET':
-        Category.objects.filter(id=id).delete()
-        messages.success(request, 'Đã xóa danh mục')
-        return redirect('manageCategory')
+    Category.objects.filter(id=id).delete()
+    messages.success(request, 'Đã xóa danh mục')
+    return redirect('manageCategory')
     context ={'category': category,
               'messages': messages,}
     return render(request, 'admin/deleteCategory.html', context)
