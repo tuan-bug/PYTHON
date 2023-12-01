@@ -25,15 +25,7 @@ import app
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('app.urls')),
-    path('paypal/', include("paypal.standard.ipn.urls")),
 
-    # url(r'^$', app.views.index, name='index'),
-    # url(r'^payment$', app.views.payment, name='payment'),
-    # url(r'^payment_ipn$', app.views.payment_ipn, name='payment_ipn'),
-    # url(r'^payment_return$', app.views.payment_return, name='payment_return'),
-    # url(r'^query$', app.views.query, name='query'),
-    # url(r'^refund$', app.views.refund, name='refund'),
-    # url(r'^admin/', admin.site.urls),
 ]
 urlpatterns +=static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
