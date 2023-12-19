@@ -75,6 +75,7 @@ def Continue1(request):
     for item in items:
         print(item)
 
+    print('Tien: ')
     print(total_temp)
     if payment_method_value == 'credit_card':
         # Điều hướng đến trang thanh toán trực tuyến (thay thế URL này bằng URL thực tế của bạn)

@@ -12,10 +12,10 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th class="shoping__product">Products</th>
-                                    <th>Price</th>
-                                    <th>Quantity</th>
-                                    <th>Total</th>
+                                    <th class="shoping__product">Sản phẩm</th>
+                                    <th>Giá</th>
+                                    <th>Số lượng</th>
+                                    <th>Tổng tiền</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -26,7 +26,7 @@
                                         <img style="height: 100px" src="{{item.product.ImageURL}}" alt="">
                                         <h5>{{item.product.name}}</h5>
                                     </td>
-                                    <td class="shoping__cart__price">
+                                    <td class="shoping__cart__quantity">
                                         {{item.product.price}} <sup>đ</sup>
                                     </td>
                                     <td class="shoping__cart__quantity">
@@ -59,17 +59,17 @@
             <div class="row">
                 <div class="col-lg-6">
                     <div class="shoping__cart__btns">
-                        <a href="{% url 'home' %}" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
+                        <a href="{% url 'home' %}" class="primary-btn cart-btn">TIẾP TỤC MUA SẮM</a>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div style="margin-top: 0px" class="shoping__checkout">
-                        <h5>Cart Total</h5>
+                        <h5>Tổng Giỏ Hàng</h5>
                         <ul>
-                            <li>Items <span>{{count}}</span></li>
-                            <li>Total <span>${{total_all | floatformat:2}}</span></li>
+                            <li>Số lượng <span>{{count}}</span></li>
+                            <li>Tổng tiền <span>{{total_all }} VNĐ</span></li>
                         </ul>
-                        <a href="{% url 'checkout' %}" class="primary-btn">PROCEED TO CHECKOUT</a>
+                        <a href="{% url 'checkout' %}" class="primary-btn">TIẾN HÀNH KIỂM TRA</a>
                     </div>
                 </div>
             </div>

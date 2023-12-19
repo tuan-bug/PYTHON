@@ -2,24 +2,45 @@
 {% load static %}
 {% block information %}
     {% include 'app/layout/message.html' %}
-    <div class="container mt-5">
+    <div class="container mt-5 mb-3">
         <div class="row">
             <div class="col-md-4">
                 <!-- Thông tin người dùng -->
-                <div class="card">
-                    <img src="path_to_user_image.jpg" class="card-img-top" alt="User Image">
+                <div style="border: none" class="card">
+                    {% if profile %}
+                        <img style="border-radius: 50%" src="{{ profile.ImageURL }}" class="card-img-top" alt="User Image">
+                    {% else %}
+                        <img style="border-radius: 50%" src="{% static 'app/images/gray-avatar-picture-profil-vector-32265860.jpg' %}" class="card-img-top" alt="User Image">
+                    {% endif %}
+
                     <div class="card-body">
-                        <h5 class="card-title">Tên user: {{ user.username }}</h5>
-                        <p class="card-text">Tên người dùng: {{ user.first_name }} </p>
-                        <p class="card-text">Email người dùng: {{ user.email }} </p>
-                        <p class="card-text">Fist name:{{ user.first_name }} </p>
-                        <p class="card-text">Last name: {{ user.last_name }} </p>
-                        <a href="#" class="btn btn-primary">Chỉnh sửa thông tin</a>
+                        <h5 class="card-title">Tên đăng nhập: {{ user.username }}</h5>
+                        <p class="card-text">Họ tên: {{ user.first_name }} {{ user.last_name }} </p>
+                        <p class="card-text">Email : {{ user.email }} </p>
+                        {% if profile %}
+                            <p class="card-text">Giới tính: 
+                                {% if profile.gender == 'male' %}
+                                    Nam
+                                {% else %}
+                                    Nữ
+                                {% endif %}
+                            </p>
+                            <p class="card-text">Năm sinh : {{ profile.birthdate }} </p>
+                        {% endif %}
+                        <div class="d-flex justify-content-between">
+                            <button class="btn-sm" style="background:#F26460; padding: 6px 10px; border: none "><a style="color: white;" class="text-uppercase" href="{% url 'edit_information' %}">Sửa thông tin</a></button>
+
+                            <button class="btn-sm" style="background:#F26460; padding: 6px 10px; border: none "><a style="color: white;" class="text-uppercase" href="{% url 'addAddress' %}">Đổi mật khẩu</a></button>
+                        </div>
+
+{#                        <p class="card-text">Fist name:{{ user.first_name }} </p>#}
+{#                        <p class="card-text">Last name: {{ user.last_name }} </p>#}
+{#                        <a href="#" class="btn btn-primary">Chỉnh sửa thông tin</a>#}
                     </div>
                 </div>
             </div>
-            <div class="col-md-8">
-                <div class="card">
+            <div  class="col-md-8">
+                <div style="min-height: 500px; border: none" class="card">
                     <div class="d-flex justify-content-md-between p-2">
                         <h4>Địa chỉ của tôi</h4>
                         <div class="text-right mb-3">

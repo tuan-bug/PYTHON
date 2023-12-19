@@ -30,6 +30,26 @@ def addAddress(request):
         show_manage = 'none'
     slide_hidden = "hidden"
     fixed_height = "20px"
+
+    total_all = 0
+    count = 0
+    if request.user.is_authenticated:
+        customer = request.user
+        items = Cart.objects.filter(user=customer)
+        user_not_login = "none"
+        user_login = "show"
+        for item in items:
+            print(item)
+            item.total = item.product.price * item.quantity
+            total_all += item.product.price * item.quantity
+            count += item.quantity
+    else:
+        items = []
+        user_not_login = "show"
+        user_login = "none"
+    total_all = '{:,.0f}'.format(total_all)
+
+    # XỬ LÝ CHÍNH
     form = AddressForm()
     user = request.user
     if request.method == 'POST':
@@ -42,7 +62,6 @@ def addAddress(request):
             city = form.cleaned_data['city']
             district = form.cleaned_data['district']
             commune = form.cleaned_data['commune']
-
             add_address_user = Adress(customer=user, name_user=user_name, adress=address, city=city, mobile=mobile, district=district, commune=commune)
             print(add_address_user)
             add_address_user.save()
@@ -53,10 +72,15 @@ def addAddress(request):
             print('Address saved successfully no no no no')
 
     context = {'form': form,
-               'messages': messages,
+               # 'messages': messages,
                'slide_hidden': slide_hidden,
                'fixed_height': fixed_height,
                'show_manage': show_manage,
+               'items': items,
+               'total_all': total_all,
+               'count': count,
+               'user_login': user_login,
+               'user_not_login': user_not_login,
                }
     return render(request, 'app/add_address.html', context)
 
@@ -71,6 +95,24 @@ def editAddress(request):
     else:
         print('not admin')
         show_manage = 'none'
+
+    total_all = 0
+    count = 0
+    if request.user.is_authenticated:
+        customer = request.user
+        items = Cart.objects.filter(user=customer)
+        user_not_login = "none"
+        user_login = "show"
+        for item in items:
+            print(item)
+            item.total = item.product.price * item.quantity
+            total_all += item.product.price * item.quantity
+            count += item.quantity
+    else:
+        items = []
+        user_not_login = "show"
+        user_login = "none"
+    total_all = '{:,.0f}'.format(total_all)
 
     id = request.GET.get('id', '')
     address_user = get_object_or_404(Adress, id=id)
@@ -104,5 +146,10 @@ def editAddress(request):
                'slide_hidden': slide_hidden,
                'fixed_height': fixed_height,
                'show_manage': show_manage,
+               'items': items,
+               'total_all': total_all,
+               'count': count,
+               'user_login': user_login,
+               'user_not_login': user_not_login,
                }
     return render(request, 'app/edit_address.html', context)

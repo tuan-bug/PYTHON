@@ -26,11 +26,11 @@
                             {{ form.is_sub }}
                         </div>
                         <div class="form-group">
-                            <label for="categoryDescription">Tên Danh Mục</label>
+                            <label for="categoryDescription">Tên Danh Mục <span class="required">*</span></label>
                             {{ form.name }}
                         </div>
                         <div class="form-group">
-                            <label for="categoryDescription">Đường Dẫn</label>
+                            <label for="categoryDescription">Đường Dẫn <span class="required">*</span></label>
                             {{ form.slug }}
                         </div>
                         <div class="form-group">
@@ -63,6 +63,12 @@
     <!-- Logout Modal-->
     {% include 'admin/layout/modal.html' %}
     {% include 'admin/layout/script.html' %}
+    <style>
+        .required{
+        color: red;
+        margin-left: 3px;
+        }
+    </style>
 </body>
 </html>
 

@@ -20,6 +20,7 @@ urlpatterns = [
     path('detail/', views.detail, name="detail"),
     path('address/', views.Continue1, name="address"),
     path('information/', views.Information, name="information"),
+    path('edit_information/', views.edit_information, name="edit_information"),
     path('contact/', views.contact, name="contact"),
     path('information_address/', views.information_address, name="information_address"),
     path('deleteAddress/', views.deleteAddress, name="deleteAddress"),
@@ -32,6 +33,11 @@ urlpatterns = [
     path('manage/', views.Manage, name="manage"),
     path('home_manage/', views.homeManage, name="home_manage"),
     path('manageSlide/', views.manageSlide, name="manageSlide"),
+    path('addSlide/', views.addSlide, name="addSlide"),
+    path('editSlide/', views.editSlide, name="editSlide"),
+    # path('editStatus/', views.editStatus, name="editStatus"),
+    path('deleteSlide/<int:id>', views.deleteSlide, name="deleteSlide"),
+    path('update_status/', views.update_status, name="update_status"),
     #PRODUCTS
     path('manageProduct/', views.manageProduct, name="manageProduct"),
     path('addProduct/', views.addProduct, name="addProduct"),
@@ -48,6 +54,7 @@ urlpatterns = [
     #ORDER
     path('manageUser/', views.manageUser, name="manageUser"),
     path('addUser/', views.addUser, name="addUser"),
+    path('editUser/', views.editUser, name="editUser"),
     path('delUser/<int:id>', views.deleteUser, name="deleteUser"),
 
 

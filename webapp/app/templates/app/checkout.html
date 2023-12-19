@@ -3,7 +3,7 @@
 {% load static %}
 {% block content_checkout %}
     {% include 'app/layout/message.html' %}
-    <div class="container" xmlns="http://www.w3.org/1999/html">
+    <div class="container mb-4" xmlns="http://www.w3.org/1999/html">
         <div class="row" style="width:100%">
             <div class="col-md-5">
 
@@ -38,7 +38,7 @@
                             <label class="form-check-label ml-4">Thanh toán bằng thẻ</label>
                         </div>
                     </div>
-                        <button id="submit-button" type="submit" class="btn primary-btn btn-sm"><a style="color: white" href="{% url 'address' %}?address={{ address.id }}">Submit</a></button>
+                        <button id="submit-button" type="submit" class="btn primary-btn btn-sm"><a style="color: white" href="{% url 'address' %}?address={{ address.id }}">Mua Hàng</a></button>
                     </form>
                 </div>
             </div>
@@ -68,7 +68,7 @@
                         </tbody>
                       </table>
                       <div class="text-right">
-                        <h4>Tổng cộng: ${{total_all | floatformat:2}}</h4>
+                        <h4>Tổng cộng: {{total_all }} VNĐ</h4>
                       </div>
                 </div>
             </div>

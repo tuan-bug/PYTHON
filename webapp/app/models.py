@@ -5,7 +5,22 @@ from django import forms
 from django.utils import timezone
 from rest_framework import serializers
 from ckeditor.fields import RichTextField
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+
+
+class UserProfile(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE, null=True, blank=True)
+    gender = models.CharField(max_length=10)
+    birthdate = models.DateField()
+    profile_image = models.ImageField(null=True, blank=True)
+
+    @property
+    def ImageURL(self):
+        try:
+            url = self.profile_image.url
+        except:
+            url = ''
+        return url
 class Category(models.Model):
     sub_category = models.ForeignKey('self', on_delete=models.CASCADE, related_name='sub_categories', null=True, blank=True)
     is_sub = models.BooleanField(default=False)
@@ -25,7 +40,7 @@ class Category(models.Model):
 class Slide(models.Model):
     category_slide = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, blank=False)
     name = models.CharField(max_length=200, null=True, blank=True)
-    detail = models.TextField(null=True)
+    status = models.IntegerField(default=1, null=True, blank=True)
     image = models.ImageField(null=True, blank=True)
     def __str__(self):
         return self.name
@@ -49,6 +64,7 @@ class Product(models.Model):
     count = models.IntegerField(default=0)
     view = models.IntegerField(default=0)
     sell_number = models.IntegerField(default=0)
+    product_new = models.BooleanField(default=False, null=True, blank=False)
     def __str__(self):
         return self.name
     @property
@@ -167,12 +183,12 @@ class AddProduct(forms.ModelForm):
         fields = ['name', 'category', 'price', 'price_sale', 'describe', 'digital', 'image', 'unit', 'count']
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control'}),
-            # 'describe': forms.Textarea(attrs={'class': 'form-control', 'style': 'height: 150px'}),
-            'price': forms.TextInput(attrs={'class': 'form-control'}),
-            'price_sale': forms.TextInput(attrs={'class': 'form-control'}),
+            'describe': forms.Textarea(attrs={'class': 'form-control', 'style': 'height: 150px'}),
+            'price': forms.NumberInput(attrs={'class': 'form-control'}),
+            'price_sale': forms.NumberInput(attrs={'class': 'form-control'}),
             'category': forms.CheckboxSelectMultiple(attrs={'class': 'form-check-input, d-flex'}),
             'unit': forms.TextInput(attrs={'class': 'form-control'}),
-            'count': forms.TextInput(attrs={'class': 'form-control'}),
+            'count': forms.NumberInput(attrs={'class': 'form-control'}),
 
         }
 
@@ -185,12 +201,21 @@ class AddCategory(forms.ModelForm):
             'slug': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
+class AddSlide(forms.ModelForm):
+    class Meta:
+        model = Slide
+        fields = ['category_slide',  'name', 'status', 'image']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            # 'slug': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ['user', 'product', 'title']
         widgets = {
-            'title': forms.Textarea(attrs={'class': 'form-control', 'style': 'height:100px', 'placeholder': 'Nhập nội dung comment.....'}),
+            'title': forms.Textarea(attrs={'class': 'form-control', 'style': 'height:100px', 'placeholder': 'Nhập nội dung bình luận.....'}),
         }
 
 class AddressForm(forms.ModelForm):
@@ -200,8 +225,11 @@ class AddressForm(forms.ModelForm):
         widgets = {
             'customer': forms.TextInput(attrs={'class': 'form-control'}),
             'name_user': forms.TextInput(attrs={'class': 'form-control'}),
-            'mobile': forms.TextInput(attrs={'class': 'form-control'}),
+            'mobile': forms.TextInput(attrs={'type': 'number','class': 'form-control'}),
             'adress': forms.TextInput(attrs={'class': 'form-control'}),
+            'city': forms.TextInput(attrs={'class': 'form-control'}),
+            'district': forms.TextInput(attrs={'class': 'form-control'}),
+            'commune': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
 class CreateUserForm(UserCreationForm):
@@ -217,7 +245,9 @@ class CreateUserForm(UserCreationForm):
             'password2': forms.TextInput(attrs={'class': 'form-control'}),
         }
 
-
+class CustomUserChangeForm(UserChangeForm):
+    class Meta(UserChangeForm.Meta):
+        fields = ('username', 'email', 'first_name', 'last_name')
 class PaymentForm(forms.Form):
 
     order_id = forms.CharField(max_length=250)

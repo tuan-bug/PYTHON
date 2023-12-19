@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -11,10 +12,16 @@ from app.python.admin.manage import is_admin
 @user_passes_test(is_admin)
 def manageProduct(request):
     products = Product.objects.all()
+    paginator = Paginator(products, 6)
+    page_number = request.GET.get('page')
+    page_products = paginator.get_page(page_number)
+    for product in page_products:
+        product.price = '{:,.0f}'.format(product.price)
+
     form = AddProduct()
     feedback = Contact.objects.all().count()
     contacts = Contact.objects.all()
-    context = {'products': products,
+    context = {'products': page_products,
                'feedback': feedback,
                'contacts': contacts,
                }
@@ -77,8 +84,8 @@ def deleteProduct(request, id):
         print('nhảy vào thằng post')
         print(id)
         Product.objects.filter(id=id).delete()
-        messages.success(request, 'Sản phẩm đã được xóa thành công.')
-        return redirect(reverse('manageProduct'))
+        messages.success(request, 'Xóa người dùng thành công.')
+        return redirect(reverse('manageUser'))
     else:
         print('không voo đc rôif')
         return render(request, 'admin/managementProduct.html')
@@ -88,6 +95,7 @@ def viewProduct(request):
     user = request.user
     print(user)
     product = get_object_or_404(Product, id=id)
+    product_images = ImagesProduct.objects.filter(product=product)
     categories_product = product.category.values_list('id', flat=True)
     # Lấy danh sách tên danh mục từ danh sách ID
     category_names = Category.objects.filter(id__in=categories_product).values_list('name', flat=True)
@@ -95,6 +103,7 @@ def viewProduct(request):
     # Chuyển danh sách tên thành danh sách Python
     category_names_list = list(category_names)
     context = {'product': product,
+               'product_images': product_images,
                'category_names_list': category_names_list,
                }
     return render(request, 'admin/view_product.html', context)

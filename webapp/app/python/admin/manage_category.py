@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 
 from app.models import *
@@ -9,10 +10,13 @@ from app.python.admin.manage import is_admin
 @login_required
 @user_passes_test(is_admin)
 def manageCategory(request):
-    categories = Category.objects.all()  # lay cac damh muc lon
+    categories = Category.objects.all().order_by('name')  # lay cac damh muc lon
+    paginator = Paginator(categories, 6)
+    page_number = request.GET.get('page')
+    page_categories = paginator.get_page(page_number)
     feedback = Contact.objects.all().count()
     contacts = Contact.objects.all()
-    context ={'categories': categories,
+    context ={'categories': page_categories,
               'feedback': feedback,
               'contacts': contacts,
               }

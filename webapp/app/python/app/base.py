@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render
 
 from app.models import *
@@ -30,8 +31,11 @@ def getHome(request):
         print('not admin')
         show_manage = 'none'
     products = Product.objects.all()
+    paginator = Paginator(products, 12)
+    page_number = request.GET.get('page')
+    page_products = paginator.get_page(page_number)
     product_price = {}
-    for product in products:
+    for product in page_products:
         product_price[product.id] = '{:,.0f}'.format(product.price)
     # format_price =  '{:,.0f}'.format(products.)
     slide = Slide.objects.all()
@@ -57,7 +61,7 @@ def getHome(request):
 
     categories = Category.objects.filter(is_sub=False)  # lay cac damh muc lon
     active_category = request.GET.get('category', '')
-    context = {'products': products,
+    context = {'products': page_products,
                'product_price': product_price,
                'slide': slide,
                'items': items,

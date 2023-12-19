@@ -16,8 +16,8 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Thông tin</th>
                                     <th>Tên Đăng Nhập</th>
+                                    <th>Họ tên</th>
                                     <th>Email</th>
                                     <th>Quyền</th>
                                     <th>Thao Tác</th>
@@ -31,10 +31,10 @@
                                             {{ user.id }}
                                         </td>
                                         <td>
-                                            {{ user.last_name }}  {{ user.first_name }}
+                                            {{ user.username }}
                                         </td>
                                         <td>
-                                            {{ user.username }}
+                                            {{ user.last_name }}  {{ user.first_name }}
                                         </td>
                                         <td>
                                             {{ user.email }}
@@ -47,7 +47,7 @@
                                             {% endif %}
                                         </td>
                                         <td>
-                                            <a href="{% url 'editProduct' %}?id={{ user.id }}" class="btn btn-warning btn-circle mr-2">
+                                            <a href="{% url 'editUser' %}?id={{ user.id }}" class="btn btn-warning btn-circle mr-2">
                                             <img src="{% static 'admin/icons/pen (1).png' %}" alt="">
                                             </a>
                                             <a href="" data-product-id="{{ order.id }}"
@@ -61,11 +61,11 @@
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title">Xóa Đơn Hàng {{ user.id }}</h5>
+                                                            <h5 class="modal-title">Xóa Thông TIn Người Dùng </h5>
                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <p>Bạn có chắc chắn muốn xóa đơn hàng này không <span id="product-name"></span>?</p>
+                                                            <p>Bạn có chắc chắn muốn xóa thông tin người dùng không <span id="product-name"></span>?</p>
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>

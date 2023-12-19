@@ -110,7 +110,10 @@ ol {
 /*---------------------
   Helper CSS
 -----------------------*/
-
+.required{
+	color: red;
+  	margin-left: 3px;
+}
 .section-title {
 	margin-bottom: 50px;
 	text-align: center;
@@ -865,7 +868,12 @@ ol {
 	overflow: hidden;
 	background-position: center center;
 }
-
+.featured__item__pic_category {
+	height: 155px;
+	position: relative;
+	overflow: hidden;
+	background-position: center center;
+}
 .featured__item__pic__hover {
 	position: absolute;
 	left: 0;
@@ -890,8 +898,8 @@ ol {
 }
 
 .featured__item__pic__hover li:hover a {
-	background: #7fad39;
-	border-color: #7fad39;
+	background: #F26460;
+	border-color: #F26460;
 }
 
 .featured__item__pic__hover li:hover a i {

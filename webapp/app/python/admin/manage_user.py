@@ -45,7 +45,31 @@ def deleteUser(request, id):
     category = get_object_or_404(User, id=id)
     User.objects.filter(id=id).delete()
     messages.success(request, 'Đã xóa người dùng')
-    return redirect('manageCategory')
+    return redirect('manageUser')
     context ={'category': category,
               'messages': messages,}
     return render(request, 'admin/deleteCategory.html', context)
+
+
+def editUser(request):
+    id = request.GET.get('id', '')  # lấy id khi người dùng vlick vào sản phẩm nào đó
+    user = get_object_or_404(User, id=id)
+    if request.method == 'POST':
+        form = CreateUserForm(request.POST)
+        print(form)
+        if form.is_valid():
+            form.save()
+            print(form)
+
+            messages.success(request, 'Sửa thông tin người dùng thành công!!')
+            return redirect('manageUser')  # Chuyển hướng sau khi cập nhật thành công
+        else:
+            for field in form:
+                for error in field.errors:
+                    print(f"{field.name}: {error}")
+            messages.error(request, 'Sửa thông tin người dùng thất bại')
+    else:
+        form = CreateUserForm(instance=user)
+    context = {'user': user,
+               'form': form}
+    return render(request, 'admin/editUser.html', context)

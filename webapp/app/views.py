@@ -14,7 +14,7 @@ from .python.app.category import category
 from .python.app.check_address import Continue1
 from .python.app.checkout import checkout
 from .python.app.detail import detail
-from .python.app.information import Information
+from .python.app.information import Information, edit_information
 from .python.app.login import loginPage, logoutPage
 from .python.app.register import register
 from .python.app.search import searchProduct
@@ -27,8 +27,9 @@ from .python.app.my_order import myOrder, deletemyOrder
 # admin
 from .python.admin.manage import Manage
 from .python.admin.home_manage import homeManage
-from .python.admin.manage_slide import manageSlide
-from .python.admin.manage_user import manageUser, deleteUser, addUser
+from .python.admin.manage_slide import manageSlide, addSlide, editSlide, deleteSlide
+from .python.admin.updateStatus import update_status
+from .python.admin.manage_user import manageUser, deleteUser, addUser, editUser
 from .python.admin.managr_order import manageOrder, viewOrder, delOrder
 from .python.admin.manage_category import manageCategory, addCategory, editCategory, deleteCategory
 from .python.admin.manage_product import manageProduct, addProduct, editProduct, deleteProduct, viewProduct
@@ -38,8 +39,6 @@ from .python.admin.manage_product import manageProduct, addProduct, editProduct,
 
 from .API.products_api import *
 from .API.category_api import *
-
-
 
 import hashlib
 import hmac
@@ -108,10 +107,11 @@ def hmacsha512(key, data):
 
 
 def payment(request):
-    total_amount = request.GET.get('total_amount', '')
-    print("Tien đc day sang:")
-    print(total_amount)
+    # total_amount = form.cleaned_data['amount']
+    # print("Tien đc day sang:")
+    # print(total_amount)
     if request.method == 'POST':
+        print("Tien đc day sang:")
         # Process input data and build url payment
         form = PaymentForm(request.POST)
         if form.is_valid():
@@ -122,6 +122,8 @@ def payment(request):
             bank_code = form.cleaned_data['bank_code']
             language = form.cleaned_data['language']
             ipaddr = get_client_ip(request)
+            print("Tien đc day sang:")
+            print(amount)
             # Build URL Payment
             vnp = vnpay()
             vnp.requestData['vnp_Version'] = '2.1.0'
@@ -145,12 +147,13 @@ def payment(request):
             vnp.requestData['vnp_IpAddr'] = ipaddr
             vnp.requestData['vnp_ReturnUrl'] = settings.VNPAY_RETURN_URL
             vnpay_payment_url = vnp.get_payment_url(settings.VNPAY_PAYMENT_URL, settings.VNPAY_HASH_SECRET_KEY)
+            print('Link đường dẫn qua sanbox: ')
             print(vnpay_payment_url)
             return redirect(vnpay_payment_url)
         else:
             print("Form input not validate")
     else:
-        return render(request, "payment/payment.html", {"title": "Thanh toán",'total_amount': total_amount})
+        return render(request, "payment/payment.html", {"title": "Thanh toán"})
 
 
 def payment_ipn(request):

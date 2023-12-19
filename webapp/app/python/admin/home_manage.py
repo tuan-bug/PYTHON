@@ -15,7 +15,7 @@ def homeManage(request):
     for order in orders:
         if order:
             count += 1
-            # total_2 += order.get_cart_total
+            total_2 += order.get_cart_total
 
     items = OrderItem.objects.all()
 
@@ -34,10 +34,10 @@ def homeManage(request):
 
     feedback = Contact.objects.all().count()
     contacts = Contact.objects.all()
-
+    total_2 = '{:,.0f}'.format(total_2)
     context = {
         'count': count,
-        'total': total,
+        'total': total_2,
         'member': member - 1,
         'feedback': feedback,
         'contacts': contacts,

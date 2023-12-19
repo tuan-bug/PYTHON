@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.shortcuts import render
 
 from app.models import *
@@ -14,22 +15,25 @@ def shop(request):
         print('not admin')
         show_manage = 'none'
     categories = Category.objects.all()
-    products = Product.objects.filter(price_sale=0)
+    products = Product.objects.all()
+    paginator = Paginator(products, 6)
+    page_number = request.GET.get('page')
+    page_products = paginator.get_page(page_number)
     product_price = {}
-    for item in products:
+    for item in page_products:
         product_price[item.id] = '{:,.0f}'.format(item.price)
 
-    products_sale = Product.objects.exclude(price_sale=0)
+    products_view = Product.objects.order_by('-view')[:8]
 
     product_sale_price = {}
     pr_sale = {}
-    for item in products_sale:
+    for item in products_view:
         product_sale_price[item.id] = '{:,.0f}'.format(item.price_sale)
         pr_sale[item.id] = '{:,.0f}'.format(item.price)
-    first_product_sale = products_sale[0]
+    first_product_sale = products_view[0]
     print(categories)
 
-    for product in products_sale:
+    for product in products_view:
         product.price = float(product.price)
         product.price_sale = float(product.price_sale)
         product.sale = ((product.price - product.price_sale) / product.price) * 100
@@ -53,9 +57,9 @@ def shop(request):
 
     total_all = '{:,.0f}'.format(total_all)
     context = {'categories': categories,
-               'products': products,
+               'products': page_products,
                'product_price': product_price,
-               'products_sale': products_sale,
+               'products_view': products_view,
                'pr_sale': pr_sale,
                'product_sale_price': product_sale_price,
                'first_product_sale': first_product_sale,

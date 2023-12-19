@@ -9,7 +9,7 @@
                 <div class="col-lg-6 col-md-6">
                     <div class="product__details__pic">
                         <div class="product__details__pic__item">
-                            <img class="product__details__pic__item--large"
+                            <img style="width: 100%" class="product__details__pic__item--large"
                                 src="{{products.ImageURL}}" alt="">
                         </div>
                         <div class="product__details__pic__slider owl-carousel">
@@ -29,19 +29,26 @@
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star"></i>
                             <i class="fa fa-star-half-o"></i>
-                            <span>(18 reviews)</span>
+                            <span>(18 đánh giá)</span>
                         </div>
-                        <div class="product__details__price"> {{ formatted_price }} VND</div>
-                        <p>{{products.describe}}</p>
-                        <div class="product__details__quantity">
+                        <div class="product__details__text mb-2">Trạng thái:
+                            {% if products.count > 0 %}
+                                Còn hàng
+                            {% else %}
+                                Hết hàng
+                            {% endif %}
+                        </div>
+                        <div class="product__details__price mb-5"> {{ formatted_price }} VND</div>
+{#                        <p>{{products.describe}}</p>#}
+                        <div class="product__details__quantity mt-5 ">
                             <div class="quantity">
                                 <div class="pro-qty">
                                     <input type="text" value="1">
                                 </div>
                             </div>
                         </div>
-                        <a href="#" class="primary-btn">ADD TO CARD</a>
-                        <a href="#" class="heart-icon"><span class="icon_heart_alt"></span></a>
+                        <a href="#" class="primary-btn">THÊM VÀO GIỎ HÀNG</a>
+                        <a href="#" class="heart-icon"><img style="width: 32px; height: 32px;" src="{% static 'app/images/icons/heart.png' %}" alt=""></a>
                         <ul>
                             <li><b>Loại sản phẩm</b>
                                 {% for category_name in category_names_list %}
@@ -134,7 +141,7 @@
                                                         <button name="comment" type="submit" class="btn primary-btn btn-sm">Bình luận</button>
                                                     </div>
                                                 </form>
-                                                <h2 class="pt-3 pb-2">Bình luận</h2>
+{#                                                <h4 class="pt-3 pb-2">Bình luận</h4>#}
                                                     {% for comment in comments %}
                                                     <div class="d-flex flex-start mb-4">
                                                         <img class="rounded-circle shadow-1-strong me-3"
